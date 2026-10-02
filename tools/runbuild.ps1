@@ -1,4 +1,4 @@
-param([int]$Wait = 25, [string]$Out = "E:\Unity\Projects\dungine.v2\Assets\Captures\build_shot.png", [string]$Extra = "")
+param([int]$Wait = 25, [string]$Out = "E:\Unity\Projects\dungine.v3\Assets\Captures\build_shot.png", [string]$Extra = "")
 # Launches the built game windowed, captures its window with PrintWindow (works even when covered), then closes it.
 Add-Type -AssemblyName System.Drawing
 Add-Type @"
@@ -10,8 +10,8 @@ public static class W32 {
   [StructLayout(LayoutKind.Sequential)] public struct RECT { public int Left, Top, Right, Bottom; }
 }
 "@
-$exe = "E:\Unity\Projects\dungine.v2\Builds\DungineII\DungineII.exe"
-$log = "E:\Unity\Projects\dungine.v2\Builds\player_test.log"
+$exe = "E:\Unity\Projects\dungine.v3\Builds\DungineII\DungineII.exe"
+$log = "E:\Unity\Projects\dungine.v3\Builds\player_test.log"
 $args = "-screen-fullscreen 0 -screen-width 1280 -screen-height 720 -logFile `"$log`" $Extra"
 $p = Start-Process -FilePath $exe -ArgumentList $args -PassThru
 Start-Sleep -Seconds $Wait

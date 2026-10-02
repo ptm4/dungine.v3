@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "dungine.v2.slnx"
+    "dotnet.defaultSolution": "dungine.v3.slnx"
 }

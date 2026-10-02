@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # say.sh [pick ...] — for each argument, picks that option index in the active dialogue (c = continue = 0),
 # waits for the next node to finish typing, and prints the dialogue state. With no args, just prints the state.
-cd "/e/Unity/Projects/dungine.v2"
+cd "/e/Unity/Projects/dungine.v3"
 state() { unity command eval 'return Dungine.Dialogue.DialogueRunner.I.DevState();' 2>&1 | grep '^eval' | python -c "
 import sys,json
 l=sys.stdin.read().split('\t')

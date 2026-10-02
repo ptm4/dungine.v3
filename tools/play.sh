@@ -2,7 +2,7 @@
 # play.sh <capture-name> [wait-seconds] [csharp-to-eval-after-boot] [seconds-after-eval]
 # Enters Play mode (if needed), optionally runs C#, waits, captures the Game view to Assets/Captures/<name>.png,
 # and prints any new console errors.
-cd "/e/Unity/Projects/dungine.v2"
+cd "/e/Unity/Projects/dungine.v3"
 name=${1:-shot}; wait1=${2:-8}; code=$3; wait2=${4:-10}
 st=$(unity command editor_status 2>&1 | tail -1)
 if ! echo "$st" | grep -q '"isPlaying":true'; then

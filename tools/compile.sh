@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Refresh assets (triggers compile), wait for the compiler, print compile errors (dungine.v2)
-cd "/e/Unity/Projects/dungine.v2"
+# Refresh assets (triggers compile), wait for the compiler, print compile errors (dungine.v3)
+cd "/e/Unity/Projects/dungine.v3"
 unity command editor_stop >/dev/null 2>&1
 unity command clear_console >/dev/null 2>&1
 unity command eval 'UnityEditor.AssetDatabase.Refresh(); return "ok";' >/dev/null 2>&1

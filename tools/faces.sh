@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Build the dev lineup and capture a 2x2 grid of face close-ups: faces.sh <seed> <i1> <i2> <i3> <i4> [out]
-cd "/e/Unity/Projects/dungine.v2"
+cd "/e/Unity/Projects/dungine.v3"
 SEED=${1:-3}; OUT=${6:-grid}
 unity command eval "return Dungine.Dev.Lineup($SEED, false);" >/dev/null 2>&1
 for i in $(seq 1 30); do

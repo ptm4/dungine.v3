@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # tour.sh area:spawn [area:spawn ...] — starts the premade party in the first area, then visits each in turn,
 # capturing Assets/Captures/tour_<area>.png and printing new console errors after each.
-cd "/e/Unity/Projects/dungine.v2"
+cd "/e/Unity/Projects/dungine.v3"
 first=1
 for pair in "$@"; do
   area=${pair%%:*}; spawn=${pair##*:}
