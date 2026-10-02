@@ -1,0 +1,4943 @@
+{
+ "id": "barovian_suspicion",
+ "status": "DRAFT for Peter's approval",
+ "version": "0.1",
+ "date": "2026-09-30",
+ "project": "dungine.v3",
+ "by": "agent C",
+ "companion": "barovian_suspicion.md",
+ "built": "nothing: this is a design draft",
+ "spoilers": "none: general Barovian attitudes only; no module secrets, hidden identities or twists",
+ "sources": {
+  "races": "E:\\Assets\\DND5E\\data\\race_profiles (140 profiles, 25 of them aliases)",
+  "scope": "E:\\Assets\\DND5E\\pixel3d\\plan\\SCOPE_PLAN.md and scope_manifest.json (kept: R01-R07, RV1-RV4; cut: R08-R20, RV5, the kobold)",
+  "hooks": "dungine.v2 (read only), for where it plugs in"
+ },
+ "faceless": "our figures are faceless: no race is judged by its eyes or face, and every reaction is carried by the body",
+ "tiers": [
+  {
+   "tier": 0,
+   "id": "outlander",
+   "name": "Outlander",
+   "line": "Human, but not from here.",
+   "reason": "Barovians are human, and they still don't trust you. You came out of the mists, and in their experience nothing good comes out of the mists. They answer, but they keep a hand on the door."
+  },
+  {
+   "tier": 1,
+   "id": "odd",
+   "name": "Odd",
+   "line": "Strange, but plainly people.",
+   "reason": "Short folk and fair folk out of grandmothers' tales. The valley knows the dusk elves, so elves are strange but real; dwarves, halflings and gnomes look like a story walking. People stare, whisper and charge a little more, but they deal with you."
+  },
+  {
+   "tier": 2,
+   "id": "uncanny",
+   "name": "Uncanny",
+   "line": "People, but wrong.",
+   "reason": "Too tall, too grey, too pale, the wrong colour altogether. Nothing in Barovia's stories explains them, and what the valley can't explain it keeps at arm's length: served at the end of the counter, talked about, never asked in."
+  },
+  {
+   "tier": 3,
+   "id": "feared",
+   "name": "Feared",
+   "line": "Marked by evil.",
+   "reason": "Horns and tails, scales and snouts, tusks, a witch's crown, a dead man's stitches: the shapes the priests' sermons and the old stories give to devils, dragons, witches and the walking dead. People make the sign against evil, bar their doors and send for the watch."
+  },
+  {
+   "tier": 4,
+   "id": "monstrous",
+   "name": "Monstrous",
+   "line": "A monster at the door.",
+   "reason": "Goblin faces, fur, fangs, beaks, beasts that walk like men: the things mothers warn their children about, and in Barovia every child knows the wolves are real. People scream, run, pray or pick up a pitchfork. Nobody sells to it and nobody opens a door."
+  }
+ ],
+ "cover": {
+  "none": {
+   "what": "nothing over the tells",
+   "effect": "race tier"
+  },
+  "hood": {
+   "what": "a hood, a wide hat, a headscarf or a cap pulled low",
+   "hides": [
+    "ears",
+    "hair",
+    "small horns",
+    "a crown or mark on the head"
+   ],
+   "effect": "race tier minus the race's hood_steps",
+   "cost": "none: Barovians wear hoods and headscarves in this weather, so a hood draws no looks",
+   "library_note": "the library's hoods, headscarf and wide hats (review 8) are NPC variants; players get their own look-alike hood, since NPC gear stays unique"
+  },
+  "muffled": {
+   "what": "hood plus a face scarf or veil, gloves, and a long cloak or coat",
+   "hides": [
+    "skin colour",
+    "tusks",
+    "tails",
+    "hands"
+   ],
+   "effect": "race tier minus the race's muffle_steps, but never below T2",
+   "floor_tier": 2,
+   "why_floor": "a stranger who hides every inch of skin is suspicious in himself"
+  },
+  "disguise": {
+   "what": "a disguise kit, Disguise Self, Alter Self, a Hat of Disguise, or a race's own disguise magic or shapechanging",
+   "effect": "reads T0 until unmasked",
+   "size_floor": {
+    "small_below_m": 1.4,
+    "large_from_m": 2.1,
+    "tier": 1,
+    "why": "nobody passes as a grown human at a halfling's or a giant's height"
+   },
+   "no_disguise": [
+    "centaur",
+    "thri_kreen"
+   ],
+   "no_disguise_why": "a human disguise can't change the body's shape",
+   "unmask_check": "on close contact (talking, trading, a guard's inspection, a search), once per NPC per day: the NPC's Wisdom (Insight) against the disguise DC: 10 + the wearer's Deception bonus with a kit, or the spell save DC for magic",
+   "unmasked": {
+    "tier": "race tier + 1 (max T4) in that settlement for the rest of the visit",
+    "standing": -15,
+    "rumour": "unmasked",
+    "guards": "called"
+   }
+  }
+ },
+ "formula": [
+  "1. Race tier: from the race table. An alias uses its parent's tier.",
+  "2. Cover: hooded = race tier - hood_steps; muffled = max(2, race tier - muffle_steps); disguised = 0 (1 if shorter than 1.4 m or 2.1 m and taller) until unmasked.",
+  "3. Events: unmasked in this settlement = race tier + 1 (max 4) for the visit; seen changing shape here = 4 for the visit.",
+  "4. Party tier: the highest seen tier among the members this NPC can see (the worst visible member counts).",
+  "5. Viewer: Vistani and dusk elves halve it, rounding down.",
+  "6. Relief: a vouch (-1, or -2 from a local), a passed test (-1), standing (Tolerated -1, Trusted -2). Together at most 2 steps, and never below T1 while a non-human is visible.",
+  "7. Penalties: standing Distrusted +1, Hated +2. For guards and crowds only: a drawn weapon or open magic +1. At night, for doors, gates and crowds: +1.",
+  "8. Clamp to 0..4. The effect tables use this effective tier."
+ ],
+ "combine": {
+  "rule": "worst",
+  "present": "a member counts if the NPC can see them: within 12 m and in line of sight, or in the same room",
+  "group_actions": "shops, inns, door knocks and gates use the party tier: the highest seen tier among members present",
+  "street": "each villager reacts to the highest-tier member inside their notice radius",
+  "dialogue": "the highest seen tier among the speaker and members within 6 m",
+  "many_strangers": "two or more members at the party tier: rumours about the party count x1.5",
+  "familiar_sight": "from the second day in a settlement, crowds react one tier lower to members they have already seen (never below T1 for a non-human); shops, doors and guards don't soften",
+  "proxy": "a member who is served can shop for the party; if the shopkeeper saw the whole party together that day, the proxy pays at the party tier - 1",
+  "companions": "animal companions, mounts, familiars and summons count at the tier of what they look like: a horse, dog, cat or bird T0, a wolf T4",
+  "alternatives": {
+   "average_up": "the party's average seen tier, rounded up",
+   "worst_softened": "the worst member's tier, minus 1 if at least half of those present read T0"
+  }
+ },
+ "relief": {
+  "vouch": {
+   "who": "a party member who reads T0, present in the conversation",
+   "option": "[VOUCH]",
+   "check": "Persuasion, DC 10 + 2 x the tier being vouched for",
+   "success": "-1 step with that NPC, for good",
+   "fail": "no change; that NPC won't hear another vouch that day",
+   "local": "a Barovian travelling with the party vouches automatically for -1, or -2 on a passed check at the same DC",
+   "risk": "if a vouched member causes trouble in that settlement, every vouch there lapses"
+  },
+  "test": {
+   "what": "a wary NPC's superstitious test: touch the holy symbol, hold the garlic, take a splash of holy water, step over the salted threshold",
+   "option": "[TEST]",
+   "who": "the member being judged",
+   "pass": "every playable race passes; -1 step with that NPC for good, and +3 standing",
+   "refuse": "+1 step with that NPC",
+   "why": "the test is theatre: what the villager needs is to see you submit"
+  },
+  "hood_down": {
+   "option": "[HOOD DOWN]",
+   "what": "show your face before you're asked",
+   "effect": "that NPC can't unmask you, and +2 standing (once per member per settlement)"
+  },
+  "standing": {
+   "range": [
+    -100,
+    100
+   ],
+   "start": 0,
+   "bands": [
+    {
+     "name": "Trusted",
+     "from": 60,
+     "steps": -2
+    },
+    {
+     "name": "Tolerated",
+     "from": 25,
+     "steps": -1
+    },
+    {
+     "name": "Unknown",
+     "from": -24,
+     "steps": 0
+    },
+    {
+     "name": "Distrusted",
+     "from": -59,
+     "steps": 1
+    },
+    {
+     "name": "Hated",
+     "from": -100,
+     "steps": 2
+    }
+   ],
+   "hated_extra": "guards refuse the party at the gate",
+   "decay": "none: Barovians remember"
+  },
+  "how": "relief lowers the effective tier, and every table then applies at the new tier: a vouch at a T3 shop means T2 service",
+  "cap_steps": 2,
+  "accepted_floor_tier": 1,
+  "why_floor": "they will accept you; they won't forget what you are"
+ },
+ "modifiers": {
+  "weapon_drawn": {
+   "steps": 1,
+   "for": [
+    "guards",
+    "crowds"
+   ],
+   "when": "any member has a weapon out inside a settlement"
+  },
+  "open_magic": {
+   "steps": 1,
+   "for": [
+    "guards",
+    "crowds"
+   ],
+   "when": "a visible spell cast in sight of locals (healing excepted), for 1 in-game hour"
+  },
+  "shapechange_seen": {
+   "tier": 4,
+   "standing": -20,
+   "when": "a member changes shape in sight of locals: wild shape, polymorph, a changeling's change, a shifter's shift",
+   "lasts": "the rest of the visit",
+   "rumour": "shapechange"
+  },
+  "unmasked": {
+   "tier": "race tier + 1",
+   "standing": -15,
+   "lasts": "the rest of the visit",
+   "rumour": "unmasked"
+  },
+  "night": {
+   "steps": 1,
+   "for": [
+    "doors",
+    "gates",
+    "crowds"
+   ],
+   "when": "dusk to dawn"
+  }
+ },
+ "viewers": {
+  "barovian": 1.0,
+  "vistani": 0.5,
+  "dusk_elf": 0.5,
+  "rounding": "down",
+  "why": "the Vistani have travelled beyond the valley and go by manners and trade, not looks; the dusk elves are outsiders to Barovians themselves (draft value: see open question 7)"
+ },
+ "effects": {
+  "shops": {
+   "buy_mult": [
+    1.0,
+    1.25,
+    1.5,
+    2.0,
+    null
+   ],
+   "sell_mult": [
+    1.0,
+    0.9,
+    0.75,
+    0.5,
+    null
+   ],
+   "on_top_of": "each shop's own markup (dungine.v2's village shop charges 2.6x item value to everyone)",
+   "refuse_trade_from_tier": 4,
+   "protective_goods": [
+    "holy water",
+    "holy symbols",
+    "silvered weapons",
+    "garlic",
+    "wolfsbane"
+   ],
+   "protective_goods_refused_from_tier": 3,
+   "served": [
+    "at the counter",
+    "at the counter",
+    "at the end of the counter; coin goes in a dish, never hand to hand",
+    "at the door or through a hatch, never inside",
+    "not served: the door is barred and the sign turned"
+   ],
+   "inn_room_mult": [
+    1.0,
+    1.25,
+    1.5,
+    2.0,
+    null
+   ],
+   "inn": [
+    "a room",
+    "a room",
+    "the worst room, paid in advance",
+    "no room in the house: the attic or the stable loft",
+    "no room at all"
+   ],
+   "tavern": [
+    "served",
+    "served; stared at",
+    "served last, at the far table",
+    "served last, in a corner; half the room leaves",
+    "not let in; the keeper blocks the door"
+   ]
+  },
+  "dialogue": {
+   "persuasion_dc_shift": [
+    0,
+    2,
+    4,
+    6,
+    8
+   ],
+   "deception_dc_shift": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "intimidation_dc_shift": [
+    0,
+    -1,
+    -2,
+    -3,
+    -4
+   ],
+   "intimidation_success_standing": -3,
+   "addressee": "from T2 the NPC answers the lowest-tier member present, talking past the speaker; if nobody lower is present, a generic NPC gives one line and ends",
+   "option_gates": [
+    "all options",
+    "all options",
+    "personal options (family, gossip, favours, local history) hidden",
+    "business only: trade, directions, the task at hand",
+    "generic NPCs don't talk (a bark and a reaction); key NPCs keep only their story options"
+   ],
+   "new_options": [
+    "[VOUCH]",
+    "[TEST]",
+    "[HOOD DOWN]"
+   ],
+   "tokens": {
+    "{human}": "the lowest-tier member present (the one the NPC talks to)",
+    "{name}": "the member being judged",
+    "{called}": "what villagers call the judged member's kind"
+   },
+   "openers": {
+    "villager": [
+     "*He looks at your boots, not your face.* Outlanders. Mind where you walk, and mind who you talk to.",
+     "*She looks down at you, then at your friends, as if one of them might explain you.* ...And what are you meant to be?",
+     "*He answers {human}, not you.* Your friend there. Does it understand us? Keep it away from the well.",
+     "*She makes the sign against evil and keeps her hand up between you.* I've nothing for you. Go back to whatever made you.",
+     "*He backs into a doorway with a spade up between you.* Stay back! Stay back, or I call the watch!"
+    ],
+    "shopkeeper": [
+     "Coin first. Outlander coin, I weigh twice.",
+     "Same prices for your kind. *He writes a new price over the old one.* Plus the trouble.",
+     "I'll sell. You stand there, at the end. Coin in the dish.",
+     "Not in here. If {human} wants something, {human} can come in alone.",
+     "*The bolt goes home. Through the door:* Closed. Closed to you."
+    ],
+    "guard": [
+     "Name and business. Weapons stay sheathed in town.",
+     "Business? *He looks {name} up and down, slowly.* Your friend's a long way from home.",
+     "Halt. Hood down. *A long look.* What in the name of all that's holy are you?",
+     "*His hand is on his sword before you've stopped walking.* That one stays outside.",
+     "*He shouts over his shoulder:* To the gate! There's a monster on the road!"
+    ],
+    "door": [
+     "*The door opens a hand's width.* Who's asking?",
+     "*Through the door:* We've nothing. Try the tavern.",
+     "*A slot opens at head height and snaps shut.* Go away.",
+     "*The bar drops.* Go back to the dark you came from!",
+     "*The light behind the shutters goes out. Somebody inside is praying.*"
+    ]
+   },
+   "lines": {
+    "vouch": "[VOUCH] They're with me. I'll answer for them.",
+    "vouch_pass": "*She looks from you to {name} and back. Her hand comes down, slowly.* ...On your head, then.",
+    "vouch_fail": "*She doesn't even look at you.* Then you're a fool, and I don't deal with fools either.",
+    "test_offer": "*He holds a braid of garlic out at arm's length.* Touch it. Go on.",
+    "test_pass": "*Nothing happens. He almost looks disappointed.* ...Fine. Fine.",
+    "test_refuse": "*He steps back.* That's what I thought."
+   }
+  },
+  "crowds": {
+   "notice_radius_m": [
+    4,
+    8,
+    12,
+    16,
+    24
+   ],
+   "reaction_share": [
+    {
+     "react_glance": 0.5,
+     "ignore": 0.5
+    },
+    {
+     "react_stare": 0.6,
+     "react_whisper_pair": 0.3,
+     "step aside": 0.1
+    },
+    {
+     "react_stare": 0.4,
+     "react_whisper_pair": 0.3,
+     "react_step_back or walk_wary": 0.25,
+     "go inside": 0.05
+    },
+    {
+     "react_warding_sign": 0.3,
+     "go inside": 0.4,
+     "react_pull_child": 0.2,
+     "react_stare": 0.1
+    },
+    {
+     "flee inside": 0.7,
+     "react_cower or react_pray_kneel": 0.1,
+     "react_grab_tool": 0.15,
+     "react_raise_alarm": 0.05
+    }
+   ],
+   "alarm": "at T4 at least one villager raises the alarm if guards are within earshot",
+   "stalls": [
+    "open",
+    "open",
+    "open",
+    "stalls within 12 m close for 1 hour",
+    "stalls within 24 m close for the day"
+   ]
+  },
+  "guards": {
+   "gate": [
+    "name and business, once",
+    "asks your business and watches you in",
+    "halts you: questions, 'hood down', then lets you in",
+    "by day: in, weapons peace-bonded; at night: refused",
+    "refused"
+   ],
+   "in_town": [
+    "normal patrol",
+    "heads follow the member within 10 m",
+    "one guard walks the party's route at about 10 m for 1 hour",
+    "one guard shadows the party at 6 to 8 m for the whole visit",
+    "challenged on sight: weapons out, ordered out of town, two warnings, then a fight only if the party pushes past or draws"
+   ],
+   "never": "guards never attack on sight: they bar the way, warn twice, and fight only if the party forces past or draws on them"
+  },
+  "doors": {
+   "knock": [
+    "opens a hand's width and talks through the gap; lets you in by day on Persuasion DC 12",
+    "talks through the closed door; doesn't open",
+    "talks through a slot or shutter, then shuts it",
+    "'go away', and the bar drops",
+    "silence; the lamp goes out"
+   ],
+   "night_steps": 1,
+   "shutters_close_share": [
+    0,
+    0,
+    0.25,
+    0.6,
+    1.0
+   ],
+   "shutters_radius_m": [
+    0,
+    0,
+    8,
+    16,
+    24
+   ],
+   "shutters_reopen": [
+    null,
+    null,
+    "1 hour after the party leaves the radius",
+    "the next morning",
+    "the next morning, if nothing else happened"
+   ],
+   "shops": "a T4 seen within 24 m: nearby shops turn the sign and bar the door for the day (hatch trade if Tolerated)",
+   "holy_ground": "T3 and up: the priest asks for the test at the door; refusing means staying outside",
+   "story_doors": "never locked by suspicion"
+  },
+  "rumours": {
+   "standing_events": [
+    {
+     "event": "first seen here, Uncanny",
+     "standing": 0
+    },
+    {
+     "event": "first seen here, Feared",
+     "standing": -3
+    },
+    {
+     "event": "first seen here, Monstrous",
+     "standing": -5
+    },
+    {
+     "event": "a crowd panics",
+     "standing": -5
+    },
+    {
+     "event": "Intimidation succeeds on a local",
+     "standing": -3
+    },
+    {
+     "event": "unmasked in disguise",
+     "standing": -15
+    },
+    {
+     "event": "seen changing shape",
+     "standing": -20
+    },
+    {
+     "event": "theft seen",
+     "standing": -15
+    },
+    {
+     "event": "weapon drawn on a local, or a brawl",
+     "standing": -20
+    },
+    {
+     "event": "a local killed",
+     "standing": -50
+    },
+    {
+     "event": "[HOOD DOWN] before being asked",
+     "standing": 2
+    },
+    {
+     "event": "passed the test",
+     "standing": 3
+    },
+    {
+     "event": "gift to the church or the poor (10 gp or more, once a day)",
+     "standing": 3
+    },
+    {
+     "event": "helped a villager (a small task, healing)",
+     "standing": 5
+    },
+    {
+     "event": "saved a local's life",
+     "standing": 10
+    },
+    {
+     "event": "cleared a threat to the settlement",
+     "standing": 25
+    }
+   ],
+   "spread": {
+    "days_per_link": 1,
+    "carry_bad": 0.5,
+    "carry_good": 0.25,
+    "max_links": 2,
+    "why": "Barovians believe the worst: bad news travels twice as well as good"
+   },
+   "forewarned": "once any rumour about a member reaches a settlement, that member's first sighting there doesn't set off a panic: people gather at a distance to stare, and guards meet the party at the gate",
+   "fresh_days": 7,
+   "journal": "What they say: every rumour the party overhears goes into the journal, with the place and the day",
+   "barks": {
+    "seen_odd": "Did you see the little one with the beard? Like somebody's grandfather, cut off at the knees.",
+    "seen_uncanny": "A giant stooped under the tavern door this morning. Had to.",
+    "seen_feared": "Horns. I saw horns on it, under the hood.",
+    "seen_feared_2": "They say it's one of his. Sent down to count us.",
+    "seen_monstrous": "A goblin-thing, walking the road like a man, and the outlanders let it.",
+    "unmasked": "It wore a man's face. Wore it like a coat.",
+    "shapechange": "It went down on all fours in the square. I saw it change.",
+    "deed_small": "The horned one carried the widow's firewood. I saw it myself. It didn't burn her.",
+    "deed_big": "They cleared the wolves off the north road. Whatever they are, they did that.",
+    "forewarned": "It's them. The ones from the village. The one with the tail."
+   }
+  },
+  "ui": {
+   "portrait_icon": "a small icon on each portrait: how Barovia sees this member right now (open shutter at T0 to barred door at T4); it changes when the hood goes up or down",
+   "journal": "the What they say page, and each settlement's standing band"
+  }
+ },
+ "safety": [
+  "Quest-safe: key NPCs always talk (a colder opener, fewer extras), story doors always open, and anything the story needs can always be bought or found. Suspicion changes the price and the mood, never whether the campaign can be finished.",
+  "No ambushes: guards bar the way, warn twice, and fight only if the party forces the issue.",
+  "Players can always see why: the portrait icon, the journal and the barks explain a closed door."
+ ],
+ "knobs": [
+  {
+   "knob": "enabled",
+   "default": true,
+   "what": "the whole system on or off"
+  },
+  {
+   "knob": "intensity",
+   "default": 1.0,
+   "range": [
+    0.5,
+    1.5
+   ],
+   "what": "scales price, sell and DC changes and notice radii: value = neutral + (default - neutral) x intensity"
+  },
+  {
+   "knob": "tier_shift",
+   "default": 0,
+   "range": [
+    -1,
+    1
+   ],
+   "what": "every race one tier milder or harsher"
+  },
+  {
+   "knob": "race_tier_overrides",
+   "default": {},
+   "what": "move any race to another tier, by profile id"
+  },
+  {
+   "knob": "combine.rule",
+   "default": "worst",
+   "options": [
+    "worst",
+    "average_up",
+    "worst_softened"
+   ],
+   "what": "how the party's makeup combines"
+  },
+  {
+   "knob": "effects.shops.buy_mult",
+   "default": [
+    1.0,
+    1.25,
+    1.5,
+    2.0,
+    null
+   ],
+   "what": "price multiplier per tier (null = refused)"
+  },
+  {
+   "knob": "effects.shops.sell_mult",
+   "default": [
+    1.0,
+    0.9,
+    0.75,
+    0.5,
+    null
+   ],
+   "what": "what shops pay you, per tier"
+  },
+  {
+   "knob": "effects.shops.refuse_trade_from_tier",
+   "default": 4,
+   "range": [
+    3,
+    5
+   ],
+   "what": "5 = never refuse"
+  },
+  {
+   "knob": "effects.shops.protective_goods_refused_from_tier",
+   "default": 3,
+   "range": [
+    2,
+    5
+   ]
+  },
+  {
+   "knob": "effects.dialogue.persuasion_dc_shift",
+   "default": [
+    0,
+    2,
+    4,
+    6,
+    8
+   ]
+  },
+  {
+   "knob": "effects.dialogue.intimidation_dc_shift",
+   "default": [
+    0,
+    -1,
+    -2,
+    -3,
+    -4
+   ]
+  },
+  {
+   "knob": "effects.crowds.notice_radius_m",
+   "default": [
+    4,
+    8,
+    12,
+    16,
+    24
+   ]
+  },
+  {
+   "knob": "effects.doors.shutters_close_share",
+   "default": [
+    0,
+    0,
+    0.25,
+    0.6,
+    1.0
+   ]
+  },
+  {
+   "knob": "relief.vouch",
+   "default": "-1 (-2 from a local), DC 10 + 2 x tier"
+  },
+  {
+   "knob": "relief.cap_steps",
+   "default": 2,
+   "range": [
+    1,
+    4
+   ],
+   "what": "how far vouches, tests and standing can bring a tier down"
+  },
+  {
+   "knob": "relief.accepted_floor_tier",
+   "default": 1,
+   "range": [
+    0,
+    2
+   ],
+   "what": "0 lets trusted non-humans read as Outlanders"
+  },
+  {
+   "knob": "cover.muffled.floor_tier",
+   "default": 2,
+   "range": [
+    1,
+    3
+   ]
+  },
+  {
+   "knob": "cover.disguise.unmasked",
+   "default": "race tier + 1, standing -15"
+  },
+  {
+   "knob": "modifiers.night.steps",
+   "default": 1,
+   "range": [
+    0,
+    2
+   ]
+  },
+  {
+   "knob": "viewers",
+   "default": {
+    "barovian": 1.0,
+    "vistani": 0.5,
+    "dusk_elf": 0.5
+   }
+  },
+  {
+   "knob": "effects.rumours.spread",
+   "default": {
+    "days_per_link": 1,
+    "carry_bad": 0.5,
+    "carry_good": 0.25,
+    "max_links": 2
+   }
+  },
+  {
+   "knob": "settlement_tier_shift",
+   "default": {
+    "*": 0
+   },
+   "what": "per-settlement wariness; equal everywhere in this draft, so nothing hints at what each town is like"
+  },
+  {
+   "knob": "quest_safe",
+   "default": true,
+   "what": "keep on"
+  }
+ ],
+ "races": [
+  {
+   "id": "aarakocra",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R10",
+   "alias_of": null,
+   "height_m": 1.55,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "aasimar_fallen",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Cut: burning, frozen, winged or antlered",
+   "in_library": "cut",
+   "batch": "R08",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "flame, ice, bone wings or antlers"
+   ],
+   "called": [
+    "devil's get"
+   ],
+   "note": "Nothing hides them."
+  },
+  {
+   "id": "aasimar_protector",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Cut: nearly human",
+   "in_library": "cut",
+   "batch": "R08",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "something off: too bright, too wild, a few scales"
+   ],
+   "called": [
+    "outlander"
+   ],
+   "note": "Yuan-ti: the library body shows no scales (Feared if briefs ever add them). Shifters: seen shifting = seen changing shape (Monstrous)."
+  },
+  {
+   "id": "aasimar_scourge",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Cut: nearly human",
+   "in_library": "cut",
+   "batch": "R08",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "something off: too bright, too wild, a few scales"
+   ],
+   "called": [
+    "outlander"
+   ],
+   "note": "Yuan-ti: the library body shows no scales (Feared if briefs ever add them). Shifters: seen shifting = seen changing shape (Monstrous)."
+  },
+  {
+   "id": "autognome",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Cut: made or grafted things, green-skinned folk",
+   "in_library": "cut",
+   "batch": "R13",
+   "alias_of": null,
+   "height_m": 1.0,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 3,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "plates, grafts or green skin"
+   ],
+   "called": [
+    "dead-man"
+   ],
+   "note": ""
+  },
+  {
+   "id": "boggart",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Goblins",
+   "in_library": "kept",
+   "batch": "R07",
+   "alias_of": "goblin",
+   "height_m": 1.05,
+   "hood_steps": 0,
+   "muffle_steps": 2,
+   "seen_hooded": 4,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "goblin face and ears",
+    "green skin",
+    "child-sized"
+   ],
+   "called": [
+    "goblin"
+   ],
+   "note": "Fully muffled, a goblin is just a small, strange figure (Uncanny). Too short to pass as a grown human."
+  },
+  {
+   "id": "bugbear",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Bugbear",
+   "in_library": "kept",
+   "batch": "R06",
+   "alias_of": null,
+   "height_m": 2.1,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 4,
+   "seen_muffled": 3,
+   "seen_disguised": 1,
+   "tells": [
+    "2.1 m tall",
+    "fur",
+    "a bear's head",
+    "hunched"
+   ],
+   "called": [
+    "bogey"
+   ],
+   "note": "Muffled, still a huge hunched thing (Feared). Too tall to pass in disguise."
+  },
+  {
+   "id": "centaur",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R14",
+   "alias_of": null,
+   "height_m": 2.22,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": null,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "changeling",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: strange skins",
+   "in_library": "cut",
+   "batch": "R12",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "blue, grey, stone or scaled skin",
+    "gills or fins"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Changeling: can wear a human face at will; seen changing = Monstrous."
+  },
+  {
+   "id": "dhampir",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Dhampir",
+   "in_library": "kept",
+   "batch": "R05",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "corpse pallor",
+    "too still"
+   ],
+   "called": [
+    "the pale one"
+   ],
+   "note": "Faceless style: no fangs show, so the tell is pallor. A hood's shadow passes for a sick outlander. Seen using the bite = unmasked (Feared for the visit)."
+  },
+  {
+   "id": "dragonborn_amethyst",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_black",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_blue",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "R02",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_brass",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_bronze",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_copper",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_crystal",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_draconblood",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_emerald",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_gold",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_green",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_ravenite",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_red",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "R02",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_sapphire",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_silver",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_topaz",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "dragonborn_white",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Dragonborn",
+   "in_library": "kept",
+   "batch": "RV1",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "a dragon's head and snout",
+    "scales",
+    "crest",
+    "2.0 m tall"
+   ],
+   "called": [
+    "lizard",
+    "dragon-man"
+   ],
+   "note": "The snout shows under any hood."
+  },
+  {
+   "id": "duskling",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: strange skins",
+   "in_library": "cut",
+   "batch": "R20",
+   "alias_of": null,
+   "height_m": 1.58,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "blue, grey, stone or scaled skin",
+    "gills or fins"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Changeling: can wear a human face at will; seen changing = Monstrous."
+  },
+  {
+   "id": "dwarf_duergar",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Grey dwarves and deep gnomes",
+   "in_library": "kept",
+   "batch": "RV4",
+   "alias_of": null,
+   "height_m": 1.3,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "stone-grey skin",
+    "bald or craggy heads",
+    "short"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Too short to pass as a grown human in disguise."
+  },
+  {
+   "id": "dwarf_hill",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Dwarves",
+   "in_library": "kept",
+   "batch": "RV4",
+   "alias_of": null,
+   "height_m": 1.32,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "short and broad",
+    "big braided beard (men)"
+   ],
+   "called": [
+    "little grandfather",
+    "little grandmother"
+   ],
+   "note": "Nothing hides a dwarf's shape. A hill dwarf is too short to pass as a grown human even in disguise."
+  },
+  {
+   "id": "dwarf_mark_of_warding",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Dwarves",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "dwarf_mountain",
+   "height_m": 1.5,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "short and broad",
+    "big braided beard (men)"
+   ],
+   "called": [
+    "little grandfather",
+    "little grandmother"
+   ],
+   "note": "Alias of dwarf_mountain: takes that row. Nothing hides a dwarf's shape. A hill dwarf is too short to pass as a grown human even in disguise."
+  },
+  {
+   "id": "dwarf_mountain",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Dwarves",
+   "in_library": "kept",
+   "batch": "R01",
+   "alias_of": null,
+   "height_m": 1.5,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "short and broad",
+    "big braided beard (men)"
+   ],
+   "called": [
+    "little grandfather",
+    "little grandmother"
+   ],
+   "note": "Nothing hides a dwarf's shape. A hill dwarf is too short to pass as a grown human even in disguise."
+  },
+  {
+   "id": "elf_astral",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "High and wood elves",
+   "in_library": "kept",
+   "batch": "RV3",
+   "alias_of": "elf_high",
+   "height_m": 1.75,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf",
+    "fair one"
+   ],
+   "note": "A hood hides the ears; the rest passes for a slender human."
+  },
+  {
+   "id": "elf_drow",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Dark and ash-grey elves",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "night-dark or ash-grey skin",
+    "pointed ears",
+    "bone-white hair (drow)"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Not taken for dusk elves: the library's dusk elves are deep brown with black hair."
+  },
+  {
+   "id": "elf_eladrin_autumn",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: fey elves",
+   "in_library": "cut",
+   "batch": "R15",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "hair and skin in a season's colours"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "A hood hides the hair; the skin passes at a glance."
+  },
+  {
+   "id": "elf_eladrin_spring",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: fey elves",
+   "in_library": "cut",
+   "batch": "R15",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "hair and skin in a season's colours"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "A hood hides the hair; the skin passes at a glance."
+  },
+  {
+   "id": "elf_eladrin_summer",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: fey elves",
+   "in_library": "cut",
+   "batch": "R15",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "hair and skin in a season's colours"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "A hood hides the hair; the skin passes at a glance."
+  },
+  {
+   "id": "elf_eladrin_winter",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: fey elves",
+   "in_library": "cut",
+   "batch": "R15",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "hair and skin in a season's colours"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "A hood hides the hair; the skin passes at a glance."
+  },
+  {
+   "id": "elf_high",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "High and wood elves",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf",
+    "fair one"
+   ],
+   "note": "A hood hides the ears; the rest passes for a slender human."
+  },
+  {
+   "id": "elf_mark_of_shadow",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "High and wood elves",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "elf_high",
+   "height_m": 1.75,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf",
+    "fair one"
+   ],
+   "note": "Alias of elf_high: takes that row. A hood hides the ears; the rest passes for a slender human."
+  },
+  {
+   "id": "elf_pallid",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "High and wood elves",
+   "in_library": "kept",
+   "batch": "RV3",
+   "alias_of": "elf_high",
+   "height_m": 1.75,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf",
+    "fair one"
+   ],
+   "note": "A hood hides the ears; the rest passes for a slender human."
+  },
+  {
+   "id": "elf_sea",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: strange skins",
+   "in_library": "cut",
+   "batch": "R16",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "blue, grey, stone or scaled skin",
+    "gills or fins"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Changeling: can wear a human face at will; seen changing = Monstrous."
+  },
+  {
+   "id": "elf_shadar_kai",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Dark and ash-grey elves",
+   "in_library": "kept",
+   "batch": "RV3",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "night-dark or ash-grey skin",
+    "pointed ears",
+    "bone-white hair (drow)"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Not taken for dusk elves: the library's dusk elves are deep brown with black hair."
+  },
+  {
+   "id": "elf_wood",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "High and wood elves",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf",
+    "fair one"
+   ],
+   "note": "A hood hides the ears; the rest passes for a slender human."
+  },
+  {
+   "id": "faerie",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: fairy",
+   "in_library": "cut",
+   "batch": "R15",
+   "alias_of": "fairy",
+   "height_m": 0.95,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "butterfly wings",
+    "child-sized"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Alias of fairy: takes that row. Nothing hides wings."
+  },
+  {
+   "id": "fairy",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: fairy",
+   "in_library": "cut",
+   "batch": "R15",
+   "alias_of": null,
+   "height_m": 0.95,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "butterfly wings",
+    "child-sized"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Nothing hides wings."
+  },
+  {
+   "id": "firbolg",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Firbolg",
+   "in_library": "kept",
+   "batch": "R06",
+   "alias_of": null,
+   "height_m": 2.25,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "2.25 m tall",
+    "blue-grey skin",
+    "broad nose, drooping ears"
+   ],
+   "called": [
+    "giant"
+   ],
+   "note": "Nothing hides the height. Firbolgs have their own disguise magic, but still read as a giant of a man."
+  },
+  {
+   "id": "flamekin",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Cut: burning, frozen, winged or antlered",
+   "in_library": "cut",
+   "batch": "R20",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "flame, ice, bone wings or antlers"
+   ],
+   "called": [
+    "devil's get"
+   ],
+   "note": "Nothing hides them."
+  },
+  {
+   "id": "genasi_air",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: strange skins",
+   "in_library": "cut",
+   "batch": "R08",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "blue, grey, stone or scaled skin",
+    "gills or fins"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Changeling: can wear a human face at will; seen changing = Monstrous."
+  },
+  {
+   "id": "genasi_earth",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: strange skins",
+   "in_library": "cut",
+   "batch": "R08",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "blue, grey, stone or scaled skin",
+    "gills or fins"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Changeling: can wear a human face at will; seen changing = Monstrous."
+  },
+  {
+   "id": "genasi_fire",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Cut: burning, frozen, winged or antlered",
+   "in_library": "cut",
+   "batch": "R08",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "flame, ice, bone wings or antlers"
+   ],
+   "called": [
+    "devil's get"
+   ],
+   "note": "Nothing hides them."
+  },
+  {
+   "id": "genasi_water",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: strange skins",
+   "in_library": "cut",
+   "batch": "R08",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "blue, grey, stone or scaled skin",
+    "gills or fins"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Changeling: can wear a human face at will; seen changing = Monstrous."
+  },
+  {
+   "id": "giff",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R17",
+   "alias_of": null,
+   "height_m": 2.15,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 1,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "githyanki",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Githyanki and githzerai",
+   "in_library": "kept",
+   "batch": "R04",
+   "alias_of": null,
+   "height_m": 1.85,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "sallow skin",
+    "gaunt frame",
+    "swept-back ears",
+    "strange armour"
+   ],
+   "called": [
+    "the gaunt one"
+   ],
+   "note": ""
+  },
+  {
+   "id": "githzerai",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Githyanki and githzerai",
+   "in_library": "kept",
+   "batch": "R04",
+   "alias_of": null,
+   "height_m": 1.83,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "sallow skin",
+    "gaunt frame",
+    "swept-back ears",
+    "strange armour"
+   ],
+   "called": [
+    "the gaunt one"
+   ],
+   "note": ""
+  },
+  {
+   "id": "gnome_deep",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Grey dwarves and deep gnomes",
+   "in_library": "kept",
+   "batch": "RV4",
+   "alias_of": null,
+   "height_m": 0.98,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "stone-grey skin",
+    "bald or craggy heads",
+    "short"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Too short to pass as a grown human in disguise."
+  },
+  {
+   "id": "gnome_forest",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Gnomes",
+   "in_library": "kept",
+   "batch": "RV4",
+   "alias_of": null,
+   "height_m": 0.95,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big head and round nose",
+    "wild bright hair"
+   ],
+   "called": [
+    "mannikin"
+   ],
+   "note": "Nothing hides the size or the head; too short to pass as a grown human."
+  },
+  {
+   "id": "gnome_mark_of_scribing",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Gnomes",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "gnome_rock",
+   "height_m": 1.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big head and round nose",
+    "wild bright hair"
+   ],
+   "called": [
+    "mannikin"
+   ],
+   "note": "Alias of gnome_rock: takes that row. Nothing hides the size or the head; too short to pass as a grown human."
+  },
+  {
+   "id": "gnome_rock",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Gnomes",
+   "in_library": "kept",
+   "batch": "R01",
+   "alias_of": null,
+   "height_m": 1.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big head and round nose",
+    "wild bright hair"
+   ],
+   "called": [
+    "mannikin"
+   ],
+   "note": "Nothing hides the size or the head; too short to pass as a grown human."
+  },
+  {
+   "id": "goblin",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Goblins",
+   "in_library": "kept",
+   "batch": "R07",
+   "alias_of": null,
+   "height_m": 1.05,
+   "hood_steps": 0,
+   "muffle_steps": 2,
+   "seen_hooded": 4,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "goblin face and ears",
+    "green skin",
+    "child-sized"
+   ],
+   "called": [
+    "goblin"
+   ],
+   "note": "Fully muffled, a goblin is just a small, strange figure (Uncanny). Too short to pass as a grown human."
+  },
+  {
+   "id": "goblin_dankwood",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Goblins",
+   "in_library": "kept",
+   "batch": "R07",
+   "alias_of": "goblin",
+   "height_m": 1.05,
+   "hood_steps": 0,
+   "muffle_steps": 2,
+   "seen_hooded": 4,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "goblin face and ears",
+    "green skin",
+    "child-sized"
+   ],
+   "called": [
+    "goblin"
+   ],
+   "note": "Fully muffled, a goblin is just a small, strange figure (Uncanny). Too short to pass as a grown human."
+  },
+  {
+   "id": "goliath_cloud",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Goliaths",
+   "in_library": "kept",
+   "batch": "R06",
+   "alias_of": null,
+   "height_m": 2.25,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "2.25 m tall",
+    "stone-marked skin"
+   ],
+   "called": [
+    "giant"
+   ],
+   "note": "Nothing hides the height; too tall to pass in disguise."
+  },
+  {
+   "id": "goliath_fire",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Goliaths",
+   "in_library": "kept",
+   "batch": "R06",
+   "alias_of": null,
+   "height_m": 2.25,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "2.25 m tall",
+    "stone-marked skin"
+   ],
+   "called": [
+    "giant"
+   ],
+   "note": "Nothing hides the height; too tall to pass in disguise."
+  },
+  {
+   "id": "goliath_frost",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Goliaths",
+   "in_library": "kept",
+   "batch": "R06",
+   "alias_of": null,
+   "height_m": 2.25,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "2.25 m tall",
+    "stone-marked skin"
+   ],
+   "called": [
+    "giant"
+   ],
+   "note": "Nothing hides the height; too tall to pass in disguise."
+  },
+  {
+   "id": "goliath_hill",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Goliaths",
+   "in_library": "kept",
+   "batch": "R06",
+   "alias_of": null,
+   "height_m": 2.25,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "2.25 m tall",
+    "stone-marked skin"
+   ],
+   "called": [
+    "giant"
+   ],
+   "note": "Nothing hides the height; too tall to pass in disguise."
+  },
+  {
+   "id": "goliath_stone",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Goliaths",
+   "in_library": "kept",
+   "batch": "R06",
+   "alias_of": null,
+   "height_m": 2.25,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "2.25 m tall",
+    "stone-marked skin"
+   ],
+   "called": [
+    "giant"
+   ],
+   "note": "Nothing hides the height; too tall to pass in disguise."
+  },
+  {
+   "id": "goliath_storm",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Goliaths",
+   "in_library": "kept",
+   "batch": "R06",
+   "alias_of": null,
+   "height_m": 2.25,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "2.25 m tall",
+    "stone-marked skin"
+   ],
+   "called": [
+    "giant"
+   ],
+   "note": "Nothing hides the height; too tall to pass in disguise."
+  },
+  {
+   "id": "grung",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: small or soft monsters",
+   "in_library": "cut",
+   "batch": "R18",
+   "alias_of": null,
+   "height_m": 0.9,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 4,
+   "seen_muffled": 3,
+   "seen_disguised": 1,
+   "tells": [
+    "scales, poison-bright skin or an ooze body"
+   ],
+   "called": [
+    "goblin"
+   ],
+   "note": "Kobold: muffle 2 (small and man-shaped under a cloak)."
+  },
+  {
+   "id": "hadozee",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R17",
+   "alias_of": null,
+   "height_m": 1.7,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "half_elf",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Half-elves",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": null,
+   "height_m": 1.74,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf-touched"
+   ],
+   "note": "A hood hides the ears; the rest is human."
+  },
+  {
+   "id": "half_elf_aquatic",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Half-elves of drow or sea blood",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": null,
+   "height_m": 1.74,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "grey-violet or blue-grey skin",
+    "gills (aquatic)"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "The skin shows past any hood."
+  },
+  {
+   "id": "half_elf_drow",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Half-elves of drow or sea blood",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": null,
+   "height_m": 1.74,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "grey-violet or blue-grey skin",
+    "gills (aquatic)"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "The skin shows past any hood."
+  },
+  {
+   "id": "half_elf_high",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Half-elves",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": null,
+   "height_m": 1.74,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf-touched"
+   ],
+   "note": "A hood hides the ears; the rest is human."
+  },
+  {
+   "id": "half_elf_mark_of_detection",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Half-elves",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "half_elf",
+   "height_m": 1.74,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf-touched"
+   ],
+   "note": "Alias of half_elf: takes that row. A hood hides the ears; the rest is human."
+  },
+  {
+   "id": "half_elf_mark_of_storm",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Half-elves",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "half_elf",
+   "height_m": 1.74,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf-touched"
+   ],
+   "note": "Alias of half_elf: takes that row. A hood hides the ears; the rest is human."
+  },
+  {
+   "id": "half_elf_wood",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Half-elves",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": null,
+   "height_m": 1.74,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf-touched"
+   ],
+   "note": "A hood hides the ears; the rest is human."
+  },
+  {
+   "id": "half_orc",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Orcs and half-orcs",
+   "in_library": "kept",
+   "batch": "R04",
+   "alias_of": null,
+   "height_m": 1.92,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 3,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "tusks",
+    "grey-green skin",
+    "big frame"
+   ],
+   "called": [
+    "tusker"
+   ],
+   "note": "A face scarf over the tusks and gloves over the hands bring them to Uncanny."
+  },
+  {
+   "id": "half_orc_mark_of_finding",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Orcs and half-orcs",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "half_orc",
+   "height_m": 1.92,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 3,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "tusks",
+    "grey-green skin",
+    "big frame"
+   ],
+   "called": [
+    "tusker"
+   ],
+   "note": "Alias of half_orc: takes that row. A face scarf over the tusks and gloves over the hands bring them to Uncanny."
+  },
+  {
+   "id": "halfling_ghostwise",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Halflings",
+   "in_library": "kept",
+   "batch": "RV4",
+   "alias_of": "halfling_lightfoot",
+   "height_m": 0.92,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big hairy bare feet"
+   ],
+   "called": [
+    "half-child"
+   ],
+   "note": "Nothing hides the size; too short to pass as a grown human."
+  },
+  {
+   "id": "halfling_lightfoot",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Halflings",
+   "in_library": "kept",
+   "batch": "R01",
+   "alias_of": null,
+   "height_m": 0.92,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big hairy bare feet"
+   ],
+   "called": [
+    "half-child"
+   ],
+   "note": "Nothing hides the size; too short to pass as a grown human."
+  },
+  {
+   "id": "halfling_lotusden",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Halflings",
+   "in_library": "kept",
+   "batch": "RV4",
+   "alias_of": "halfling_lightfoot",
+   "height_m": 0.92,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big hairy bare feet"
+   ],
+   "called": [
+    "half-child"
+   ],
+   "note": "Nothing hides the size; too short to pass as a grown human."
+  },
+  {
+   "id": "halfling_mark_of_healing",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Halflings",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "halfling_lightfoot",
+   "height_m": 0.92,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big hairy bare feet"
+   ],
+   "called": [
+    "half-child"
+   ],
+   "note": "Alias of halfling_lightfoot: takes that row. Nothing hides the size; too short to pass as a grown human."
+  },
+  {
+   "id": "halfling_mark_of_hospitality",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Halflings",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "halfling_lightfoot",
+   "height_m": 0.92,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big hairy bare feet"
+   ],
+   "called": [
+    "half-child"
+   ],
+   "note": "Alias of halfling_lightfoot: takes that row. Nothing hides the size; too short to pass as a grown human."
+  },
+  {
+   "id": "halfling_stout",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Halflings",
+   "in_library": "kept",
+   "batch": "RV4",
+   "alias_of": null,
+   "height_m": 0.95,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big hairy bare feet"
+   ],
+   "called": [
+    "half-child"
+   ],
+   "note": "Nothing hides the size; too short to pass as a grown human."
+  },
+  {
+   "id": "harengon",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R09",
+   "alias_of": null,
+   "height_m": 1.6,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "hexblood",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Hexblood",
+   "in_library": "kept",
+   "batch": "R05",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "a crown of thorns grown into the scalp",
+    "green-grey skin"
+   ],
+   "called": [
+    "witch"
+   ],
+   "note": "A hood hides the crown; the skin still shows."
+  },
+  {
+   "id": "hobgoblin",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Hobgoblin",
+   "in_library": "kept",
+   "batch": "R07",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 2,
+   "seen_hooded": 4,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "goblin face and ears",
+    "red-orange skin",
+    "a soldier's bearing"
+   ],
+   "called": [
+    "goblin"
+   ],
+   "note": "Human-sized, so full muffling or a disguise works well."
+  },
+  {
+   "id": "human",
+   "tier": 0,
+   "tier_name": "Outlander",
+   "group": "Humans",
+   "in_library": "kept",
+   "batch": "R01",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [],
+   "called": [
+    "outlander"
+   ],
+   "note": "The baseline. Even a human is a stranger here. Don't muffle a human: a muffled figure reads Uncanny."
+  },
+  {
+   "id": "human_mark_of_finding",
+   "tier": 0,
+   "tier_name": "Outlander",
+   "group": "Cut: human-looking",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "human",
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [],
+   "called": [
+    "outlander"
+   ],
+   "note": "Dragonmarks follow their parent race (a visible mark could count +1 as a witch's mark if dragonmarks ever return)."
+  },
+  {
+   "id": "human_mark_of_handling",
+   "tier": 0,
+   "tier_name": "Outlander",
+   "group": "Cut: human-looking",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "human",
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [],
+   "called": [
+    "outlander"
+   ],
+   "note": "Dragonmarks follow their parent race (a visible mark could count +1 as a witch's mark if dragonmarks ever return)."
+  },
+  {
+   "id": "human_mark_of_making",
+   "tier": 0,
+   "tier_name": "Outlander",
+   "group": "Cut: human-looking",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "human",
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [],
+   "called": [
+    "outlander"
+   ],
+   "note": "Dragonmarks follow their parent race (a visible mark could count +1 as a witch's mark if dragonmarks ever return)."
+  },
+  {
+   "id": "human_mark_of_passage",
+   "tier": 0,
+   "tier_name": "Outlander",
+   "group": "Cut: human-looking",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "human",
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [],
+   "called": [
+    "outlander"
+   ],
+   "note": "Dragonmarks follow their parent race (a visible mark could count +1 as a witch's mark if dragonmarks ever return)."
+  },
+  {
+   "id": "human_mark_of_sentinel",
+   "tier": 0,
+   "tier_name": "Outlander",
+   "group": "Cut: human-looking",
+   "in_library": "cut",
+   "batch": "RV5",
+   "alias_of": "human",
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [],
+   "called": [
+    "outlander"
+   ],
+   "note": "Dragonmarks follow their parent race (a visible mark could count +1 as a witch's mark if dragonmarks ever return)."
+  },
+  {
+   "id": "human_variant",
+   "tier": 0,
+   "tier_name": "Outlander",
+   "group": "Humans",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": "human",
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [],
+   "called": [
+    "outlander"
+   ],
+   "note": "The baseline. Even a human is a stranger here. Don't muffle a human: a muffled figure reads Uncanny."
+  },
+  {
+   "id": "kalashtar",
+   "tier": 0,
+   "tier_name": "Outlander",
+   "group": "Cut: human-looking",
+   "in_library": "cut",
+   "batch": "R08",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [],
+   "called": [
+    "outlander"
+   ],
+   "note": "Dragonmarks follow their parent race (a visible mark could count +1 as a witch's mark if dragonmarks ever return)."
+  },
+  {
+   "id": "kender",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Halflings",
+   "in_library": "cut",
+   "batch": "R19",
+   "alias_of": "halfling_lightfoot",
+   "height_m": 0.92,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big hairy bare feet"
+   ],
+   "called": [
+    "half-child"
+   ],
+   "note": "Alias of halfling_lightfoot: takes that row. Nothing hides the size; too short to pass as a grown human."
+  },
+  {
+   "id": "kenku",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R10",
+   "alias_of": null,
+   "height_m": 1.52,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "khoravar",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Half-elves",
+   "in_library": "kept",
+   "batch": "R03",
+   "alias_of": "half_elf",
+   "height_m": 1.74,
+   "hood_steps": 1,
+   "muffle_steps": 0,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "pointed ears"
+   ],
+   "called": [
+    "elf-touched"
+   ],
+   "note": "A hood hides the ears; the rest is human."
+  },
+  {
+   "id": "kithkin",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Halflings",
+   "in_library": "cut",
+   "batch": "R19",
+   "alias_of": "halfling_lightfoot",
+   "height_m": 0.92,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 1,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "child-sized",
+    "big hairy bare feet"
+   ],
+   "called": [
+    "half-child"
+   ],
+   "note": "Alias of halfling_lightfoot: takes that row. Nothing hides the size; too short to pass as a grown human."
+  },
+  {
+   "id": "kobold",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: small or soft monsters",
+   "in_library": "cut",
+   "batch": "R07",
+   "alias_of": null,
+   "height_m": 0.82,
+   "hood_steps": 0,
+   "muffle_steps": 2,
+   "seen_hooded": 4,
+   "seen_muffled": 2,
+   "seen_disguised": 1,
+   "tells": [
+    "scales, poison-bright skin or an ooze body"
+   ],
+   "called": [
+    "goblin"
+   ],
+   "note": "Kobold: muffle 2 (small and man-shaped under a cloak)."
+  },
+  {
+   "id": "leonin",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R09",
+   "alias_of": null,
+   "height_m": 2.0,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "lizardfolk",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R11",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "locathah",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R16",
+   "alias_of": null,
+   "height_m": 1.68,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "lorwyn_changeling",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: small or soft monsters",
+   "in_library": "cut",
+   "batch": "R20",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 4,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "scales, poison-bright skin or an ooze body"
+   ],
+   "called": [
+    "goblin"
+   ],
+   "note": "Kobold: muffle 2 (small and man-shaped under a cloak)."
+  },
+  {
+   "id": "lorwyn_shadowmoor_elf",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Cut: burning, frozen, winged or antlered",
+   "in_library": "cut",
+   "batch": "R20",
+   "alias_of": null,
+   "height_m": 1.75,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "flame, ice, bone wings or antlers"
+   ],
+   "called": [
+    "devil's get"
+   ],
+   "note": "Nothing hides them."
+  },
+  {
+   "id": "loxodon",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R14",
+   "alias_of": null,
+   "height_m": 2.15,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 1,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "lupin",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R12",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "minotaur",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R14",
+   "alias_of": null,
+   "height_m": 2.15,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 1,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "orc",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Orcs and half-orcs",
+   "in_library": "kept",
+   "batch": "R04",
+   "alias_of": null,
+   "height_m": 1.98,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 3,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "tusks",
+    "grey-green skin",
+    "big frame"
+   ],
+   "called": [
+    "tusker"
+   ],
+   "note": "A face scarf over the tusks and gloves over the hands bring them to Uncanny."
+  },
+  {
+   "id": "owlin",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R10",
+   "alias_of": null,
+   "height_m": 1.62,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "plasmoid",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: small or soft monsters",
+   "in_library": "cut",
+   "batch": "R13",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 4,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "scales, poison-bright skin or an ooze body"
+   ],
+   "called": [
+    "goblin"
+   ],
+   "note": "Kobold: muffle 2 (small and man-shaped under a cloak)."
+  },
+  {
+   "id": "reborn",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Reborn",
+   "in_library": "kept",
+   "batch": "R05",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "grey skin",
+    "stitch scars"
+   ],
+   "called": [
+    "dead-man"
+   ],
+   "note": "A hood hides the worst of the stitches; the grey skin still shows."
+  },
+  {
+   "id": "rimekin",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Cut: burning, frozen, winged or antlered",
+   "in_library": "cut",
+   "batch": "R20",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "flame, ice, bone wings or antlers"
+   ],
+   "called": [
+    "devil's get"
+   ],
+   "note": "Nothing hides them."
+  },
+  {
+   "id": "satyr",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R15",
+   "alias_of": null,
+   "height_m": 1.68,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "shifter_beasthide",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Cut: nearly human",
+   "in_library": "cut",
+   "batch": "R12",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "something off: too bright, too wild, a few scales"
+   ],
+   "called": [
+    "outlander"
+   ],
+   "note": "Yuan-ti: the library body shows no scales (Feared if briefs ever add them). Shifters: seen shifting = seen changing shape (Monstrous)."
+  },
+  {
+   "id": "shifter_longtooth",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Cut: nearly human",
+   "in_library": "cut",
+   "batch": "R12",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "something off: too bright, too wild, a few scales"
+   ],
+   "called": [
+    "outlander"
+   ],
+   "note": "Yuan-ti: the library body shows no scales (Feared if briefs ever add them). Shifters: seen shifting = seen changing shape (Monstrous)."
+  },
+  {
+   "id": "shifter_swiftstride",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Cut: nearly human",
+   "in_library": "cut",
+   "batch": "R12",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "something off: too bright, too wild, a few scales"
+   ],
+   "called": [
+    "outlander"
+   ],
+   "note": "Yuan-ti: the library body shows no scales (Feared if briefs ever add them). Shifters: seen shifting = seen changing shape (Monstrous)."
+  },
+  {
+   "id": "shifter_wildhunt",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Cut: nearly human",
+   "in_library": "cut",
+   "batch": "R12",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "something off: too bright, too wild, a few scales"
+   ],
+   "called": [
+    "outlander"
+   ],
+   "note": "Yuan-ti: the library body shows no scales (Feared if briefs ever add them). Shifters: seen shifting = seen changing shape (Monstrous)."
+  },
+  {
+   "id": "simic_hybrid",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Cut: made or grafted things, green-skinned folk",
+   "in_library": "cut",
+   "batch": "R18",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 3,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "plates, grafts or green skin"
+   ],
+   "called": [
+    "dead-man"
+   ],
+   "note": ""
+  },
+  {
+   "id": "tabaxi",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R09",
+   "alias_of": null,
+   "height_m": 1.78,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "thri_kreen",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R17",
+   "alias_of": null,
+   "height_m": 1.95,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": null,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "tiefling_abyssal",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_asmodeus",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "R02",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_baalzebul",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tiefling (small horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 3,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "horn nubs",
+    "tail",
+    "skin colour"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "A hood alone doesn't help (the tail and skin still show); full muffling does."
+  },
+  {
+   "id": "tiefling_chthonic",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_dispater",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_feral",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": "tiefling_asmodeus",
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_fierna",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_glasya",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_levistus",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_mammon",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_mephistopheles",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "R02",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tiefling_winged",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tiefling (winged)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "bat wings"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Nothing hides wings."
+  },
+  {
+   "id": "tiefling_zariel",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Tieflings (big horns)",
+   "in_library": "kept",
+   "batch": "RV2",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 3,
+   "seen_muffled": 3,
+   "seen_disguised": 0,
+   "tells": [
+    "horns",
+    "tail",
+    "red, purple or blue skin"
+   ],
+   "called": [
+    "horned one",
+    "devil's get"
+   ],
+   "note": "Every horn the kit builds today (ram curl, tall spiral, swept back, long sharp) is too big for a hood. If the RV2 briefs give a line horns small enough to hood, move it to the small-horns row."
+  },
+  {
+   "id": "tortle",
+   "tier": 4,
+   "tier_name": "Monstrous",
+   "group": "Cut: beast-folk",
+   "in_library": "cut",
+   "batch": "R11",
+   "alias_of": null,
+   "height_m": 1.7,
+   "hood_steps": 0,
+   "muffle_steps": 0,
+   "seen_hooded": 4,
+   "seen_muffled": 4,
+   "seen_disguised": 0,
+   "tells": [
+    "an animal's head or body: fur, feathers, beak, shell, hooves"
+   ],
+   "called": [
+    "beast"
+   ],
+   "note": "Beasts that walk like men: the werewolf fear. Centaur and thri-kreen can't even disguise (wrong body shape)."
+  },
+  {
+   "id": "triton",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: strange skins",
+   "in_library": "cut",
+   "batch": "R16",
+   "alias_of": null,
+   "height_m": 1.55,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "blue, grey, stone or scaled skin",
+    "gills or fins"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Changeling: can wear a human face at will; seen changing = Monstrous."
+  },
+  {
+   "id": "vedalken",
+   "tier": 2,
+   "tier_name": "Uncanny",
+   "group": "Cut: strange skins",
+   "in_library": "cut",
+   "batch": "R18",
+   "alias_of": null,
+   "height_m": 1.95,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 2,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "blue, grey, stone or scaled skin",
+    "gills or fins"
+   ],
+   "called": [
+    "mist-born"
+   ],
+   "note": "Changeling: can wear a human face at will; seen changing = Monstrous."
+  },
+  {
+   "id": "verdan",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Cut: made or grafted things, green-skinned folk",
+   "in_library": "cut",
+   "batch": "R19",
+   "alias_of": null,
+   "height_m": 1.7,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 3,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "plates, grafts or green skin"
+   ],
+   "called": [
+    "dead-man"
+   ],
+   "note": ""
+  },
+  {
+   "id": "warforged",
+   "tier": 3,
+   "tier_name": "Feared",
+   "group": "Cut: made or grafted things, green-skinned folk",
+   "in_library": "cut",
+   "batch": "R13",
+   "alias_of": null,
+   "height_m": 1.83,
+   "hood_steps": 0,
+   "muffle_steps": 1,
+   "seen_hooded": 3,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "plates, grafts or green skin"
+   ],
+   "called": [
+    "dead-man"
+   ],
+   "note": ""
+  },
+  {
+   "id": "yuan_ti_pureblood",
+   "tier": 1,
+   "tier_name": "Odd",
+   "group": "Cut: nearly human",
+   "in_library": "cut",
+   "batch": "R11",
+   "alias_of": null,
+   "height_m": 1.8,
+   "hood_steps": 1,
+   "muffle_steps": 1,
+   "seen_hooded": 0,
+   "seen_muffled": 2,
+   "seen_disguised": 0,
+   "tells": [
+    "something off: too bright, too wild, a few scales"
+   ],
+   "called": [
+    "outlander"
+   ],
+   "note": "Yuan-ti: the library body shows no scales (Feared if briefs ever add them). Shifters: seen shifting = seen changing shape (Monstrous)."
+  }
+ ],
+ "animations": {
+  "villagers": [
+   {
+    "id": "react_glance",
+    "group": "attention",
+    "does": "the head turns to the stranger for a beat, then back to work",
+    "when": "T0+",
+    "kind": "one-shot, head",
+    "secs": 1.0,
+    "props": [],
+    "slice": "first",
+    "procedural": "yes: look-at"
+   },
+   {
+    "id": "react_stare",
+    "group": "attention",
+    "does": "stops work; head and shoulders turn and follow the stranger; hands go still",
+    "when": "T1+",
+    "kind": "loop layer",
+    "secs": null,
+    "props": [],
+    "slice": "first",
+    "procedural": "partly: look-at on a still pose"
+   },
+   {
+    "id": "react_whisper_pair",
+    "group": "attention",
+    "does": "two villagers lean their heads together, one hand raised beside the head; both glance at the party",
+    "when": "T1+, and while a rumour is fresh",
+    "kind": "pair loop",
+    "secs": 3.0,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_nudge_point",
+    "group": "attention",
+    "does": "an elbow to a neighbour, then a low point at hip height",
+    "when": "T1+",
+    "kind": "one-shot",
+    "secs": 1.5,
+    "props": [],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "react_head_shake",
+    "group": "attention",
+    "does": "a slow shake with the chin down",
+    "when": "T1+ in dialogue and refusals",
+    "kind": "one-shot, head",
+    "secs": 1.2,
+    "props": [],
+    "slice": "first",
+    "procedural": "yes"
+   },
+   {
+    "id": "react_step_back",
+    "group": "wariness",
+    "does": "one step back, weight on the back foot, hands drawn up to the chest",
+    "when": "T2+",
+    "kind": "one-shot, root motion",
+    "secs": 0.8,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_arms_fold",
+    "group": "wariness",
+    "does": "folds the arms high, squares the shoulders, lifts the chin: a closed stance",
+    "when": "T2+ (shopkeepers, gatekeepers)",
+    "kind": "enter + idle loop",
+    "secs": 1.0,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_turn_away",
+    "group": "wariness",
+    "does": "turns a shoulder, then the back, head down",
+    "when": "T2+ (a refused talk)",
+    "kind": "one-shot, root turn",
+    "secs": 1.2,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "walk_wary",
+    "group": "wariness",
+    "does": "a walk with hunched shoulders and the head turned toward the stranger, drifting to the far side of the street",
+    "when": "T2+",
+    "kind": "locomotion loop",
+    "secs": null,
+    "props": [],
+    "slice": "first",
+    "procedural": "partly: walk + look-at"
+   },
+   {
+    "id": "react_clutch_symbol",
+    "group": "wariness",
+    "does": "one hand closes on a pendant or holy symbol at the chest; the other covers it",
+    "when": "T2+",
+    "kind": "enter + loop",
+    "secs": 0.8,
+    "props": [
+     "pendant or holy symbol"
+    ],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_pull_child",
+    "group": "wariness",
+    "does": "steps between a child and the stranger and sweeps the child behind the coat or skirts",
+    "when": "T2+",
+    "kind": "pair one-shot (adult)",
+    "secs": 1.5,
+    "props": [],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "child_hide_behind",
+    "group": "wariness",
+    "does": "the child ducks behind the adult and peeks round",
+    "when": "T2+",
+    "kind": "pair one-shot (child)",
+    "secs": 1.5,
+    "props": [],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "child_curious",
+    "group": "wariness",
+    "does": "the child edges toward the stranger, head tilted, one hand out, until pulled away",
+    "when": "T1+ (open question 11)",
+    "kind": "loop",
+    "secs": null,
+    "props": [],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "react_warding_sign",
+    "group": "fear",
+    "does": "the valley's sign against evil: fingertips to the brow, then to the heart, then the hand thrust out flat toward the stranger and held",
+    "when": "T3+ (T2 for the pious)",
+    "kind": "one-shot + hold loop",
+    "secs": 1.6,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_spit_aside",
+    "group": "fear",
+    "does": "a sharp turn of the head and a spit to the side",
+    "when": "T3+",
+    "kind": "one-shot",
+    "secs": 0.8,
+    "props": [
+     "small particle"
+    ],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "react_drop_carry",
+    "group": "fear",
+    "does": "startles; what they carry falls; the hands fly up",
+    "when": "T3+ on first sight",
+    "kind": "one-shot",
+    "secs": 1.0,
+    "props": [
+     "basket, bucket or bundle (physics)"
+    ],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "react_back_away",
+    "group": "fear",
+    "does": "backs away facing the stranger, palms out, small steps",
+    "when": "T3+",
+    "kind": "locomotion loop (backward)",
+    "secs": null,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "walk_hurry",
+    "group": "fear",
+    "does": "a fast hunched walk, arms tight, head low, one glance back",
+    "when": "T3+",
+    "kind": "locomotion loop",
+    "secs": null,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "door_slam_bar",
+    "group": "fear",
+    "does": "pulls the door shut from inside and drops the bar",
+    "when": "T3+",
+    "kind": "one-shot, synced to the door",
+    "secs": 1.2,
+    "props": [
+     "door",
+     "bar"
+    ],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "window_shutters_close",
+    "group": "fear",
+    "does": "leans out of a window, pulls both shutters in and latches them",
+    "when": "T2+",
+    "kind": "one-shot, upper body in the window",
+    "secs": 1.5,
+    "props": [
+     "shutters"
+    ],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "window_lamp_out",
+    "group": "fear",
+    "does": "cups the lamp and blows it out; the window goes dark",
+    "when": "T3+ (T2+ at night)",
+    "kind": "one-shot",
+    "secs": 1.0,
+    "props": [
+     "lamp",
+     "window light"
+    ],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "run_scared",
+    "group": "terror",
+    "does": "a hunched run, arms pulled in, a look back every few strides",
+    "when": "T4",
+    "kind": "locomotion loop",
+    "secs": null,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_cower",
+    "group": "terror",
+    "does": "drops to a crouch with the arms over the head, trembling",
+    "when": "T4 when cornered",
+    "kind": "enter + loop",
+    "secs": 0.8,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_pray_kneel",
+    "group": "terror",
+    "does": "drops to the knees, hands clasped at the chest, rocking",
+    "when": "T4 (the old and the pious)",
+    "kind": "enter + loop",
+    "secs": 1.0,
+    "props": [],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "react_raise_alarm",
+    "group": "terror",
+    "does": "the head thrown back and both hands raised beside it, then an arm pointing at the stranger",
+    "when": "T4",
+    "kind": "one-shot",
+    "secs": 2.0,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_grab_tool",
+    "group": "terror",
+    "does": "snatches up a pitchfork, spade, cudgel or torch and brings it across the body in both hands (the across-the-chest grip)",
+    "when": "T4 (the brave), mobs",
+    "kind": "one-shot",
+    "secs": 1.0,
+    "props": [
+     "pitchfork, spade, cudgel or torch"
+    ],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_brandish",
+    "group": "terror",
+    "does": "holds the tool out with short jabs, feet planted, giving half a step between jabs",
+    "when": "T4",
+    "kind": "loop",
+    "secs": 1.5,
+    "props": [
+     "the grabbed tool"
+    ],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "shop_refuse",
+    "group": "trade",
+    "does": "palm out and a firm head shake; the other hand flat on the counter or ledger",
+    "when": "refusals (T3-T4)",
+    "kind": "one-shot",
+    "secs": 1.2,
+    "props": [
+     "counter"
+    ],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "shop_coin_dish",
+    "group": "trade",
+    "does": "slides a dish across for the coin, never hand to hand, then tips the coin out",
+    "when": "T2-T3",
+    "kind": "one-shot",
+    "secs": 2.0,
+    "props": [
+     "dish",
+     "coins"
+    ],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "shop_goods_arm_length",
+    "group": "trade",
+    "does": "pushes the goods across at arm's length, leaning back",
+    "when": "T2-T3",
+    "kind": "one-shot",
+    "secs": 1.2,
+    "props": [],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "shop_close_up",
+    "group": "trade",
+    "does": "turns the sign and pulls the hatch or counter flap shut",
+    "when": "T4",
+    "kind": "one-shot",
+    "secs": 1.2,
+    "props": [
+     "sign",
+     "hatch"
+    ],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "guard_halt",
+    "group": "guards",
+    "does": "steps into the path, one hand raised flat, the other on the hilt",
+    "when": "T2+ at gates",
+    "kind": "one-shot + hold",
+    "secs": 1.0,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "guard_hand_on_hilt",
+    "group": "guards",
+    "does": "a resting hand on the hilt while the head tracks the stranger",
+    "when": "T2+",
+    "kind": "layer loop",
+    "secs": null,
+    "props": [],
+    "slice": "first",
+    "procedural": "partly: look-at"
+   },
+   {
+    "id": "guard_bar_path",
+    "group": "guards",
+    "does": "plants the feet and holds the spear or halberd across the chest to block the way (the across-the-chest grip)",
+    "when": "T3+",
+    "kind": "one-shot + hold",
+    "secs": 1.0,
+    "props": [
+     "polearm"
+    ],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "guard_draw_ready",
+    "group": "guards",
+    "does": "draws and holds the weapon low and ready",
+    "when": "T3-T4, or when a party weapon is drawn",
+    "kind": "one-shot",
+    "secs": 0.8,
+    "props": [
+     "weapon"
+    ],
+    "slice": "first",
+    "procedural": "partly: reuses the combat draw"
+   },
+   {
+    "id": "guard_move_along",
+    "group": "guards",
+    "does": "a sweeping wave of the hand: move along",
+    "when": "T2-T3",
+    "kind": "one-shot",
+    "secs": 1.0,
+    "props": [],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "guard_signal",
+    "group": "guards",
+    "does": "fingers to the front of the head for a whistle, or an arm raised, calling another guard",
+    "when": "T3-T4",
+    "kind": "one-shot",
+    "secs": 1.0,
+    "props": [],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "guard_escort_walk",
+    "group": "guards",
+    "does": "walks alongside at a set distance, head locked on the stranger",
+    "when": "T2+",
+    "kind": "locomotion + look-at",
+    "secs": null,
+    "props": [],
+    "slice": "first",
+    "procedural": "yes: follow + look-at"
+   },
+   {
+    "id": "door_peek",
+    "group": "doors",
+    "does": "opens the door a hand's width and talks through the gap, one hand on the door edge",
+    "when": "knocks at T0-T1",
+    "kind": "enter + loop",
+    "secs": 1.0,
+    "props": [
+     "door"
+    ],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "hatch_speak",
+    "group": "doors",
+    "does": "a slot in the door or shutter opens; a hand and the shadow of a head show; it snaps shut",
+    "when": "knocks at T2",
+    "kind": "prop + audio",
+    "secs": 1.0,
+    "props": [
+     "door slot"
+    ],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "react_nod",
+    "group": "warmth",
+    "does": "a small nod of recognition",
+    "when": "standing Tolerated or better",
+    "kind": "one-shot, head",
+    "secs": 0.6,
+    "props": [],
+    "slice": "first",
+    "procedural": "yes"
+   },
+   {
+    "id": "react_bow_thanks",
+    "group": "warmth",
+    "does": "a hand on the heart and a short bow",
+    "when": "Tolerated or better, after a deed",
+    "kind": "one-shot",
+    "secs": 1.2,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "react_offer_gift",
+    "group": "warmth",
+    "does": "holds out a small gift in both hands: bread, a garlic braid, a candle",
+    "when": "Trusted",
+    "kind": "one-shot",
+    "secs": 1.5,
+    "props": [
+     "bread, garlic braid or candle"
+    ],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "react_ease",
+    "group": "warmth",
+    "does": "the shoulders drop and the hands open: the way back from any wary pose",
+    "when": "after a vouch or a passed test",
+    "kind": "one-shot",
+    "secs": 1.0,
+    "props": [],
+    "slice": "first",
+    "procedural": "no"
+   },
+   {
+    "id": "test_hold_out",
+    "group": "test",
+    "does": "holds a holy symbol or a garlic braid out at arm's length, leaning back, waiting",
+    "when": "[TEST]",
+    "kind": "enter + loop",
+    "secs": 1.0,
+    "props": [
+     "holy symbol or garlic braid"
+    ],
+    "slice": "later",
+    "procedural": "no"
+   },
+   {
+    "id": "test_splash",
+    "group": "test",
+    "does": "flicks a few drops of holy water at the stranger, then peers",
+    "when": "[TEST]",
+    "kind": "one-shot",
+    "secs": 1.2,
+    "props": [
+     "flask"
+    ],
+    "slice": "later",
+    "procedural": "no"
+   }
+  ],
+  "party": [
+   {
+    "id": "pc_hood_up",
+    "does": "both hands lift the hood over the head",
+    "when": "cover toggled on",
+    "kind": "one-shot",
+    "secs": 0.8,
+    "slice": "first"
+   },
+   {
+    "id": "pc_hood_down",
+    "does": "both hands push the hood back",
+    "when": "cover toggled off, [HOOD DOWN]",
+    "kind": "one-shot",
+    "secs": 0.8,
+    "slice": "first"
+   },
+   {
+    "id": "pc_open_hands",
+    "does": "hands open and out, palms up: I mean no harm",
+    "when": "[VOUCH], [TEST]",
+    "kind": "one-shot",
+    "secs": 1.0,
+    "slice": "first"
+   },
+   {
+    "id": "pc_vouch_shoulder",
+    "does": "the voucher sets a hand on the companion's shoulder",
+    "when": "[VOUCH]",
+    "kind": "pair one-shot",
+    "secs": 1.2,
+    "slice": "later"
+   },
+   {
+    "id": "pc_submit_test",
+    "does": "stands still, chin up, arms a little out, while the test is done",
+    "when": "[TEST]",
+    "kind": "loop",
+    "secs": null,
+    "slice": "later"
+   }
+  ],
+  "props": [
+   {
+    "id": "prop_door_crack",
+    "does": "opens a hand's width and holds"
+   },
+   {
+    "id": "prop_door_slam",
+    "does": "slams shut"
+   },
+   {
+    "id": "prop_bar_drop",
+    "does": "the bar drops into its brackets"
+   },
+   {
+    "id": "prop_shutters_close",
+    "does": "both shutters swing in and latch"
+   },
+   {
+    "id": "prop_shutters_open",
+    "does": "the shutters reopen later"
+   },
+   {
+    "id": "prop_window_light_off",
+    "does": "the window's glow fades out"
+   },
+   {
+    "id": "prop_sign_turn",
+    "does": "a shop sign turns to its closed side"
+   },
+   {
+    "id": "prop_hatch_slide",
+    "does": "a door slot slides open and shut"
+   }
+  ],
+  "note": "faceless: head, shoulders, hands, feet and props carry every reaction; the kit's head turn, bow, stoop and lean do much of it"
+ },
+ "open_questions": [
+  {
+   "id": 1,
+   "question": "How harsh should it be by default?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Mild: intensity 0.5, and every race one tier milder."
+    },
+    {
+     "key": "B",
+     "text": "Book: the values in this draft."
+    },
+    {
+     "key": "C",
+     "text": "Harsh: intensity 1.5, and shops also refuse Feared members."
+    }
+   ],
+   "recommended": "B"
+  },
+  {
+   "id": 2,
+   "question": "Does the worst member count most?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Yes: the worst visible member sets the tier for everything the party does together."
+    },
+    {
+     "key": "B",
+     "text": "No: use the party's average, rounded up."
+    },
+    {
+     "key": "C",
+     "text": "Mostly: the worst member, minus one step if at least half of those present read as human."
+    }
+   ],
+   "recommended": "A"
+  },
+  {
+   "id": 3,
+   "question": "How far can good deeds take a non-human?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Down to Odd at best: accepted, never forgotten."
+    },
+    {
+     "key": "B",
+     "text": "All the way: at Trusted they read as Outlanders."
+    },
+    {
+     "key": "C",
+     "text": "One step at most, ever."
+    }
+   ],
+   "recommended": "A"
+  },
+  {
+   "id": 4,
+   "question": "Disguises: how risky?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Risky: unmasked is worse than honest (one tier worse for the visit, standing -15)."
+    },
+    {
+     "key": "B",
+     "text": "Safe: unmasked just means back to the normal tier."
+    },
+    {
+     "key": "C",
+     "text": "None: players can't disguise their race."
+    }
+   ],
+   "recommended": "A"
+  },
+  {
+   "id": 5,
+   "question": "The borderline races: orc (Feared), drow and the grey-skinned half-elves (Uncanny), dhampir (Uncanny), goliath and firbolg (Uncanny), dragonborn (Feared). Move any?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Keep them as drafted."
+    },
+    {
+     "key": "B",
+     "text": "Move some (say which, and where)."
+    }
+   ],
+   "recommended": "A"
+  },
+  {
+   "id": 6,
+   "question": "Magic in a character's look, like Chai'rn's glowing tendrils: does it count?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Race only; casting a spell in public counts +1 for an hour."
+    },
+    {
+     "key": "B",
+     "text": "A permanent glow counts +1 while it shows (a hood covers Chai'rn's)."
+    },
+    {
+     "key": "C",
+     "text": "Magic never counts."
+    }
+   ],
+   "recommended": "A"
+  },
+  {
+   "id": 7,
+   "question": "The Vistani and the dusk elves as onlookers:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Half as wary as Barovians."
+    },
+    {
+     "key": "B",
+     "text": "As wary as Barovians."
+    },
+    {
+     "key": "C",
+     "text": "Not wary at all."
+    }
+   ],
+   "recommended": "A"
+  },
+  {
+   "id": 8,
+   "question": "What villagers call non-humans:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Mild in-world names (horned one, devil's get, tusker, bogey), never about skin colour."
+    },
+    {
+     "key": "B",
+     "text": "None: they only describe (the tall one, the one with the tail)."
+    }
+   ],
+   "recommended": "A"
+  },
+  {
+   "id": 9,
+   "question": "Show it in the interface?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Yes: an icon on each portrait for how Barovia sees that member right now, and a What they say journal page."
+    },
+    {
+     "key": "B",
+     "text": "No: players learn it by playing."
+    }
+   ],
+   "recommended": "A"
+  },
+  {
+   "id": 10,
+   "question": "Party members' own reactions (a short bark when a door slams on them)?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Yes, short and occasional."
+    },
+    {
+     "key": "B",
+     "text": "No."
+    }
+   ],
+   "recommended": "A"
+  },
+  {
+   "id": 11,
+   "question": "Children:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Curious, not afraid, until a parent pulls them away."
+    },
+    {
+     "key": "B",
+     "text": "Afraid, like the adults."
+    }
+   ],
+   "recommended": "A"
+  }
+ ],
+ "examples": [
+  {
+   "id": "peters_party_square",
+   "what": "a tiefling with a long horn (like Arkus), Chai'rn hooded, a human; a village square at noon, standing 0",
+   "members": [
+    {
+     "profile": "tiefling_asmodeus",
+     "cover": "hood",
+     "seen": 3
+    },
+    {
+     "profile": "elf_wood",
+     "cover": "hood",
+     "seen": 0
+    },
+    {
+     "profile": "human",
+     "cover": "none",
+     "seen": 0
+    }
+   ],
+   "expect": {
+    "party_tier": 3,
+    "notice_radius_m": 16,
+    "shutters": "60% of windows within 16 m close",
+    "guards": "one shadows the party at 6-8 m"
+   }
+  },
+  {
+   "id": "peters_party_shop_vouched",
+   "what": "the same party in a shop: Feared, so served at the door at x2 with no protective goods; the human vouches and passes (DC 16)",
+   "expect": {
+    "tier": 2,
+    "buy_mult": 1.5,
+    "served": "inside, at the end of the counter, coin in the dish; protective goods sold again"
+   }
+  },
+  {
+   "id": "peters_party_shop_proxy",
+   "what": "the tiefling waits outside; the others shop; the keeper saw them all together today",
+   "expect": {
+    "tier": 2,
+    "buy_mult": 1.5,
+    "note": "the proxy pays party tier 3 - 1; had the keeper not seen the tiefling: tier 0, x1.0"
+   }
+  },
+  {
+   "id": "goblinoid_gate",
+   "what": "a bugbear, a hobgoblin and a human cleric at a town gate by day, standing 0",
+   "members": [
+    {
+     "profile": "bugbear",
+     "cover": "none",
+     "seen": 4
+    },
+    {
+     "profile": "hobgoblin",
+     "cover": "none",
+     "seen": 4
+    },
+    {
+     "profile": "human",
+     "cover": "none",
+     "seen": 0
+    }
+   ],
+   "expect": {
+    "party_tier": 4,
+    "gate": "refused",
+    "vouched": "the cleric passes a vouch (Persuasion DC 18): Feared for that guard, so in by day, weapons peace-bonded",
+    "muffled": "bugbear 3, hobgoblin 2, so party tier 3: in by day, weapons peace-bonded, a guard shadowing them"
+   }
+  },
+  {
+   "id": "small_folk",
+   "what": "a hooded half-elf, a dwarf and a halfling",
+   "members": [
+    {
+     "profile": "half_elf",
+     "cover": "hood",
+     "seen": 0
+    },
+    {
+     "profile": "dwarf_mountain",
+     "cover": "none",
+     "seen": 1
+    },
+    {
+     "profile": "halfling_lightfoot",
+     "cover": "none",
+     "seen": 1
+    }
+   ],
+   "expect": {
+    "party_tier": 1,
+    "buy_mult": 1.25,
+    "crowd": "stares and whispers within 8 m",
+    "door": "talks through the closed door"
+   }
+  },
+  {
+   "id": "earned_trust",
+   "what": "the tiefling party after clearing a threat (+25, Tolerated) and a passed vouch in the shop",
+   "expect": {
+    "tier": 1,
+    "note": "3 - 1 (Tolerated) - 1 (vouch) = 1; the 2-step cap and the Odd floor both hold"
+   }
+  }
+ ]
+}

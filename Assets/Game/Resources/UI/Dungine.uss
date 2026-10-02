@@ -1,0 +1,252 @@
+/* Dungine II — gothic parchment & gold UI */
+
+.root { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.layer { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+
+Label { color: rgb(226, 218, 204); font-size: 17px; white-space: normal; -unity-text-align: middle-left; }
+
+.panel {
+    background-color: rgba(14, 11, 11, 0.93);
+    border-color: rgb(110, 88, 52);
+    border-width: 1px;
+    border-radius: 4px;
+    padding: 10px;
+}
+.panel-soft { background-color: rgba(10, 8, 8, 0.72); border-radius: 4px; padding: 8px; }
+.panel-inset { background-color: rgba(0, 0, 0, 0.35); border-color: rgb(58, 47, 32); border-width: 1px; border-radius: 3px; padding: 6px; }
+
+.window {
+    position: absolute;
+    background-color: rgba(13, 10, 10, 0.965);
+    border-color: rgb(150, 118, 66);
+    border-width: 2px;
+    border-radius: 6px;
+    padding: 16px;
+}
+.window-header { flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom-width: 1px; border-bottom-color: rgb(92, 74, 44); padding-bottom: 8px; }
+.window-title { font-size: 28px; color: rgb(222, 184, 110); -unity-font-style: bold; }
+.close-btn { width: 34px; height: 34px; font-size: 20px; padding: 0; }
+
+.h1 { font-size: 64px; color: rgb(226, 190, 118); -unity-text-align: middle-center; -unity-font-style: bold; letter-spacing: 6px; }
+.h2 { font-size: 30px; color: rgb(222, 184, 110); -unity-font-style: bold; }
+.h3 { font-size: 22px; color: rgb(214, 178, 106); -unity-font-style: bold; margin-top: 6px; margin-bottom: 4px; }
+.dim { color: rgb(150, 142, 130); }
+.small { font-size: 14px; }
+.tiny { font-size: 12px; }
+.center { -unity-text-align: middle-center; }
+.gold { color: rgb(226, 190, 118); }
+.good { color: rgb(120, 214, 132); }
+.bad { color: rgb(230, 110, 96); }
+
+.row { flex-direction: row; align-items: center; }
+.col { flex-direction: column; }
+.grow { flex-grow: 1; }
+.wrap { flex-wrap: wrap; }
+.space-between { justify-content: space-between; }
+
+.btn {
+    background-color: rgb(34, 26, 22);
+    border-color: rgb(120, 96, 58);
+    border-width: 1px;
+    border-radius: 3px;
+    color: rgb(232, 220, 196);
+    font-size: 18px;
+    padding: 6px 14px;
+    margin: 3px;
+    -unity-text-align: middle-center;
+    transition-property: background-color, border-color, scale;
+    transition-duration: 0.12s;
+}
+.btn:hover { background-color: rgb(58, 42, 30); border-color: rgb(220, 180, 100); color: rgb(255, 240, 210); }
+.btn:active { background-color: rgb(80, 56, 36); scale: 0.97 0.97; }
+.btn:disabled { color: rgb(110, 104, 96); border-color: rgb(60, 52, 40); background-color: rgb(22, 18, 16); }
+.btn-primary { background-color: rgb(92, 24, 22); border-color: rgb(220, 170, 90); color: rgb(255, 232, 196); font-size: 20px; -unity-font-style: bold; }
+.btn-primary:hover { background-color: rgb(130, 34, 30); }
+.btn-selected { background-color: rgb(84, 60, 30); border-color: rgb(236, 196, 110); color: rgb(255, 238, 200); }
+.btn-menu { width: 340px; height: 52px; font-size: 22px; background-color: rgba(18, 12, 12, 0.75); border-width: 0; border-bottom-width: 1px; border-bottom-color: rgba(160, 128, 70, 0.5); letter-spacing: 3px; }
+.btn-menu:hover { background-color: rgba(96, 24, 22, 0.85); color: rgb(255, 230, 180); }
+.btn-small { font-size: 14px; padding: 3px 8px; }
+
+.tab { background-color: rgb(24, 19, 16); border-width: 0; border-bottom-width: 2px; border-bottom-color: rgb(50, 40, 28); color: rgb(170, 160, 146); font-size: 17px; padding: 8px 12px; margin: 0 2px; }
+.tab:hover { color: rgb(240, 220, 180); }
+.tab-active { border-bottom-color: rgb(226, 186, 110); color: rgb(245, 220, 170); background-color: rgb(40, 30, 22); }
+
+.card {
+    background-color: rgb(22, 17, 15);
+    border-color: rgb(70, 56, 36);
+    border-width: 1px;
+    border-radius: 4px;
+    padding: 8px;
+    margin: 4px;
+    transition-property: background-color, border-color;
+    transition-duration: 0.1s;
+}
+.card:hover { border-color: rgb(210, 170, 96); background-color: rgb(36, 27, 21); }
+.card-selected { border-color: rgb(236, 196, 110); background-color: rgb(58, 40, 24); border-width: 2px; }
+
+.divider { height: 1px; background-color: rgb(80, 64, 40); margin: 8px 0; }
+
+/* ---------------- HUD ---------------- */
+.portrait-col { position: absolute; left: 14px; top: 90px; }
+.portrait {
+    width: 108px; height: 136px;
+    margin-bottom: 10px;
+    border-width: 2px; border-color: rgb(90, 72, 46); border-radius: 5px;
+    background-color: rgb(12, 10, 10);
+    overflow: hidden;
+}
+.portrait-selected { border-color: rgb(238, 198, 110); border-width: 3px; }
+.portrait-turn { border-color: rgb(120, 220, 130); }
+.portrait-img { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+/* name and health sit on their own plate below the face instead of over the chin */
+.portrait-plate { position: absolute; left: 0; right: 0; bottom: 0; height: 38px; background-color: rgba(10, 8, 8, 0.86); border-top-width: 1px; border-top-color: rgb(70, 56, 36); }
+.portrait-name { position: absolute; left: 2px; right: 2px; top: 1px; height: 17px; margin: 0; padding: 0; font-size: 13px; color: rgb(240, 230, 210); -unity-text-align: middle-center; white-space: nowrap; overflow: hidden; }
+.hpbar { position: absolute; left: 5px; right: 5px; bottom: 4px; height: 14px; background-color: rgb(40, 8, 8); border-radius: 3px; border-width: 1px; border-color: rgb(20, 4, 4); overflow: hidden; }
+.hpfill { position: absolute; left: 0; top: 0; bottom: 0; background-color: rgb(170, 38, 34); }
+.hptext { position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: 0; padding: 0; font-size: 11px; -unity-text-align: middle-center; color: rgb(255, 240, 230); text-shadow: 1px 1px 1px rgb(0,0,0); white-space: nowrap; }
+.levelup-badge { position: absolute; right: 2px; top: 2px; width: 26px; height: 26px; background-color: rgb(210, 160, 60); border-radius: 13px; font-size: 18px; color: rgb(40, 20, 10); -unity-text-align: middle-center; -unity-font-style: bold; }
+.cond-row { position: absolute; left: 2px; top: 2px; flex-direction: row; flex-wrap: wrap; width: 80px; }
+.cond-pip { width: 12px; height: 12px; border-radius: 6px; margin: 1px; border-width: 1px; border-color: rgb(0,0,0); }
+
+.hotbar-wrap { position: absolute; bottom: 10px; left: 0; right: 0; align-items: center; }
+.hotbar {
+    flex-direction: row; align-items: flex-end;
+    background-color: rgba(12, 9, 9, 0.9);
+    border-color: rgb(132, 104, 60);
+    border-width: 2px; border-radius: 6px;
+    padding: 8px 10px;
+}
+.slot {
+    width: 58px; height: 58px; margin: 2px;
+    border-width: 1px; border-color: rgb(84, 68, 44); border-radius: 4px;
+    background-color: rgb(26, 20, 18);
+    transition-property: border-color, scale; transition-duration: 0.08s;
+}
+.slot:hover { border-color: rgb(240, 200, 120); scale: 1.06 1.06; }
+.slot-disabled { opacity: 0.38; }
+.slot-active { border-color: rgb(120, 230, 130); border-width: 2px; }
+.slot-icon { position: absolute; left: 5px; top: 5px; right: 5px; bottom: 5px; }
+.slot-key { position: absolute; left: 3px; top: 1px; font-size: 11px; color: rgb(200, 190, 170); }
+.slot-count { position: absolute; right: 3px; bottom: 1px; font-size: 13px; color: rgb(255, 240, 200); -unity-font-style: bold; }
+.slot-cost { position: absolute; right: 3px; top: 3px; width: 9px; height: 9px; border-radius: 5px; }
+
+.resource-bar { flex-direction: row; align-items: center; margin-bottom: 6px; }
+.res-pip { width: 22px; height: 22px; border-radius: 11px; margin: 0 3px; border-width: 2px; border-color: rgb(20, 16, 14); }
+.move-bar { width: 220px; height: 10px; background-color: rgb(40, 34, 20); border-radius: 3px; overflow: hidden; margin-left: 10px; }
+.move-fill { height: 100%; background-color: rgb(236, 206, 90); }
+.slot-pips { flex-direction: row; margin-left: 14px; }
+.spell-pip { width: 14px; height: 14px; margin: 0 2px; border-width: 1px; border-color: rgb(140, 150, 220); border-radius: 2px; rotate: 45deg; }
+
+.endturn { width: 118px; height: 58px; margin-left: 10px; font-size: 17px; }
+
+.turn-order { position: absolute; top: 10px; left: 0; right: 0; flex-direction: row; justify-content: center; }
+.turn-card { width: 64px; height: 76px; margin: 0 3px; border-width: 2px; border-radius: 4px; background-color: rgb(16, 12, 12); overflow: hidden; }
+.turn-card-current { width: 82px; height: 96px; border-color: rgb(240, 200, 120); }
+.turn-card-name { position: absolute; bottom: 2px; left: 2px; right: 2px; font-size: 11px; -unity-text-align: lower-center; text-shadow: 1px 1px 2px rgb(0,0,0); }
+.turn-card-hp { position: absolute; bottom: 0; left: 0; height: 4px; background-color: rgb(190, 40, 34); }
+
+.combat-log { position: absolute; right: 14px; bottom: 14px; width: 440px; height: 230px; }
+.log-line { font-size: 13px; margin: 1px 0; color: rgb(212, 204, 190); }
+
+.hover-label { position: absolute; padding: 6px 10px; background-color: rgba(8, 6, 6, 0.9); border-width: 1px; border-color: rgb(110, 90, 56); border-radius: 3px; font-size: 16px; -unity-text-align: middle-center; }
+.cursor-text { position: absolute; font-size: 16px; color: rgb(255, 240, 200); text-shadow: 1px 1px 2px rgb(0,0,0); }
+
+.toast-col { position: absolute; top: 118px; left: 0; right: 0; align-items: center; }
+.toast { padding: 8px 22px; margin: 3px; background-color: rgba(8, 6, 6, 0.88); border-width: 1px; border-color: rgb(120, 96, 56); border-radius: 3px; font-size: 18px; transition-property: opacity; transition-duration: 0.4s; }
+
+.hud-buttons { position: absolute; right: 14px; top: 14px; flex-direction: row; }
+.icon-btn { width: 48px; height: 48px; padding: 4px; margin-left: 6px; }
+
+.banner { position: absolute; top: 34%; left: 0; right: 0; -unity-text-align: middle-center; font-size: 72px; color: rgb(236, 196, 120); -unity-font-style: bold; text-shadow: 3px 3px 6px rgb(0,0,0); letter-spacing: 10px; transition-property: opacity, scale; transition-duration: 0.5s; }
+
+.float-text { position: absolute; font-size: 26px; -unity-font-style: bold; text-shadow: 2px 2px 3px rgb(0,0,0); -unity-text-align: middle-center; width: 300px; margin-left: -150px; }
+
+.tooltip { position: absolute; width: 380px; padding: 12px; background-color: rgba(10, 8, 8, 0.97); border-width: 1px; border-color: rgb(170, 136, 76); border-radius: 4px; }
+.tt-title { font-size: 20px; color: rgb(236, 200, 128); -unity-font-style: bold; }
+.tt-sub { font-size: 13px; color: rgb(160, 150, 136); margin-bottom: 6px; }
+.tt-body { font-size: 15px; color: rgb(220, 212, 198); }
+.tt-stat { font-size: 15px; color: rgb(240, 226, 196); }
+
+/* ---------------- dialogue ---------------- */
+.dlg-wrap { position: absolute; bottom: 0; left: 0; right: 0; align-items: center; padding-bottom: 36px; }
+.dlg-box { width: 1120px; padding: 18px 26px; background-color: rgba(8, 6, 6, 0.88); border-top-width: 2px; border-top-color: rgb(150, 116, 64); border-radius: 4px; }
+.dlg-speaker { font-size: 24px; color: rgb(230, 190, 110); -unity-font-style: bold; margin-bottom: 4px; }
+.dlg-text { font-size: 21px; color: rgb(236, 228, 214); margin-bottom: 12px; }
+.dlg-opt { font-size: 19px; color: rgb(214, 204, 188); padding: 5px 8px; border-radius: 3px; -unity-text-align: middle-left; background-color: rgba(0,0,0,0); border-width: 0; margin: 1px 0; }
+.dlg-opt:hover { background-color: rgba(120, 36, 30, 0.55); color: rgb(255, 238, 206); }
+.dlg-opt-used { color: rgb(130, 124, 116); }
+.letterbox { position: absolute; left: 0; right: 0; height: 90px; background-color: rgb(0,0,0); }
+
+/* ---------------- dice ---------------- */
+.dice-modal { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(0,0,0,0.55); align-items: center; justify-content: center; }
+.dice-panel { width: 520px; padding: 26px; align-items: center; background-color: rgba(14, 10, 10, 0.97); border-color: rgb(170, 132, 70); border-width: 2px; border-radius: 8px; }
+.dice-face { width: 180px; height: 180px; margin: 14px; }
+.dice-number { position: absolute; left: 0; right: 0; top: 0; bottom: 0; font-size: 62px; -unity-text-align: middle-center; color: rgb(255, 244, 220); -unity-font-style: bold; text-shadow: 2px 2px 4px rgb(0,0,0); }
+.dice-dc { font-size: 30px; color: rgb(236, 196, 120); -unity-font-style: bold; }
+.dice-result { font-size: 40px; -unity-font-style: bold; margin-top: 8px; }
+
+/* ---------------- inventory ---------------- */
+.inv-grid { flex-direction: row; flex-wrap: wrap; }
+.inv-cell { width: 64px; height: 64px; margin: 3px; border-width: 1px; border-color: rgb(76, 62, 40); border-radius: 3px; background-color: rgb(20, 16, 14); }
+.inv-cell:hover { border-color: rgb(236, 196, 110); }
+.equip-slot { width: 64px; height: 64px; margin: 4px; border-width: 1px; border-color: rgb(110, 90, 56); border-radius: 4px; background-color: rgb(18, 14, 12); }
+.equip-label { font-size: 11px; color: rgb(150, 140, 126); -unity-text-align: middle-center; }
+.rarity-uncommon { border-color: rgb(80, 180, 90); }
+.rarity-rare { border-color: rgb(80, 130, 230); }
+.rarity-veryrare { border-color: rgb(170, 90, 230); }
+.rarity-story { border-color: rgb(230, 170, 60); }
+
+.stat-box { width: 86px; height: 92px; margin: 4px; align-items: center; justify-content: center; border-width: 1px; border-color: rgb(110, 90, 56); border-radius: 6px; background-color: rgb(20, 15, 13); }
+.stat-name { font-size: 13px; color: rgb(170, 158, 140); }
+.stat-val { font-size: 32px; color: rgb(244, 230, 204); -unity-font-style: bold; }
+.stat-mod { font-size: 16px; color: rgb(214, 186, 120); }
+
+.fade { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgb(0,0,0); align-items: center; justify-content: center; }
+.fade-title { font-size: 56px; color: rgb(226, 190, 118); letter-spacing: 8px; -unity-font-style: bold; }
+.fade-sub { font-size: 22px; color: rgb(170, 160, 146); margin-top: 8px; }
+.narration { width: 1000px; font-size: 25px; color: rgb(226, 218, 204); -unity-text-align: middle-center; }
+
+.menu-title-wrap { position: absolute; left: 0; right: 0; top: 9%; align-items: center; }
+.menu-buttons { position: absolute; left: 7%; bottom: 14%; }
+.menu-footer { position: absolute; left: 0; right: 0; bottom: 12px; -unity-text-align: middle-center; font-size: 13px; color: rgb(120, 112, 100); }
+
+.cc-left { width: 470px; }
+.cc-right { width: 420px; }
+.cc-list { flex-grow: 1; }
+.swatch { width: 34px; height: 34px; margin: 3px; border-width: 2px; border-color: rgb(40, 32, 24); border-radius: 17px; }
+.swatch:hover { border-color: rgb(236, 196, 110); }
+.swatch-selected { border-color: rgb(255, 230, 160); border-width: 3px; }
+.ab-row { flex-direction: row; align-items: center; height: 44px; margin: 2px 0; }
+.ab-name { width: 112px; font-size: 17px; }
+.ab-val { width: 40px; font-size: 22px; -unity-text-align: middle-center; -unity-font-style: bold; color: rgb(244, 230, 204); }
+.ab-mod { width: 34px; font-size: 15px; color: rgb(214, 186, 120); -unity-text-align: middle-center; }
+.ab-btn { width: 32px; height: 32px; padding: 0; font-size: 20px; }
+.ab-total { width: 50px; font-size: 22px; white-space: nowrap; -unity-text-align: middle-center; -unity-font-style: bold; color: rgb(255, 238, 200); }
+.ab-bonus { width: 34px; min-width: 34px; height: 28px; padding: 0; margin-left: 2px; margin-right: 2px; font-size: 13px; }
+.chip { padding: 2px 8px; margin: 2px; border-radius: 10px; background-color: rgb(40, 30, 22); border-width: 1px; border-color: rgb(90, 72, 46); font-size: 13px; }
+
+.scroll { flex-grow: 1; }
+.scroll > .unity-scroll-view__content-viewport > .unity-scroll-view__content-container { flex-direction: column; }
+
+TextField { font-size: 22px; }
+TextField > .unity-text-field__input, TextField > #unity-text-input { background-color: rgb(20, 16, 14); border-color: rgb(120, 96, 58); color: rgb(240, 228, 206); font-size: 22px; padding: 6px; }
+
+Slider { margin: 4px 0; }
+Toggle { margin: 4px 0; }
+Toggle Label, Slider Label { color: rgb(220, 210, 194); font-size: 17px; min-width: 200px; }
+
+/* ---------------- minimap ---------------- */
+.minimap-frame { position: absolute; top: 70px; right: 18px; width: 200px; height: 200px; }
+.minimap-view { position: absolute; left: 0; top: 0; width: 200px; height: 200px; border-radius: 100px; overflow: hidden; background-color: rgb(8, 8, 9); -unity-background-scale-mode: stretch-to-fill; }
+.minimap-ring { position: absolute; left: -3px; top: -3px; width: 206px; height: 206px; border-radius: 103px; border-width: 3px; border-color: rgb(150, 118, 66); }
+.minimap-markers { position: absolute; left: 0; top: 0; width: 200px; height: 200px; }
+.minimap-n { position: absolute; width: 14px; height: 18px; font-size: 13px; color: rgb(230, 198, 122); -unity-font-style: bold; -unity-text-align: middle-center; }
+.minimap-label { position: absolute; top: 206px; left: 0; width: 200px; font-size: 13px; color: rgb(200, 186, 160); -unity-text-align: upper-center; }
+.mm-marker { position: absolute; width: 10px; height: 10px; border-radius: 5px; border-width: 1px; border-color: rgb(10, 8, 6); }
+.mm-party { background-color: rgb(214, 178, 106); }
+.mm-selected { background-color: rgb(255, 230, 150); width: 12px; height: 12px; border-radius: 6px; border-color: rgb(255, 255, 255); }
+.mm-npc { background-color: rgb(190, 190, 190); width: 8px; height: 8px; border-radius: 4px; }
+.mm-talk { background-color: rgb(120, 200, 255); }
+.mm-hostile { background-color: rgb(230, 60, 50); }
+.mm-exit { background-color: rgb(90, 220, 140); border-radius: 2px; }
+.mm-camera { background-color: rgba(0, 0, 0, 0); border-width: 2px; border-color: rgb(255, 226, 150); rotate: 45deg; border-radius: 1px; }
