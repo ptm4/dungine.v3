@@ -1,0 +1,24 @@
+{
+ "voxels": 21335,
+ "shape": [
+  33,
+  45,
+  40
+ ],
+ "origin": [
+  -16,
+  -24,
+  0
+ ],
+ "name": "Keg",
+ "recipe": "kit/props.py:keg",
+ "args": {},
+ "batch": "P01",
+ "display": "stand",
+ "size_cm": {
+  "width": 43.5,
+  "depth": 61.5,
+  "height": 57.0
+ },
+ "note": "An oak keg on its side on a wooden cradle: staves, four black iron hoops, a brass tap low on the front head."
+}

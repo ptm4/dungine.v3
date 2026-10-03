@@ -1,0 +1,225 @@
+{
+ "voxels": 364488,
+ "shape": [
+  208,
+  56,
+  157
+ ],
+ "origin": [
+  -125,
+  -28,
+  0
+ ],
+ "name": "Draft horse",
+ "recipe": "kit/creatures.py (horse_draft)",
+ "what": "A heavy draught horse, 1.75 m at the withers: deep bay with a black mane and tail, white feathered stockings and a white blaze, like a Clydesdale.",
+ "scale": "1 voxel = 1.5 cm, true size",
+ "size_m": {
+  "length": 3.06,
+  "width": 0.78,
+  "top": 2.32
+ },
+ "frame": "world voxels: a voxel at ijk + origin spans [v, v + 1); z = 0 is the ground",
+ "facing": "-x",
+ "pose": "neutral: standing square, all feet on the ground, head level",
+ "joints": {
+  "withers": [
+   -42.8,
+   0.0,
+   114.9
+  ],
+  "back": [
+   -10.1,
+   0.0,
+   111.1
+  ],
+  "croup": [
+   37.8,
+   0.0,
+   114.9
+  ],
+  "tail_root": [
+   58.6,
+   0.0,
+   107.9
+  ],
+  "buttock": [
+   69.9,
+   0.0,
+   86.9
+  ],
+  "shoulder": [
+   -69.3,
+   0.0,
+   81.7
+  ],
+  "poll": [
+   -90.3,
+   0.0,
+   138.9
+  ],
+  "neck_base": [
+   -55.4,
+   0.0,
+   100.3
+  ],
+  "neck_top": [
+   -86.2,
+   0.0,
+   129.0
+  ],
+  "neck_mid": [
+   -70.8,
+   0.0,
+   114.6
+  ],
+  "muzzle": [
+   -119.5,
+   0.0,
+   97.6
+  ],
+  "elbow_L": [
+   -42.8,
+   -11.5,
+   65.3
+  ],
+  "knee_L": [
+   -43.5,
+   -10.4,
+   35.0
+  ],
+  "fetlock_fL": [
+   -43.1,
+   -10.4,
+   16.3
+  ],
+  "hoof_fL": [
+   -46.9,
+   -10.4,
+   0.0
+  ],
+  "hip_L": [
+   39.1,
+   -10.9,
+   93.3
+  ],
+  "stifle_L": [
+   34.0,
+   -13.2,
+   70.0
+  ],
+  "hock_L": [
+   57.3,
+   -10.9,
+   43.2
+  ],
+  "fetlock_hL": [
+   57.7,
+   -10.9,
+   16.3
+  ],
+  "hoof_hL": [
+   54.4,
+   -10.9,
+   0.0
+  ],
+  "elbow_R": [
+   -42.8,
+   11.5,
+   65.3
+  ],
+  "knee_R": [
+   -43.5,
+   10.4,
+   35.0
+  ],
+  "fetlock_fR": [
+   -43.1,
+   10.4,
+   16.3
+  ],
+  "hoof_fR": [
+   -46.9,
+   10.4,
+   0.0
+  ],
+  "hip_R": [
+   39.1,
+   10.9,
+   93.3
+  ],
+  "stifle_R": [
+   34.0,
+   13.2,
+   70.0
+  ],
+  "hock_R": [
+   57.3,
+   10.9,
+   43.2
+  ],
+  "fetlock_hR": [
+   57.7,
+   10.9,
+   16.3
+  ],
+  "hoof_hR": [
+   54.4,
+   10.9,
+   0.0
+  ],
+  "tail_tip": [
+   73.7,
+   0.0,
+   49.0
+  ]
+ },
+ "points": {
+  "saddle_seat": [
+   -13.7,
+   0.0,
+   111.0
+  ],
+  "bridle": [
+   -87.4,
+   0.0,
+   147.0
+  ],
+  "bit": [
+   -109.8,
+   0.0,
+   100.7
+  ],
+  "barding_head": [
+   -111.0,
+   0.0,
+   124.4
+  ],
+  "barding_neck": [
+   -70.8,
+   0.0,
+   136.0
+  ],
+  "barding_chest": [
+   -72.0,
+   0.0,
+   81.7
+  ],
+  "barding_flank_L": [
+   -10.1,
+   -26.0,
+   88.2
+  ],
+  "barding_flank_R": [
+   -10.1,
+   26.0,
+   88.2
+  ],
+  "barding_rump": [
+   37.8,
+   0.0,
+   115.0
+  ]
+ },
+ "points_note": "surface points in world voxels. saddle_seat: the middle of the back where a saddle sits (on the tacked look, the top of the seat); bridle: over the poll behind the ears (the mastiff: its collar ring); bit: the mouth; barding_*: the chest front at the point of the shoulder, the widest point of each flank, the top of the croup, the crest of the neck and the front of the face; the tack's own points follow (stirrups, packs, traces, lead)"
+}

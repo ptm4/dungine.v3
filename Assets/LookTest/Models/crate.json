@@ -1,0 +1,24 @@
+{
+ "voxels": 39226,
+ "shape": [
+  45,
+  37,
+  32
+ ],
+ "origin": [
+  -22,
+  -18,
+  0
+ ],
+ "name": "Crate",
+ "recipe": "kit/props.py:crate",
+ "args": {},
+ "batch": "P01",
+ "display": "stand",
+ "size_cm": {
+  "width": 61.5,
+  "depth": 49.5,
+  "height": 45.0
+ },
+ "note": "A plank crate, 60 by 45 by 45 cm: battens and a diagonal brace, nail heads, a faded red mark on its side."
+}

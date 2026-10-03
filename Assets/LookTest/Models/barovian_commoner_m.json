@@ -1,0 +1,20 @@
+{
+ "voxels": 40438,
+ "shape": [
+  86,
+  60,
+  139
+ ],
+ "origin": [
+  -43,
+  -29,
+  -4
+ ],
+ "name": "Barovian commoner, man",
+ "head": [
+  0.0,
+  -1.3502861815208507,
+  112.5919869174162
+ ],
+ "recipe": "barovian_commoner_m"
+}

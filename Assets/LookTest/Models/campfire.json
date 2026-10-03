@@ -1,0 +1,31 @@
+{
+ "voxels": 10407,
+ "shape": [
+  64,
+  62,
+  34
+ ],
+ "origin": [
+  -31,
+  -30,
+  0
+ ],
+ "name": "Campfire",
+ "recipe": "kit/props.py:campfire",
+ "args": {},
+ "batch": "P02",
+ "display": "stand",
+ "size_cm": {
+  "width": 90.0,
+  "depth": 87.0,
+  "height": 48.0
+ },
+ "note": "A campfire in a ring of stones, 90 cm across: an ash bed, glowing embers, five split logs leaning together, flames rising through them.",
+ "lights_cm": [
+  [
+   0,
+   0,
+   19.2
+  ]
+ ]
+}

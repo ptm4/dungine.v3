@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Look test</title>
+<style>
+  :root { --bg: #141418; --panel: #1d1d23; --text: #e6dfd2; --dim: #a8a194; --gold: #d8b26a; --line: #34343c; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 "Palatino Linotype", Georgia, serif; }
+  main { max-width: 1280px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { color: var(--gold); font-weight: normal; letter-spacing: 1px; margin: 0 0 4px; }
+  h2 { color: var(--gold); font-weight: normal; border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-top: 40px; }
+  p, li { max-width: 860px; }
+  .dim { color: var(--dim); }
+  figure { margin: 16px 0 24px; }
+  figure img { width: 100%; height: auto; display: block; border: 1px solid var(--line); image-rendering: pixelated; }
+  figcaption { color: var(--dim); font-size: 14px; margin-top: 6px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ask { background: var(--panel); border: 1px solid var(--gold); padding: 12px 20px; border-radius: 4px; }
+  table { border-collapse: collapse; margin: 12px 0; }
+  td, th { border: 1px solid var(--line); padding: 6px 12px; text-align: left; }
+  th { color: var(--gold); font-weight: normal; }
+  @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+<h1>The look test</h1>
+<p class="dim">Dungine.v3, 3 October 2026. The first time the library's voxel art stands in the game.</p>
+
+<div class="ask">
+  <p><strong>Two choices for you:</strong></p>
+  <ol>
+    <li><strong>The look:</strong> (a) crisp voxels at full resolution, or (b) a pixelated render, at half or a third of the screen's resolution?</li>
+    <li><strong>Outlines</strong> (a thin dark line round each shape) or none?</li>
+  </ol>
+  <p class="dim">Pictures for both are below. My suggestion: (a) with outlines. The library's detail survives, and the
+  outline helps the figures stand out from busy ground.</p>
+</div>
+
+<h2>What's in the game now</h2>
+<p>Eight library figures (the fighter hero, three village people from review 9, two Barovian commoners, a Barovian
+noble and a guard) and seven props (a barrel, a crate, a keg, a lamp post, a lantern, a campfire and a draft horse).
+They stand in the village square and beside the party where a new game starts. They're still statues: animation comes
+with the rigs, next. Everything else, the party included, is still v2's art.</p>
+<p>The round display base each figure stands on in its review pictures is taken off when the model comes into the game.</p>
+
+<figure><img src="00_play_opens_main_menu.png" alt="The main menu"><figcaption>What Play opens: the main menu, as in v2.</figcaption></figure>
+<figure><img src="01_new_game_first_view.png" alt="The first view after New Game"><figcaption>New Game: the first view. The fighter, two commoners, a barrel and a lamp post stand ahead of the party on the forest road.</figcaption></figure>
+<figure><img src="02_village_square.png" alt="The village square"><figcaption>The village square at the game's usual camera distance.</figcaption></figure>
+<figure><img src="03_village_lineup.png" alt="The figures closer"><figcaption>Closer.</figcaption></figure>
+
+<h2>Comparing the looks</h2>
+<p>Same view, same moment, at the usual camera distance. (b) draws the 3D scene at a lower resolution and enlarges it
+without smoothing, so every pixel becomes a hard square. The interface stays sharp either way.</p>
+<figure><img src="15_looks_compared.png" alt="The looks side by side"><figcaption>The figures in each look, at 1:1 pixels.</figcaption></figure>
+<ul>
+  <li><strong>(a) Full resolution:</strong> crisp. At the usual distance one voxel is about one and a half screen pixels,
+    so the figures already read as pixel art, and zooming in shows the blocks.</li>
+  <li><strong>(b) Half resolution:</strong> chunkier, still readable. <strong>A third:</strong> faces and small details
+    merge, and the ground turns grainy.</li>
+  <li><strong>Moving camera:</strong> stills can't show it, but a pixelated render shimmers as the camera pans unless the
+    camera is locked to the pixel grid. That's extra work if you pick (b).</li>
+  <li><strong>Outlines</strong> are found from depth, so they only appear where a shape stands in front of something.</li>
+</ul>
+<div class="pair">
+  <figure><img src="10_look_a_native.png" alt="Native"><figcaption>(a) full resolution</figcaption></figure>
+  <figure><img src="13_look_a_native_outlines.png" alt="Native with outlines"><figcaption>(a) with outlines</figcaption></figure>
+  <figure><img src="11_look_b_pixelated_half.png" alt="Pixelated half"><figcaption>(b) half resolution</figcaption></figure>
+  <figure><img src="14_look_b_pixelated_half_outlines.png" alt="Pixelated half with outlines"><figcaption>(b) half resolution with outlines</figcaption></figure>
+  <figure><img src="12_look_b_pixelated_third.png" alt="Pixelated third"><figcaption>(b) a third of the resolution</figcaption></figure>
+</div>
+
+<h2>Close up and far away</h2>
+<div class="pair">
+  <figure><img src="20_close_native.png" alt="Close, native"><figcaption>Close, (a)</figcaption></figure>
+  <figure><img src="22_close_native_outlines.png" alt="Close, outlines"><figcaption>Close, (a) with outlines</figcaption></figure>
+  <figure><img src="21_close_pixelated_half.png" alt="Close, pixelated"><figcaption>Close, (b) half resolution</figcaption></figure>
+  <figure><img src="30_far_native.png" alt="Far, native"><figcaption>Zoomed all the way out, (a)</figcaption></figure>
+  <figure><img src="31_far_pixelated_half.png" alt="Far, pixelated"><figcaption>Zoomed all the way out, (b) half resolution</figcaption></figure>
+</div>
+<p>Close up you'll see thin dark streaks down the sides of faces and sleeves. They're the small sides of each voxel
+step, turned away from the light; they aren't shadows. The library's renders hide them with soft fill light. I'll fix
+them when the lighting is tuned.</p>
+
+<h2>A crowd</h2>
+<div class="pair">
+  <figure><img src="40_crowd_30_library_figures.png" alt="30 library figures"><figcaption>30 library figures in the square</figcaption></figure>
+  <figure><img src="42_crowd_30_v2_figures.png" alt="30 v2 figures"><figcaption>30 of v2's own figures in the same place, for comparison</figcaption></figure>
+</div>
+<table>
+  <tr><th>In the village square</th><th>Frame time (median)</th></tr>
+  <tr><td>Nothing added</td><td>6.3 to 6.4 ms</td></tr>
+  <tr><td>+ 30 library figures</td><td>8.0 to 8.3 ms</td></tr>
+  <tr><td>+ 30 of v2's figures (animated)</td><td>8.3 ms</td></tr>
+</table>
+<p class="dim">Measured in the Unity editor on this PC (RTX 4070 Ti), with vsync off, on a game view of 1868 x 983.
+30 library figures cost about the same as 30 of v2's. They add more triangles but far fewer draw calls, and
+they aren't animated yet. Animating them and lighter models for distant views come next.</p>
+</main>
+</body>
+</html>

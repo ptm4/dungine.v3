@@ -1,0 +1,31 @@
+{
+ "voxels": 10946,
+ "shape": [
+  31,
+  25,
+  208
+ ],
+ "origin": [
+  -15,
+  -12,
+  0
+ ],
+ "name": "Lamppost",
+ "recipe": "kit/props.py:lamppost",
+ "args": {},
+ "batch": "P02",
+ "display": "stand",
+ "size_cm": {
+  "width": 40.5,
+  "depth": 31.5,
+  "height": 309.0
+ },
+ "note": "A black iron street lamp, 3.1 m: a flared foot, a post with collars and a ladder rest, a four-sided lantern of glowing glass under a pyramid roof.",
+ "lights_cm": [
+  [
+   0.0,
+   0.0,
+   258.9
+  ]
+ ]
+}

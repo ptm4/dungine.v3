@@ -1,0 +1,30 @@
+{
+ "voxels": 64187,
+ "shape": [
+  45,
+  45,
+  62
+ ],
+ "origin": [
+  -22,
+  -22,
+  0
+ ],
+ "name": "Barrel",
+ "recipe": "kit/adventuring_gear.py:barrel",
+ "args": {},
+ "stats": {
+  "cost": "2 gp",
+  "weight": "70 lb",
+  "note": "holds 40 gallons of liquid or 4 cubic feet of solids",
+  "source": "SRD 5.1 (CC-BY-4.0)"
+ },
+ "display": "standing, its front to the viewer",
+ "batch": "G01",
+ "review": "reviews/12_adventuring_gear",
+ "size_cm": {
+  "width": 61.5,
+  "depth": 61.5,
+  "height": 90.0
+ }
+}

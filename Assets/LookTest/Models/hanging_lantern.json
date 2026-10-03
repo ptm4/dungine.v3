@@ -1,0 +1,32 @@
+{
+ "voxels": 2306,
+ "shape": [
+  19,
+  19,
+  35
+ ],
+ "origin": [
+  -9,
+  -9,
+  0
+ ],
+ "name": "Hanging lantern",
+ "recipe": "kit/props.py:hanging_lantern",
+ "args": {},
+ "batch": "P02",
+ "display": "ceiling",
+ "size_cm": {
+  "width": 22.5,
+  "depth": 22.5,
+  "height": 49.5
+ },
+ "note": "A black iron lantern, 21 cm square and 50 cm to its ring: glowing glass panes with the flame showing, iron bars, a pyramid roof and a ring to hang it by.",
+ "mount_cm": 200,
+ "lights_cm": [
+  [
+   0.0,
+   0.0,
+   13.5
+  ]
+ ]
+}

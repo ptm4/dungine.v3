@@ -1,0 +1,20 @@
+{
+ "voxels": 36061,
+ "shape": [
+  52,
+  52,
+  121
+ ],
+ "origin": [
+  -26,
+  -26,
+  -4
+ ],
+ "name": "Bildrath Cantemir",
+ "head": [
+  0.0,
+  -5.209431373142852,
+  105.44004997506094
+ ],
+ "recipe": "bildrath_cantemir"
+}

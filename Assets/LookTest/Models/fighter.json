@@ -1,0 +1,19 @@
+{
+ "voxels": 49544,
+ "shape": [
+  72,
+  58,
+  136
+ ],
+ "origin": [
+  -36,
+  -28,
+  -4
+ ],
+ "name": "Grizzled Human Male Fighter",
+ "head": [
+  0,
+  -1,
+  112.5
+ ]
+}

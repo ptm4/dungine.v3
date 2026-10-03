@@ -1,0 +1,20 @@
+{
+ "voxels": 43803,
+ "shape": [
+  80,
+  58,
+  131
+ ],
+ "origin": [
+  -40,
+  -28,
+  -4
+ ],
+ "name": "Barovian commoner, woman",
+ "head": [
+  0.0,
+  -1.3368491996630163,
+  105.38567818028643
+ ],
+ "recipe": "barovian_commoner_f"
+}
