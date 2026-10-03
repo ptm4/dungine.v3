@@ -2,7 +2,7 @@
 // Albedo = the mesh's vertex colour (glTF COLOR_0, linear) x _BaseColor. Every voxel face has its own flat colour, so
 // nothing is filtered: the colours stay crisp at any distance. Glow comes from _EmissionColor (one material per glow
 // colour, as the library's GLB export makes them), so bloom picks it up. Shadows, SSAO, fog and Forward+ lights work as
-// they do for v2's URP Lit materials; the shadow, depth and depth-normal passes reuse URP Lit's own code.
+// they do for v2's URP Lit materials; the shadow, depth and depth-normal passes are URP Lit's own code, compiled here.
 Shader "Dungine/Voxel"
 {
     Properties
@@ -123,7 +123,27 @@ Shader "Dungine/Voxel"
             ENDHLSL
         }
 
-        UsePass "Universal Render Pipeline/Lit/ShadowCaster"
+        Pass
+        {
+            Name "ShadowCaster"
+            Tags { "LightMode" = "ShadowCaster" }
+            ZWrite On
+            ZTest LEqual
+            ColorMask 0
+            Cull Back
+
+            HLSLPROGRAM
+            #pragma target 2.0
+            #pragma vertex ShadowPassVertex
+            #pragma fragment ShadowPassFragment
+            #pragma multi_compile_instancing
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
+            ENDHLSL
+        }
 
         Pass
         {
@@ -165,5 +185,7 @@ Shader "Dungine/Voxel"
             ENDHLSL
         }
     }
-    FallBack "Universal Render Pipeline/Lit"
+    // no fallback to URP Lit and no UsePass from it: sharing Lit's compiled passes made the GPU Resident Drawer
+    // treat URP Lit itself as not SRP-batcher compatible ("variant shared by inconsistent other shader fallback")
+    FallBack Off
 }

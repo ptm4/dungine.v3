@@ -7,7 +7,7 @@
 // Lighting is URP's, with two global dials for the dark sides of the voxel steps (agent N's note on the streaks):
 //   _VoxWrap  wrap diffuse: (N.L + w) / (1 + w); 0 is plain Lambert, 1 is half-Lambert's reach
 //   _VoxFill  a multiplier on the ambient (sky) light
-// Shadows, SSAO, fog and Forward+ lights work as for URP Lit; the shadow and depth passes reuse URP Lit's code.
+// Shadows, SSAO, fog and Forward+ lights work as for URP Lit; the shadow and depth passes are URP Lit's own code, compiled here.
 Shader "Dungine/VoxelAtlas"
 {
     Properties
@@ -184,7 +184,27 @@ Shader "Dungine/VoxelAtlas"
             ENDHLSL
         }
 
-        UsePass "Universal Render Pipeline/Lit/ShadowCaster"
+        Pass
+        {
+            Name "ShadowCaster"
+            Tags { "LightMode" = "ShadowCaster" }
+            ZWrite On
+            ZTest LEqual
+            ColorMask 0
+            Cull Back
+
+            HLSLPROGRAM
+            #pragma target 2.0
+            #pragma vertex ShadowPassVertex
+            #pragma fragment ShadowPassFragment
+            #pragma multi_compile_instancing
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
+            ENDHLSL
+        }
 
         Pass
         {
@@ -226,5 +246,7 @@ Shader "Dungine/VoxelAtlas"
             ENDHLSL
         }
     }
-    FallBack "Universal Render Pipeline/Lit"
+    // no fallback to URP Lit and no UsePass from it: sharing Lit's compiled passes made the GPU Resident Drawer
+    // treat URP Lit itself as not SRP-batcher compatible ("variant shared by inconsistent other shader fallback")
+    FallBack Off
 }
