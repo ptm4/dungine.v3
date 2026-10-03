@@ -13,3 +13,5 @@ coord/research/cast_and_strike/*.gif filter=lfs diff=lfs merge=lfs -text
 coord/research/cast_and_strike/*.png filter=lfs diff=lfs merge=lfs -text
 coord/research/game_export/*.gif filter=lfs diff=lfs merge=lfs -text
 coord/research/game_export/*.png filter=lfs diff=lfs merge=lfs -text
+coord/research/chapter_one_people/*.gif filter=lfs diff=lfs merge=lfs -text
+coord/research/chapter_one_people/*.png filter=lfs diff=lfs merge=lfs -text

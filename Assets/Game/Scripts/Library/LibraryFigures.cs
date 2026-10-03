@@ -134,7 +134,7 @@ namespace Dungine.Library
             var drv = go.AddComponent<LibraryRigDriver>();
             drv.Init(rig, T("UpperChest"), data, byName);
             HumanoidBuilder.ApplyGear(rig, rig.gear);
-            LibraryProps.Weaponise(rig);
+            LibraryProps.Weaponise(rig, data);
             LibraryProps.Hold(rig, id, byName);
             return rig;
         }

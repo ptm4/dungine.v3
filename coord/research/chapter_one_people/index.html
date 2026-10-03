@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter One's people</title>
+<style>
+  :root { --bg: #141418; --panel: #1d1d23; --text: #e6dfd2; --dim: #a8a194; --gold: #d8b26a; --line: #34343c; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 "Palatino Linotype", Georgia, serif; }
+  main { max-width: 1280px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { color: var(--gold); font-weight: normal; letter-spacing: 1px; margin: 0 0 4px; }
+  h2 { color: var(--gold); font-weight: normal; border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-top: 40px; }
+  p, li { max-width: 860px; }
+  .dim { color: var(--dim); }
+  figure { margin: 16px 0 24px; }
+  figure img { max-width: 100%; height: auto; display: block; border: 1px solid var(--line); }
+  figcaption { color: var(--dim); font-size: 14px; margin-top: 6px; }
+  table { border-collapse: collapse; margin: 12px 0; }
+  td, th { border: 1px solid var(--line); padding: 6px 12px; text-align: left; }
+  th { color: var(--gold); font-weight: normal; }
+</style>
+</head>
+<body>
+<main>
+<h1>Chapter One's people</h1>
+<p class="dim">Dungine.v3, 3 October 2026. The library's figures in the game, where v2 puts each person.</p>
+
+<p>Everyone the party meets by name in Chapter One is now their library figure, in the same place and doing the same
+thing as in v2: standing, or seated at a table. They breathe and shift as v2's figures do, and keep the pose from their
+review (folded arms, a cup in hand) while they stand still. v2's village folk, who have no library figure yet, are
+still v2's.</p>
+
+<h2>Blood of the Vine</h2>
+<figure><img src="tavern.gif" alt="The tavern"><figcaption>Ismark at his table, and Alenka, Mirabel and Sorvia at theirs, seated as v2 has
+them.</figcaption></figure>
+<p>Arik is behind the bar, as in v2, but v2 puts him so far back that the back wall hides him from the game camera.
+That happens with v2's own Arik too; it's v2's placement, not the new figure.</p>
+
+<h2>Bildrath's Mercantile</h2>
+<figure><img src="shop.gif" alt="The shop"><figcaption>Bildrath behind his counter, arms folded, and Parriwimple with a sack on
+each shoulder.</figcaption></figure>
+
+<h2>The burgomaster's house and the church</h2>
+<figure><img src="manor.gif" alt="The manor"><figcaption>Ireena.</figcaption></figure>
+<figure><img src="church.gif" alt="The church"><figcaption>Father Donavich at the altar.</figcaption></figure>
+
+<h2>In the village</h2>
+<figure><img src="village.gif" alt="Rose and Thorn"><figcaption>Rose and Thorn, where v2 has them.</figcaption></figure>
+
+<h2>Weapons and things in hand</h2>
+<p>When a library figure carries a weapon, it now carries the library's own model of that weapon. v2 still decides how
+it is held, drawn and swung, including both hands on a two-handed weapon. Ismark and Ireena already wear their swords in
+scabbards, so the sword in the hand appears only when they draw it, and they never have two.</p>
+<figure><img src="weapons_in_hand.png" alt="Eight weapons in the fighter's hands"><figcaption>The fighter in his fighting stance
+with each of the library's weapons. The greatsword and the quarterstaff take both hands.</figcaption></figure>
+<figure><img src="weapons_against_v2.png" alt="The library's weapons over v2's"><figcaption>A check: the library's weapon and v2's
+old one drawn together. They lie along the same line, grip in the fist, so v2's swings fit the new weapons.</figcaption></figure>
+<p>The things the people carry in their reviews are in their hands: Arik's cup, Alenka's wine jug and Parriwimple's two
+sacks. They stay upright as the figure moves.</p>
+<figure><img src="held_things.png" alt="Cup, jug and sacks"><figcaption>Standing and walking.</figcaption></figure>
+<figure><img src="held_walk.gif" alt="Walking with the jug and the sacks"><figcaption>Real speed.</figcaption></figure>
+
+<h2>A crowd</h2>
+<p>Thirty library figures, all moving with their cloth and hair swinging, against thirty of v2's figures, in the
+village square on this PC:</p>
+<table>
+  <tr><th></th><th>Average frame</th><th>Typical frame</th></tr>
+  <tr><td>The square, nothing added</td><td>7.3 ms</td><td>7.0 ms</td></tr>
+  <tr><td>+ 30 v2 figures</td><td>8.1 ms</td><td>7.2 ms</td></tr>
+  <tr><td>+ 30 library figures</td><td>9.2 to 10.4 ms</td><td>7.9 to 9.7 ms</td></tr>
+  <tr><td>+ 30 library figures, cloth and hair held still</td><td>7.9 ms</td><td>7.5 ms</td></tr>
+</table>
+<p>The swinging cloth and hair cost the most. Thirty figures still run at about 100 frames a second, and the cloth can
+be made cheaper for figures far from the camera when crowds get bigger.</p>
+<figure><img src="crowds.png" alt="The two crowds"><figcaption>Left: thirty library figures. Right: thirty of v2's figures.</figcaption></figure>
+</main>
+</body>
+</html>

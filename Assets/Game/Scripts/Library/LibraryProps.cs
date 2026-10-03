@@ -48,14 +48,34 @@ namespace Dungine.Library
             return new Vector3(-0.5f, z, -0.5f) * 0.015f;               // the centre line runs through x.5, y.5
         }
 
+        /// <summary>Dev: keep v2's own weapon mesh showing beside the library's, to compare how they sit in the hand.</summary>
+        public static bool ShowV2Too;
+
         public static GameObject Load(string id) => Resources.Load<GameObject>(Folder + id);
 
-        /// <summary>Swaps v2's procedural weapon meshes on this rig for the library's models, where the library has one.</summary>
-        public static void Weaponise(HumanoidRig rig)
+        /// <summary>Swaps v2's procedural weapon meshes on this rig for the library's models, where the library has one.
+        /// When the figure's own body already wears a sheathed weapon (a sword at the hip, a greatsword on the back: the
+        /// rig's parts), v2's copy is shown only while drawn, so a sheathed sword isn't there twice.</summary>
+        public static void Weaponise(HumanoidRig rig, object rigData = null)
         {
             if (rig == null || rig.gear == null) return;
             Swap(rig, rig.mainWeapon, rig.gear.main);
             Swap(rig, rig.offWeapon, rig.gear.off);
+            if (rig.mainWeapon && rig.gear.main != WeaponVisual.Shield && WearsSheathedWeapon(rigData))
+                rig.mainWeapon.AddComponent<ShowWhenDrawn>().rig = rig;
+        }
+
+        static readonly string[] WeaponWords = { "sword", "axe", "mace", "dagger", "rapier", "scimitar", "hammer", "club", "bow", "staff", "spear" };
+
+        static bool WearsSheathedWeapon(object rigData)
+        {
+            foreach (var p in MiniJson.Arr(rigData, "parts") ?? new List<object>())
+            {
+                var n = MiniJson.Str(p, "part") ?? "";
+                if (!(n.EndsWith("_hip") || n.EndsWith("_back"))) continue;
+                foreach (var w in WeaponWords) if (n.Contains(w)) return true;
+            }
+            return false;
         }
 
         static void Swap(HumanoidRig rig, GameObject weapon, WeaponVisual kind)
@@ -63,7 +83,7 @@ namespace Dungine.Library
             if (!weapon || !Weapons.TryGetValue(kind, out var w)) return;
             var prefab = Load(w.id);
             if (!prefab) return;
-            foreach (var r in weapon.GetComponentsInChildren<Renderer>(true)) { r.enabled = false; rig.renderers.Remove(r); }
+            if (!ShowV2Too) foreach (var r in weapon.GetComponentsInChildren<Renderer>(true)) { r.enabled = false; rig.renderers.Remove(r); }
             var m = Object.Instantiate(prefab, weapon.transform, false);
             m.name = "Library_" + w.id;
             m.transform.localPosition = -Grip(w);
@@ -97,6 +117,25 @@ namespace Dungine.Library
                 foreach (var r in m.GetComponentsInChildren<Renderer>()) rig.renderers.Add(r);
             }
         }
+    }
+
+    /// <summary>A weapon the figure's body already wears sheathed: v2's copy shows only while it is drawn.</summary>
+    public class ShowWhenDrawn : MonoBehaviour
+    {
+        public HumanoidRig rig;
+        bool? shown;
+        void LateUpdate()
+        {
+            bool on = rig && rig.gear != null && rig.gear.drawn;
+            if (shown == on) return;
+            shown = on;
+            // the library's model when Weaponise swapped one in (v2's own meshes stay off), else v2's meshes
+            var rs = GetComponentsInChildren<Renderer>(true);
+            bool swapped = false;
+            foreach (var r in rs) if (IsLibrary(r)) swapped = true;
+            foreach (var r in rs) if (!swapped || IsLibrary(r)) r.enabled = on;
+        }
+        bool IsLibrary(Renderer r) { for (var t = r.transform; t && t != transform; t = t.parent) if (t.name.StartsWith("Library_")) return true; return false; }
     }
 
     /// <summary>A held cup, jug or sack stays upright, turning only with the figure (runs after the springs).</summary>

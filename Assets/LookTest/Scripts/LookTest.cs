@@ -41,8 +41,9 @@ namespace Dungine.LookTest
             var go = new GameObject("LookTest");
             DontDestroyOnLoad(go);
             I = go.AddComponent<LookTest>();
-            // phase 3 (G2): one of v2's village folk becomes a rigged library figure, driven by v2's animator
-            Library.LibraryFigures.ByNpcId["villager0"] = "bildrath_cantemir";
+            // phase 3: Chapter One's named people, where v2 places them, are their rigged library figures, driven by v2's
+            // animator. (v2's village folk stay v2's: the library has no rigged commoners yet.)
+            Library.LibraryFigures.UseChapterOne();
         }
 
         void Update()
@@ -158,6 +159,39 @@ namespace Dungine.LookTest
                 yield return null;
             }
             Report = $"v2 crowd: {crowd.Count}";
+        }
+
+        /// <summary>n rigged library figures (the game export, LODs on), animated by v2's animator with springs, in the same
+        /// grid as V2Crowd. Built one per frame; watch Report for "library rig crowd: n".</summary>
+        public static string RigCrowd(int n)
+        {
+            ClearCrowd();
+            I.StartCoroutine(I.RigCrowdRoutine(n));
+            return "building library rig crowd";
+        }
+
+        static readonly string[] RigIds = { "fighter", "arik", "bildrath_cantemir", "parriwimple", "ireena_kolyana", "ismark_kolyanovich", "donavich", "alenka", "mirabel", "sorvia", "ranger", "wizard" };
+
+        IEnumerator RigCrowdRoutine(int n)
+        {
+            Report = "building";
+            var ctx = Game.I.area;
+            var (c, yaw) = Center();
+            var rnd = new System.Random(7);
+            for (int i = 0; i < n; i++)
+            {
+                var id = RigIds[i % RigIds.Length];
+                var rig = Library.LibraryFigures.Build(id, new GearLook(), "lib_" + i);
+                if (!rig) continue;
+                var anim = rig.gameObject.AddComponent<HumanoidAnimator>(); anim.Init(rig, MotionStyle.Normal);
+                var pos = c + Grid(i, n, yaw);
+                rig.transform.SetParent(ctx.root, true);
+                rig.transform.position = new Vector3(pos.x, ctx.GroundY(pos.x, pos.z, pos.y), pos.z);
+                rig.transform.rotation = Quaternion.Euler(0, yaw + 180 + rnd.Next(-40, 40), 0);
+                crowd.Add(rig.gameObject);
+                yield return null;
+            }
+            Report = $"library rig crowd: {crowd.Count}";
         }
 
         public static string ClearCrowd()
