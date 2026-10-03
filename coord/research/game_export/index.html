@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The game export in v3</title>
+<style>
+  :root { --bg: #141418; --panel: #1d1d23; --text: #e6dfd2; --dim: #a8a194; --gold: #d8b26a; --line: #34343c; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 "Palatino Linotype", Georgia, serif; }
+  main { max-width: 1280px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { color: var(--gold); font-weight: normal; letter-spacing: 1px; margin: 0 0 4px; }
+  h2 { color: var(--gold); font-weight: normal; border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-top: 40px; }
+  p, li { max-width: 860px; }
+  .dim { color: var(--dim); }
+  figure { margin: 16px 0 24px; }
+  figure img { max-width: 100%; height: auto; display: block; border: 1px solid var(--line); }
+  figcaption { color: var(--dim); font-size: 14px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<main>
+<h1>The game export in v3</h1>
+<p class="dim">Dungine.v3, 3 October 2026. The game now uses the library's new export of the figures.</p>
+
+<p>The library now makes a version of each figure just for the game. Steel and gold now shine, nooks and creases are a
+little darker, and each figure comes in three levels of detail. The game now uses these files for every library
+figure.</p>
+
+<h2>The dark streaks</h2>
+<p>On curved surfaces, like the skirt of a dress, the small sides of the voxel steps that face away from the light came
+out dark, as thin dark stripes. The game's lighting now lets light wrap a little further round each face and adds a
+little more soft light from the sky. The stripes fade, and the blocks keep their shape.</p>
+<figure><img src="streaks.png" alt="Ireena's dress and the fighter before and after"><figcaption>Lit from the front, at the
+game camera's angle. Left: as before. Middle: now. Right: softer still, for comparison; it starts to flatten the
+blocks.</figcaption></figure>
+
+<h2>Cloth</h2>
+<p>A dress or an apron that covers both legs now hangs in one piece from the hips. It no longer stretches into a sheet
+between the legs as they step, and the hem no longer flicks out with the shins.</p>
+<figure><img src="cloth_walk.gif" alt="Walking in an apron and a dress"><figcaption>Real speed.</figcaption></figure>
+<p>Sitting and crouching: the middle of an apron or a dress hangs straight down between the knees, and the knees stay
+outside it, so nothing pokes through. The apron doesn't lie across the lap, though: it drops from the waist, under the
+thighs.</p>
+<figure><img src="sit_and_crouch.gif" alt="Sitting and crouching"><figcaption>Sitting (on an unseen seat) and crouching.</figcaption></figure>
+<figure><img src="apron_seated_closeup.png" alt="Close-ups of the apron seated and crouched"><figcaption>Close-ups: seated from
+the side, three-quarters and the front, then crouched.</figcaption></figure>
+
+<h2>The fighter's cape in the new casts</h2>
+<p>The half-cape still lies over the right arm, so when that arm reaches out it is wrapped in red like a sleeve. In
+cast A, it also spreads across the chest as the hand tucks under the other arm.</p>
+<figure><img src="cape_in_casts.gif" alt="The cape during the two casts"><figcaption>Cast A and cast B on the new
+fighter.</figcaption></figure>
+
+<h2>Levels of detail</h2>
+<p>Each figure has three versions: the full one (1.5 cm blocks), one with blocks twice as big, and one with blocks four
+times as big. The game picks one by how big the figure is on screen. At the game camera's normal distance, the figures
+around the party use the full version. The middle one shows when the camera is zoomed far out, and the coarsest only
+when a figure is tiny on screen.</p>
+<figure><img src="detail_levels.png" alt="The three levels of detail"><figcaption>Bildrath, Ireena and the fighter at about
+the size they appear in play, enlarged. Near, middle and far versions.</figcaption></figure>
+</main>
+</body>
+</html>

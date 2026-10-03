@@ -569,6 +569,54 @@
    ]
   },
   {
+   "name": "SkirtCentreFront",
+   "kind": "skirt",
+   "parent": "Hips",
+   "bones": [
+    "SkirtCentreFront0",
+    "SkirtCentreFront1"
+   ],
+   "tip": [
+    0.0,
+    0.3675,
+    0.10697
+   ],
+   "tip_local": [
+    0.0,
+    -0.303691,
+    0.0
+   ],
+   "joints": [
+    {
+     "node": "SkirtCentreFront0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "SkirtCentreFront1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
    "name": "Hair",
    "kind": "hair",
    "parent": "Head",
@@ -949,7 +997,7 @@
     65.832
    ],
    "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
-   "voxels": 1573,
+   "voxels": 1572,
    "unity": "Hips",
    "godot": "Hips",
    "mixamo": "mixamorig:Hips",
@@ -1540,7 +1588,7 @@
     64.992
    ],
    "role": "chain (skirt)",
-   "voxels": 117,
+   "voxels": 22,
    "godot": "RightSkirtFront0",
    "unity_required": false
   },
@@ -1558,7 +1606,7 @@
     49.983
    ],
    "role": "chain (skirt)",
-   "voxels": 171,
+   "voxels": 0,
    "godot": "RightSkirtFront1",
    "unity_required": false
   },
@@ -1576,7 +1624,7 @@
     34.973
    ],
    "role": "chain (skirt)",
-   "voxels": 56,
+   "voxels": 0,
    "godot": "RightSkirtFrontLow0",
    "unity_required": false
   },
@@ -1594,7 +1642,7 @@
     64.992
    ],
    "role": "chain (skirt)",
-   "voxels": 90,
+   "voxels": 20,
    "godot": "LeftSkirtFront0",
    "unity_required": false
   },
@@ -1612,7 +1660,7 @@
     49.983
    ],
    "role": "chain (skirt)",
-   "voxels": 131,
+   "voxels": 0,
    "godot": "LeftSkirtFront1",
    "unity_required": false
   },
@@ -1630,7 +1678,7 @@
     34.973
    ],
    "role": "chain (skirt)",
-   "voxels": 44,
+   "voxels": 0,
    "godot": "LeftSkirtFrontLow0",
    "unity_required": false
   },
@@ -1740,6 +1788,42 @@
    "role": "chain (skirt)",
    "voxels": 0,
    "godot": "LeftSkirtBackLow0",
+   "unity_required": false
+  },
+  {
+   "name": "SkirtCentreFront0",
+   "parent": "Hips",
+   "joint": [
+    0.0,
+    0.974882,
+    0.10522
+   ],
+   "joint_kit": [
+    0.0,
+    -7.015,
+    64.992
+   ],
+   "role": "chain (skirt)",
+   "voxels": 236,
+   "godot": "SkirtCentreFront0",
+   "unity_required": false
+  },
+  {
+   "name": "SkirtCentreFront1",
+   "parent": "SkirtCentreFront0",
+   "joint": [
+    0.0,
+    0.671191,
+    0.10697
+   ],
+   "joint_kit": [
+    0.0,
+    -7.131,
+    44.746
+   ],
+   "role": "chain (skirt)",
+   "voxels": 332,
+   "godot": "SkirtCentreFront1",
    "unity_required": false
   },
   {
@@ -2158,14 +2242,10 @@
     "skirt"
    ],
    "voxels": {
-    "Hips": 73,
+    "Hips": 72,
     "Spine": 282,
-    "RightSkirtFront0": 95,
-    "RightSkirtFront1": 171,
-    "RightSkirtFrontLow0": 56,
-    "LeftSkirtFront0": 70,
-    "LeftSkirtFront1": 131,
-    "LeftSkirtFrontLow0": 44
+    "SkirtCentreFront0": 236,
+    "SkirtCentreFront1": 332
    }
   },
   {
@@ -2362,19 +2442,19 @@
   "cap_faces": 5748,
   "core_faces": 1470,
   "triangles_unmerged": 31508,
-  "triangles": 25592,
-  "soft_quads": 8363,
-  "rectangles": 6612,
-  "vertices": 51184,
+  "triangles": 30428,
+  "soft_quads": 8364,
+  "rectangles": 10614,
+  "vertices": 60856,
   "atlas": [
    512,
-   256
+   512
   ],
   "textures": [
    "base colour",
    "metal/roughness"
   ],
-  "bytes": 2898628
+  "bytes": 5039304
  },
  "material": {
   "sampling": "nearest (point), clamp to edge, no mipmaps; one texel per voxel face with a 1-texel gutter",
@@ -2382,9 +2462,33 @@
   "roughness": "0.82 - 0.5 x the voxel's metal (render_vox.py)",
   "emission": "the voxel's colour x its glow, strength 1.5 (KHR_materials_emissive_strength)"
  },
+ "game": {
+  "format": "dnd5e_game 1",
+  "lods": [
+   {
+    "lod": 0,
+    "voxel_cm": 1.5,
+    "screen_height_min": 0.25,
+    "triangles": 30428
+   },
+   {
+    "lod": 1,
+    "voxel_cm": 3.0,
+    "screen_height_min": 0.08,
+    "triangles": 8540
+   },
+   {
+    "lod": 2,
+    "voxel_cm": 6.0,
+    "screen_height_min": 0.0,
+    "triangles": 2800
+   }
+  ],
+  "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells); baked at rest, so it does not follow the bends",
+  "nodes": "Body_LOD0 (1.5 cm), Body_LOD1 (3 cm), Body_LOD2 (6 cm), all bound to the one skin"
+ },
  "files": {
   "glb": "arik.glb",
-  "rig_json": "arik.rig.json",
-  "rest_voxels": "arik.rest.npz"
+  "rig_json": "arik.rig.json"
  }
 }

@@ -90,7 +90,12 @@ namespace Dungine.Library
                 groups[MiniJson.Str(g, "name")] = list;
             }
 
-            // chains: each joint aims at the next joint, the last at the chain's tip
+            // chains: each joint aims at the next joint, the last at the chain's tip.
+            // The game export (2026-10-03) hangs cloth spanning both legs on centre chains from Hips and lets the leg panels
+            // ride their legs, as designed; only rigs without centre chains need the leg panels pulled toward the hips.
+            bool centreChains = false;
+            foreach (var ch in MiniJson.Arr(data, "chains") ?? new List<object>())
+                if ((MiniJson.Str(ch, "name") ?? "").StartsWith("SkirtCentre")) centreChains = true;
             foreach (var ch in MiniJson.Arr(data, "chains") ?? new List<object>())
             {
                 var names = MiniJson.Arr(ch, "bones"); var js = MiniJson.Arr(ch, "joints");
@@ -100,7 +105,8 @@ namespace Dungine.Library
                     if (gname is string s && groups.TryGetValue(s, out var gl)) chainCols.AddRange(gl);
                 var tipLocal = LibraryFigures.FromGltf(MiniJson.Floats(ch, "tip_local"));
                 string kind = MiniJson.Str(ch, "kind") ?? "", chainName = MiniJson.Str(ch, "name") ?? "";
-                float follow = kind == "skirt" ? (chainName.Contains("Side") ? SkirtSideFollow : SkirtFrontBackFollow) : 0f;
+                string parentBone = MiniJson.Str(ch, "parent") ?? "";
+                float follow = kind == "skirt" && !centreChains && parentBone.EndsWith("UpperLeg") ? (chainName.Contains("Side") ? SkirtSideFollow : SkirtFrontBackFollow) : 0f;
                 for (int k = 0; k < names.Count; k++)
                 {
                     var t = T(names[k] as string); if (!t) continue;

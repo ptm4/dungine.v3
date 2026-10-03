@@ -559,6 +559,102 @@
    ]
   },
   {
+   "name": "SkirtCentreFront",
+   "kind": "skirt",
+   "parent": "Hips",
+   "bones": [
+    "SkirtCentreFront0",
+    "SkirtCentreFront1"
+   ],
+   "tip": [
+    0.0,
+    0.2025,
+    0.09025
+   ],
+   "tip_local": [
+    0.0,
+    -0.192046,
+    0.012687
+   ],
+   "joints": [
+    {
+     "node": "SkirtCentreFront0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "SkirtCentreFront1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "SkirtCentreBack",
+   "kind": "skirt",
+   "parent": "Hips",
+   "bones": [
+    "SkirtCentreBack0",
+    "SkirtCentreBack1"
+   ],
+   "tip": [
+    0.0,
+    0.2025,
+    -0.12025
+   ],
+   "tip_local": [
+    0.0,
+    -0.192046,
+    -0.012687
+   ],
+   "joints": [
+    {
+     "node": "SkirtCentreBack0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "SkirtCentreBack1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
    "name": "Hair",
    "kind": "hair",
    "parent": "Head",
@@ -828,7 +924,7 @@
     39.729
    ],
    "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
-   "voxels": 829,
+   "voxels": 824,
    "unity": "Hips",
    "godot": "Hips",
    "mixamo": "mixamorig:Hips",
@@ -1311,7 +1407,7 @@
     39.106
    ],
    "role": "chain (skirt)",
-   "voxels": 119,
+   "voxels": 83,
    "godot": "RightSkirtBack0",
    "unity_required": false
   },
@@ -1329,7 +1425,7 @@
     29.69
    ],
    "role": "chain (skirt)",
-   "voxels": 90,
+   "voxels": 17,
    "godot": "RightSkirtBack1",
    "unity_required": false
   },
@@ -1347,7 +1443,7 @@
     20.273
    ],
    "role": "chain (skirt)",
-   "voxels": 125,
+   "voxels": 13,
    "godot": "RightSkirtBackLow0",
    "unity_required": false
   },
@@ -1419,7 +1515,7 @@
     39.106
    ],
    "role": "chain (skirt)",
-   "voxels": 146,
+   "voxels": 78,
    "godot": "RightSkirtFront0",
    "unity_required": false
   },
@@ -1437,7 +1533,7 @@
     29.69
    ],
    "role": "chain (skirt)",
-   "voxels": 157,
+   "voxels": 16,
    "godot": "RightSkirtFront1",
    "unity_required": false
   },
@@ -1455,7 +1551,7 @@
     20.273
    ],
    "role": "chain (skirt)",
-   "voxels": 94,
+   "voxels": 14,
    "godot": "RightSkirtFrontLow0",
    "unity_required": false
   },
@@ -1473,7 +1569,7 @@
     39.106
    ],
    "role": "chain (skirt)",
-   "voxels": 118,
+   "voxels": 87,
    "godot": "LeftSkirtFront0",
    "unity_required": false
   },
@@ -1491,7 +1587,7 @@
     29.69
    ],
    "role": "chain (skirt)",
-   "voxels": 129,
+   "voxels": 40,
    "godot": "LeftSkirtFront1",
    "unity_required": false
   },
@@ -1509,7 +1605,7 @@
     20.273
    ],
    "role": "chain (skirt)",
-   "voxels": 75,
+   "voxels": 14,
    "godot": "LeftSkirtFrontLow0",
    "unity_required": false
   },
@@ -1581,7 +1677,7 @@
     39.106
    ],
    "role": "chain (skirt)",
-   "voxels": 94,
+   "voxels": 73,
    "godot": "LeftSkirtBack0",
    "unity_required": false
   },
@@ -1599,7 +1695,7 @@
     29.69
    ],
    "role": "chain (skirt)",
-   "voxels": 78,
+   "voxels": 18,
    "godot": "LeftSkirtBack1",
    "unity_required": false
   },
@@ -1617,8 +1713,80 @@
     20.273
    ],
    "role": "chain (skirt)",
-   "voxels": 99,
+   "voxels": 12,
    "godot": "LeftSkirtBackLow0",
+   "unity_required": false
+  },
+  {
+   "name": "SkirtCentreFront0",
+   "parent": "Hips",
+   "joint": [
+    0.0,
+    0.586593,
+    0.06034
+   ],
+   "joint_kit": [
+    0.0,
+    -4.023,
+    39.106
+   ],
+   "role": "chain (skirt)",
+   "voxels": 139,
+   "godot": "SkirtCentreFront0",
+   "unity_required": false
+  },
+  {
+   "name": "SkirtCentreFront1",
+   "parent": "SkirtCentreFront0",
+   "joint": [
+    0.0,
+    0.394546,
+    0.077562
+   ],
+   "joint_kit": [
+    0.0,
+    -5.171,
+    26.303
+   ],
+   "role": "chain (skirt)",
+   "voxels": 328,
+   "godot": "SkirtCentreFront1",
+   "unity_required": false
+  },
+  {
+   "name": "SkirtCentreBack0",
+   "parent": "Hips",
+   "joint": [
+    0.0,
+    0.586593,
+    -0.09034
+   ],
+   "joint_kit": [
+    0.0,
+    6.023,
+    39.106
+   ],
+   "role": "chain (skirt)",
+   "voxels": 99,
+   "godot": "SkirtCentreBack0",
+   "unity_required": false
+  },
+  {
+   "name": "SkirtCentreBack1",
+   "parent": "SkirtCentreBack0",
+   "joint": [
+    0.0,
+    0.394546,
+    -0.107562
+   ],
+   "joint_kit": [
+    0.0,
+    7.171,
+    26.303
+   ],
+   "role": "chain (skirt)",
+   "voxels": 298,
+   "godot": "SkirtCentreBack1",
    "unity_required": false
   },
   {
@@ -1905,7 +2073,7 @@
     "skirt"
    ],
    "voxels": {
-    "Hips": 280,
+    "Hips": 279,
     "Spine": 588,
     "Chest": 1028,
     "UpperChest": 1082,
@@ -1918,12 +2086,14 @@
     "RightLowerArm": 248,
     "LeftUpperLeg": 44,
     "RightUpperLeg": 39,
-    "RightSkirtBack0": 46,
+    "RightSkirtBack0": 38,
     "RightSkirtSide0": 41,
-    "RightSkirtFront0": 54,
-    "LeftSkirtFront0": 27,
+    "RightSkirtFront0": 38,
+    "LeftSkirtFront0": 23,
     "LeftSkirtSide0": 31,
-    "LeftSkirtBack0": 27
+    "LeftSkirtBack0": 23,
+    "SkirtCentreFront0": 20,
+    "SkirtCentreBack0": 13
    }
   },
   {
@@ -1936,28 +2106,32 @@
     "skirt"
    ],
    "voxels": {
-    "Hips": 286,
+    "Hips": 282,
     "Spine": 259,
     "LeftLowerLeg": 7,
     "RightLowerLeg": 8,
-    "RightSkirtBack0": 73,
-    "RightSkirtBack1": 90,
-    "RightSkirtBackLow0": 125,
+    "RightSkirtBack0": 45,
+    "RightSkirtBack1": 17,
+    "RightSkirtBackLow0": 13,
     "RightSkirtSide0": 126,
     "RightSkirtSide1": 173,
     "RightSkirtSideLow0": 160,
-    "RightSkirtFront0": 92,
-    "RightSkirtFront1": 157,
-    "RightSkirtFrontLow0": 94,
-    "LeftSkirtFront0": 80,
-    "LeftSkirtFront1": 129,
-    "LeftSkirtFrontLow0": 75,
+    "RightSkirtFront0": 40,
+    "RightSkirtFront1": 16,
+    "RightSkirtFrontLow0": 14,
+    "LeftSkirtFront0": 53,
+    "LeftSkirtFront1": 40,
+    "LeftSkirtFrontLow0": 14,
     "LeftSkirtSide0": 86,
     "LeftSkirtSide1": 148,
     "LeftSkirtSideLow0": 146,
-    "LeftSkirtBack0": 67,
-    "LeftSkirtBack1": 78,
-    "LeftSkirtBackLow0": 99
+    "LeftSkirtBack0": 50,
+    "LeftSkirtBack1": 18,
+    "LeftSkirtBackLow0": 12,
+    "SkirtCentreFront0": 119,
+    "SkirtCentreFront1": 328,
+    "SkirtCentreBack0": 86,
+    "SkirtCentreBack1": 298
    }
   },
   {
@@ -2132,10 +2306,10 @@
   "cap_faces": 2732,
   "core_faces": 518,
   "triangles_unmerged": 20748,
-  "triangles": 16580,
-  "soft_quads": 5685,
-  "rectangles": 4024,
-  "vertices": 33160,
+  "triangles": 20026,
+  "soft_quads": 5506,
+  "rectangles": 7297,
+  "vertices": 40052,
   "atlas": [
    512,
    256
@@ -2143,7 +2317,7 @@
   "textures": [
    "base colour"
   ],
-  "bytes": 1894924
+  "bytes": 3344640
  },
  "material": {
   "sampling": "nearest (point), clamp to edge, no mipmaps; one texel per voxel face with a 1-texel gutter",
@@ -2151,9 +2325,33 @@
   "roughness": "0.82 - 0.5 x the voxel's metal (render_vox.py)",
   "emission": "the voxel's colour x its glow, strength 1.5 (KHR_materials_emissive_strength)"
  },
+ "game": {
+  "format": "dnd5e_game 1",
+  "lods": [
+   {
+    "lod": 0,
+    "voxel_cm": 1.5,
+    "screen_height_min": 0.25,
+    "triangles": 20026
+   },
+   {
+    "lod": 1,
+    "voxel_cm": 3.0,
+    "screen_height_min": 0.08,
+    "triangles": 5810
+   },
+   {
+    "lod": 2,
+    "voxel_cm": 6.0,
+    "screen_height_min": 0.0,
+    "triangles": 1722
+   }
+  ],
+  "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells); baked at rest, so it does not follow the bends",
+  "nodes": "Body_LOD0 (1.5 cm), Body_LOD1 (3 cm), Body_LOD2 (6 cm), all bound to the one skin"
+ },
  "files": {
   "glb": "rose_durst.glb",
-  "rig_json": "rose_durst.rig.json",
-  "rest_voxels": "rose_durst.rest.npz"
+  "rig_json": "rose_durst.rig.json"
  }
 }

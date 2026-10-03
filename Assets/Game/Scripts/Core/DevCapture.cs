@@ -19,6 +19,8 @@ namespace Dungine
     public class DevCapture : MonoBehaviour
     {
         static readonly Vector3 Origin = new Vector3(4000, 0, 4000);
+        /// <summary>v3: the studio key light's rotation (the default lights the figure from behind its left shoulder).</summary>
+        public static Vector3 KeyEuler = new Vector3(42, -35, 0);
 
         public static string Run(string subject, string action, string name, string view = "side", int frames = 48, float fps = 24, int size = 420, float zoom = 1f)
         {
@@ -50,7 +52,7 @@ namespace Dungine
                 ground.layer = Layers.Ground;
                 var key = new GameObject("Key").AddComponent<Light>(); key.transform.SetParent(studio, false);
                 key.type = LightType.Directional; key.intensity = 1.5f; key.color = new Color(1f, .95f, .88f); key.shadows = LightShadows.Soft;
-                key.transform.rotation = Quaternion.Euler(42, -35, 0);
+                key.transform.rotation = Quaternion.Euler(KeyEuler);
                 var fill = new GameObject("Fill").AddComponent<Light>(); fill.transform.SetParent(studio, false);
                 fill.type = LightType.Directional; fill.intensity = 0.45f; fill.color = new Color(.7f, .78f, 1f); fill.shadows = LightShadows.None;
                 fill.transform.rotation = Quaternion.Euler(25, 150, 0);
@@ -126,6 +128,7 @@ namespace Dungine
                 case "jog": speed = quad ? 3.6f : 3.0f; break;
                 case "run": speed = quad ? 7.5f : 4.2f; break;
                 case "die": life = LifeState.Dead; break;
+                case "sit": case "crouch": break;   // v3: cloth checks, set up after the pre-roll
                 default:
                     combat = true;
                     act = Enum.GetValues(typeof(AnimAct)).Cast<AnimAct>().FirstOrDefault(a => a.ToString().ToLowerInvariant() == action);
@@ -143,6 +146,9 @@ namespace Dungine
             }
             if (act != AnimAct.None) { drv.Play(act); frames = Mathf.CeilToInt((Anim.Duration(act, ha ? ha.grip : Grip.Unarmed) + 0.35f) * fps); }
             if (life != LifeState.Alive) { drv.SetLife(life); frames = Mathf.CeilToInt(2f * fps); }
+            bool sit = action == "sit" && ha, crouch = action == "crouch" && ha;
+            if (sit) { ha.seated = true; frames = Mathf.CeilToInt(2.5f * fps); }
+            if (crouch) frames = Mathf.CeilToInt(3f * fps);
 
             // ---------- camera ----------
             var camGo = new GameObject("CaptureCam"); camGo.transform.SetParent(studio, false);
@@ -182,6 +188,7 @@ namespace Dungine
                 {
                     root.position += root.forward * speed * dt0;
                     if (spin != 0) root.rotation = Quaternion.Euler(0, spin * f / frames, 0);
+                    if (crouch) ha.devCrouch = Anim.Env((float)f / frames, 0.05f, 0.35f, 0.65f, 0.95f);
                     tick(dt0);
                 }
                 Vector3 look = new Vector3(root.position.x, Origin.y + height * (quad ? 0.62f : 0.52f), root.position.z);

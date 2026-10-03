@@ -191,6 +191,8 @@ namespace Dungine.Visual
         public bool manual;
         /// <summary>Sit on something seatHeight metres high (the actor's origin should be over the seat).</summary>
         public bool seated; public float seatHeight = 0.46f;
+        /// <summary>v3 dev (captures): 0..1, a crouch.</summary>
+        public float devCrouch;
 
         const int N = (int)B.COUNT;
         readonly Vector3[] rot = new Vector3[N];
@@ -534,6 +536,15 @@ namespace Dungine.Visual
                 for (int i = 0; i < N; i++) rot[i] += clipPose.r[i];
                 hipOffset += clipPose.hip * sc;
                 bodyPitch += clipPose.lean;
+            }
+
+            // ---------------- v3 dev: a crouch (the legs' IK bends the knees), for checking cloth over raised knees ----------------
+            if (devCrouch > 0 && alive)
+            {
+                hipOffset.y -= 0.3f * H * devCrouch;
+                hipOffset.z -= 0.06f * sc * devCrouch;
+                rot[(int)B.Spine].x += 28f * devCrouch;
+                rot[(int)B.Head].x -= 18f * devCrouch;
             }
 
             // ---------------- life state ----------------

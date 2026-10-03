@@ -113,16 +113,22 @@ namespace Dungine.Library
             rig.look = new Appearance { race = Rules.RaceId.Human };
             rig.gear = gear ?? new GearLook();
 
-            var smr = inst.GetComponentInChildren<SkinnedMeshRenderer>(true);
-            rig.body = smr;
-            if (smr)
+            // the game export: Body_LOD0..2 (1.5, 3 and 6 cm voxels) on one skin, in a LODGroup; older rigs have one mesh
+            var smrs = inst.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+            var lodMeshes = smrs.Where(s => s.name.StartsWith("Body_LOD")).OrderBy(s => s.name).ToArray();
+            rig.body = lodMeshes.Length > 0 ? lodMeshes[0] : smrs.FirstOrDefault();
+            foreach (var smr in smrs)
             {
                 smr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
                 smr.updateWhenOffscreen = false;
                 // room for crouches, falls and swinging cloth, so the figure isn't culled early
                 var b = smr.localBounds; b.Expand(new Vector3(1.2f, 1.2f, 1.2f)); smr.localBounds = b;
+                var mats = smr.sharedMaterials;
+                for (int i = 0; i < mats.Length; i++) mats[i] = VoxelMaterial(mats[i]);
+                smr.sharedMaterials = mats;
                 rig.renderers.Add(smr);
             }
+            if (lodMeshes.Length > 1) SetUpLods(inst, lodMeshes, MiniJson.Obj(data, "game"), top);
             rig.hasTail = false; rig.hasCape = false;   // the library's tails and capes are spring chains, not v2's keyed bones
 
             var drv = go.AddComponent<LibraryRigDriver>();
@@ -131,6 +137,80 @@ namespace Dungine.Library
             LibraryProps.Weaponise(rig);
             LibraryProps.Hold(rig, id, byName);
             return rig;
+        }
+
+        // ------------------------------------------------------------------ the export's LODs and material
+
+        /// <summary>Dev switches: LODs on (else LOD0 always), the export's switch heights scaled, a LOD forced (-1: none),
+        /// and the Dungine/VoxelAtlas shader (else glTFast's own material).</summary>
+        public static bool LodsOn = true, AtlasShaderOn = true;
+        public static float LodScale = 1f;
+        public static int ForceLod = -1;
+        /// <summary>Below this share of the screen's height a figure isn't drawn at all.</summary>
+        public const float CullHeight = 0.002f;
+
+        static void SetUpLods(GameObject inst, SkinnedMeshRenderer[] meshes, object game, float height)
+        {
+            // the export suggests switching when the figure fills less than 25% and then 8% of the screen's height
+            var heights = new List<float>();
+            foreach (var l in MiniJson.Arr(game, "lods") ?? new List<object>()) heights.Add(MiniJson.Num(l, "screen_height_min", 0f));
+            if (heights.Count < meshes.Length) heights = new List<float> { 0.25f, 0.08f, 0f };
+            if (!LodsOn) { for (int i = 1; i < meshes.Length; i++) meshes[i].enabled = false; return; }
+            var lods = new LOD[meshes.Length];
+            float prev = 1f;
+            for (int i = 0; i < meshes.Length; i++)
+            {
+                float h = i == meshes.Length - 1 ? CullHeight : Mathf.Clamp(heights[i] * LodScale, CullHeight * 2, 0.99f);
+                h = Mathf.Min(h, prev * 0.99f); prev = h;
+                lods[i] = new LOD(h, new Renderer[] { meshes[i] });
+            }
+            var lg = inst.AddComponent<LODGroup>();
+            lg.fadeMode = LODFadeMode.None;
+            lg.SetLODs(lods);
+            // measured against the figure's height, not its renderers' bounds (those are padded for swinging cloth)
+            lg.localReferencePoint = new Vector3(0, height * 0.5f, 0);
+            lg.size = height;
+            if (ForceLod >= 0) lg.ForceLOD(Mathf.Min(ForceLod, meshes.Length - 1));
+        }
+
+        /// <summary>The dials' starting values (2026-10-03): a wrap of 0.6, 25% more ambient and the AO at 0.7 soften the dark
+        /// sides of the voxel steps without flattening the blocks. Lambert, plain ambient and full AO are 0, 1 and 1.</summary>
+        public static float DefaultWrap = 0.6f, DefaultFill = 1.25f, DefaultAO = 0.7f;
+        static bool dialsSet;
+        static Shader atlasShader;
+        static readonly Dictionary<Material, Material> atlasMats = new Dictionary<Material, Material>();
+
+        /// <summary>glTFast's material for an export model, as a Dungine/VoxelAtlas material (one per source material).</summary>
+        public static Material VoxelMaterial(Material src)
+        {
+            if (!AtlasShaderOn || !src || !src.HasProperty("baseColorTexture")) return src;
+            if (atlasMats.TryGetValue(src, out var m) && m) return m;
+            if (!atlasShader) atlasShader = Shader.Find("Dungine/VoxelAtlas");
+            if (!atlasShader) return src;
+            if (!dialsSet) { Dials(DefaultWrap, DefaultFill, DefaultAO); dialsSet = true; }
+            m = new Material(atlasShader) { name = src.name + " (Dungine)" };
+            var tex = src.GetTexture("baseColorTexture");
+            if (tex) m.SetTexture("_BaseMap", tex);
+            m.SetColor("_BaseColor", src.GetColor("baseColorFactor"));
+            var mr = src.HasProperty("metallicRoughnessTexture") ? src.GetTexture("metallicRoughnessTexture") : null;
+            if (mr) m.SetTexture("_MetallicGlossMap", mr);
+            m.SetFloat("_Metallic", src.HasProperty("metallicFactor") ? src.GetFloat("metallicFactor") : 1f);
+            m.SetFloat("_Smoothness", 1f - (src.HasProperty("roughnessFactor") ? src.GetFloat("roughnessFactor") : 1f));
+            var glow = src.HasProperty("emissiveTexture") ? src.GetTexture("emissiveTexture") : null;
+            m.SetTexture("_EmissionMap", glow ? glow : Texture2D.blackTexture);
+            m.SetColor("_SpecColor", glow && src.HasProperty("emissiveFactor") ? src.GetColor("emissiveFactor") : Color.black);
+            m.SetColor("_EmissionColor", Color.black);
+            m.enableInstancing = true;
+            atlasMats[src] = m;
+            return m;
+        }
+
+        /// <summary>The shader's global dials (see DungineVoxelAtlas.shader): wrap diffuse, ambient fill, AO strength.</summary>
+        public static void Dials(float wrap, float fill, float aoPower)
+        {
+            Shader.SetGlobalFloat("_VoxWrap", wrap);
+            Shader.SetGlobalFloat("_VoxFill", fill);
+            Shader.SetGlobalFloat("_VoxAOPower", aoPower);
         }
 
         /// <summary>The rest stance's arm angles, for checking against v2's (arms 11 degrees out, forearms in line).</summary>

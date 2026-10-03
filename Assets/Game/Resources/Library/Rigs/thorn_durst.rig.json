@@ -1555,19 +1555,19 @@
   "cap_faces": 2134,
   "core_faces": 326,
   "triangles_unmerged": 11068,
-  "triangles": 8238,
+  "triangles": 10738,
   "soft_quads": 2093,
-  "rectangles": 2664,
-  "vertices": 16476,
+  "rectangles": 4329,
+  "vertices": 21476,
   "atlas": [
-   256,
-   256
+   512,
+   128
   ],
   "textures": [
    "base colour",
    "metal/roughness"
   ],
-  "bytes": 956968
+  "bytes": 1845592
  },
  "material": {
   "sampling": "nearest (point), clamp to edge, no mipmaps; one texel per voxel face with a 1-texel gutter",
@@ -1575,9 +1575,33 @@
   "roughness": "0.82 - 0.5 x the voxel's metal (render_vox.py)",
   "emission": "the voxel's colour x its glow, strength 1.5 (KHR_materials_emissive_strength)"
  },
+ "game": {
+  "format": "dnd5e_game 1",
+  "lods": [
+   {
+    "lod": 0,
+    "voxel_cm": 1.5,
+    "screen_height_min": 0.25,
+    "triangles": 10738
+   },
+   {
+    "lod": 1,
+    "voxel_cm": 3.0,
+    "screen_height_min": 0.08,
+    "triangles": 3254
+   },
+   {
+    "lod": 2,
+    "voxel_cm": 6.0,
+    "screen_height_min": 0.0,
+    "triangles": 1116
+   }
+  ],
+  "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells); baked at rest, so it does not follow the bends",
+  "nodes": "Body_LOD0 (1.5 cm), Body_LOD1 (3 cm), Body_LOD2 (6 cm), all bound to the one skin"
+ },
  "files": {
   "glb": "thorn_durst.glb",
-  "rig_json": "thorn_durst.rig.json",
-  "rest_voxels": "thorn_durst.rest.npz"
+  "rig_json": "thorn_durst.rig.json"
  }
 }
