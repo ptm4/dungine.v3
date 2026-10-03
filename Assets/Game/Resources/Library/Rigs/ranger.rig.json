@@ -392,6 +392,106 @@
    ]
   },
   {
+   "name": "LeftCapeArm",
+   "kind": "cape",
+   "parent": "LeftShoulder",
+   "bones": [
+    "LeftCapeArm0",
+    "LeftCapeArm1"
+   ],
+   "tip": [
+    0.1575,
+    1.2891,
+    -0.1125
+   ],
+   "tip_local": [
+    0.0,
+    -0.0942,
+    0.0
+   ],
+   "joints": [
+    {
+     "node": "LeftCapeArm0",
+     "stiffness": 0.7,
+     "dragForce": 0.5,
+     "gravityPower": 0.5,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.03
+    },
+    {
+     "node": "LeftCapeArm1",
+     "stiffness": 0.7,
+     "dragForce": 0.5,
+     "gravityPower": 0.5,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.03
+    }
+   ],
+   "colliderGroups": [
+    "body",
+    "arms",
+    "legs"
+   ]
+  },
+  {
+   "name": "RightCapeArm",
+   "kind": "cape",
+   "parent": "RightShoulder",
+   "bones": [
+    "RightCapeArm0",
+    "RightCapeArm1"
+   ],
+   "tip": [
+    -0.1575,
+    1.2825,
+    -0.1125
+   ],
+   "tip_local": [
+    0.0,
+    -0.09,
+    -0.015
+   ],
+   "joints": [
+    {
+     "node": "RightCapeArm0",
+     "stiffness": 0.7,
+     "dragForce": 0.5,
+     "gravityPower": 0.5,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.03
+    },
+    {
+     "node": "RightCapeArm1",
+     "stiffness": 0.7,
+     "dragForce": 0.5,
+     "gravityPower": 0.5,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.03
+    }
+   ],
+   "colliderGroups": [
+    "body",
+    "arms",
+    "legs"
+   ]
+  },
+  {
    "name": "Hair",
    "kind": "hair",
    "parent": "Head",
@@ -852,7 +952,7 @@
     84.1
    ],
    "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
-   "voxels": 2885,
+   "voxels": 2887,
    "unity": "UpperChest",
    "godot": "UpperChest",
    "mixamo": "mixamorig:Spine2",
@@ -917,7 +1017,7 @@
     92.029
    ],
    "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
-   "voxels": 27,
+   "voxels": 34,
    "unity": "LeftShoulder",
    "godot": "LeftShoulder",
    "mixamo": "mixamorig:LeftShoulder",
@@ -939,7 +1039,7 @@
     93.0
    ],
    "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
-   "voxels": 1483,
+   "voxels": 1242,
    "unity": "LeftUpperArm",
    "godot": "LeftUpperArm",
    "mixamo": "mixamorig:LeftArm",
@@ -1005,7 +1105,7 @@
     92.029
    ],
    "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
-   "voxels": 24,
+   "voxels": 27,
    "unity": "RightShoulder",
    "godot": "RightShoulder",
    "mixamo": "mixamorig:RightShoulder",
@@ -1027,7 +1127,7 @@
     93.0
    ],
    "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
-   "voxels": 1339,
+   "voxels": 1012,
    "unity": "RightUpperArm",
    "godot": "RightUpperArm",
    "mixamo": "mixamorig:RightArm",
@@ -1413,7 +1513,7 @@
     92.0
    ],
    "role": "chain (cape)",
-   "voxels": 486,
+   "voxels": 487,
    "godot": "Cape0",
    "unity_required": false
   },
@@ -1433,6 +1533,78 @@
    "role": "chain (cape)",
    "voxels": 544,
    "godot": "Cape1",
+   "unity_required": false
+  },
+  {
+   "name": "LeftCapeArm0",
+   "parent": "LeftShoulder",
+   "joint": [
+    0.1275,
+    1.4775,
+    -0.0525
+   ],
+   "joint_kit": [
+    8.5,
+    3.5,
+    98.5
+   ],
+   "role": "chain (cape)",
+   "voxels": 153,
+   "godot": "LeftCapeArm0",
+   "unity_required": false
+  },
+  {
+   "name": "LeftCapeArm1",
+   "parent": "LeftCapeArm0",
+   "joint": [
+    0.1575,
+    1.3833,
+    -0.1125
+   ],
+   "joint_kit": [
+    10.5,
+    7.5,
+    92.22
+   ],
+   "role": "chain (cape)",
+   "voxels": 77,
+   "godot": "LeftCapeArm1",
+   "unity_required": false
+  },
+  {
+   "name": "RightCapeArm0",
+   "parent": "RightShoulder",
+   "joint": [
+    -0.1275,
+    1.4625,
+    -0.0825
+   ],
+   "joint_kit": [
+    -8.5,
+    5.5,
+    97.5
+   ],
+   "role": "chain (cape)",
+   "voxels": 209,
+   "godot": "RightCapeArm0",
+   "unity_required": false
+  },
+  {
+   "name": "RightCapeArm1",
+   "parent": "RightCapeArm0",
+   "joint": [
+    -0.1575,
+    1.3725,
+    -0.0975
+   ],
+   "joint_kit": [
+    -10.5,
+    6.5,
+    91.5
+   ],
+   "role": "chain (cape)",
+   "voxels": 113,
+   "godot": "RightCapeArm1",
    "unity_required": false
   },
   {
@@ -1467,7 +1639,7 @@
     94.073
    ],
    "role": "chain (hair)",
-   "voxels": 788,
+   "voxels": 789,
    "godot": "Hair1",
    "unity_required": false
   },
@@ -1521,7 +1693,7 @@
     96.693
    ],
    "role": "chain (hair)",
-   "voxels": 61,
+   "voxels": 63,
    "godot": "LeftHair1",
    "unity_required": false
   },
@@ -1920,14 +2092,16 @@
     "cape"
    ],
    "voxels": {
-    "UpperChest": 128,
+    "UpperChest": 129,
     "Neck": 100,
-    "LeftShoulder": 11,
-    "LeftUpperArm": 199,
-    "RightShoulder": 6,
-    "RightUpperArm": 249,
-    "Cape0": 354,
-    "Cape1": 293
+    "LeftShoulder": 15,
+    "RightShoulder": 9,
+    "Cape0": 355,
+    "Cape1": 293,
+    "LeftCapeArm0": 120,
+    "LeftCapeArm1": 74,
+    "RightCapeArm0": 152,
+    "RightCapeArm1": 93
    }
   },
   {
@@ -1958,20 +2132,22 @@
     "rigid"
    ],
    "voxels": {
-    "UpperChest": 512,
+    "UpperChest": 513,
     "Neck": 56,
     "Head": 3010,
-    "LeftShoulder": 11,
-    "LeftUpperArm": 42,
+    "LeftShoulder": 14,
     "RightShoulder": 1,
-    "RightUpperArm": 78,
     "Cape0": 132,
     "Cape1": 251,
+    "LeftCapeArm0": 33,
+    "LeftCapeArm1": 3,
+    "RightCapeArm0": 57,
+    "RightCapeArm1": 20,
     "Hair0": 910,
-    "Hair1": 788,
+    "Hair1": 789,
     "Hair2": 347,
     "LeftHair0": 152,
-    "LeftHair1": 61,
+    "LeftHair1": 63,
     "LeftHair2": 58,
     "RightHair0": 142
    }
@@ -2122,10 +2298,10 @@
   "cap_faces": 7094,
   "core_faces": 837,
   "triangles_unmerged": 32836,
-  "triangles": 35476,
-  "soft_quads": 9129,
-  "rectangles": 14088,
-  "vertices": 70952,
+  "triangles": 35578,
+  "soft_quads": 9296,
+  "rectangles": 14071,
+  "vertices": 71156,
   "atlas": [
    512,
    512
@@ -2134,7 +2310,7 @@
    "base colour",
    "metal/roughness"
   ],
-  "bytes": 6086164
+  "bytes": 6101656
  },
  "material": {
   "sampling": "nearest (point), clamp to edge, no mipmaps; one texel per voxel face with a 1-texel gutter",
@@ -2149,13 +2325,13 @@
     "lod": 0,
     "voxel_cm": 1.5,
     "screen_height_min": 0.25,
-    "triangles": 35476
+    "triangles": 35578
    },
    {
     "lod": 1,
     "voxel_cm": 3.0,
     "screen_height_min": 0.08,
-    "triangles": 10146
+    "triangles": 10150
    },
    {
     "lod": 2,

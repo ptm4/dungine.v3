@@ -389,6 +389,69 @@
     "arms",
     "legs"
    ]
+  },
+  {
+   "name": "RightCapeArm",
+   "kind": "cape",
+   "parent": "RightShoulder",
+   "bones": [
+    "RightCapeArm0",
+    "RightCapeArm1",
+    "RightCapeArm2"
+   ],
+   "tip": [
+    -0.2925,
+    1.1175,
+    -0.0975
+   ],
+   "tip_local": [
+    0.045,
+    -0.15,
+    0.0
+   ],
+   "joints": [
+    {
+     "node": "RightCapeArm0",
+     "stiffness": 0.7,
+     "dragForce": 0.5,
+     "gravityPower": 0.5,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.03
+    },
+    {
+     "node": "RightCapeArm1",
+     "stiffness": 0.7,
+     "dragForce": 0.5,
+     "gravityPower": 0.5,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.03
+    },
+    {
+     "node": "RightCapeArm2",
+     "stiffness": 0.7,
+     "dragForce": 0.5,
+     "gravityPower": 0.5,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.03
+    }
+   ],
+   "colliderGroups": [
+    "body",
+    "arms",
+    "legs"
+   ]
   }
  ],
  "chain_follow": {
@@ -843,7 +906,7 @@
     95.0
    ],
    "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
-   "voxels": 232,
+   "voxels": 239,
    "unity": "RightShoulder",
    "godot": "RightShoulder",
    "mixamo": "mixamorig:RightShoulder",
@@ -865,7 +928,7 @@
     96.0
    ],
    "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
-   "voxels": 3410,
+   "voxels": 1968,
    "unity": "RightUpperArm",
    "godot": "RightUpperArm",
    "mixamo": "mixamorig:RightArm",
@@ -1251,7 +1314,7 @@
     95.0
    ],
    "role": "chain (cape)",
-   "voxels": 96,
+   "voxels": 97,
    "godot": "Cape0",
    "unity_required": false
   },
@@ -1271,6 +1334,60 @@
    "role": "chain (cape)",
    "voxels": 178,
    "godot": "Cape1",
+   "unity_required": false
+  },
+  {
+   "name": "RightCapeArm0",
+   "parent": "RightShoulder",
+   "joint": [
+    -0.2025,
+    1.5675,
+    -0.0075
+   ],
+   "joint_kit": [
+    -13.5,
+    0.5,
+    104.5
+   ],
+   "role": "chain (cape)",
+   "voxels": 758,
+   "godot": "RightCapeArm0",
+   "unity_required": false
+  },
+  {
+   "name": "RightCapeArm1",
+   "parent": "RightCapeArm0",
+   "joint": [
+    -0.3075,
+    1.4175,
+    -0.0975
+   ],
+   "joint_kit": [
+    -20.5,
+    6.5,
+    94.5
+   ],
+   "role": "chain (cape)",
+   "voxels": 301,
+   "godot": "RightCapeArm1",
+   "unity_required": false
+  },
+  {
+   "name": "RightCapeArm2",
+   "parent": "RightCapeArm1",
+   "joint": [
+    -0.3375,
+    1.2675,
+    -0.0975
+   ],
+   "joint_kit": [
+    -22.5,
+    6.5,
+    84.5
+   ],
+   "role": "chain (cape)",
+   "voxels": 375,
+   "godot": "RightCapeArm2",
    "unity_required": false
   }
  ],
@@ -1684,10 +1801,12 @@
     "UpperChest": 342,
     "Neck": 1,
     "Head": 17,
-    "RightShoulder": 25,
-    "RightUpperArm": 1442,
-    "Cape0": 96,
-    "Cape1": 178
+    "RightShoulder": 32,
+    "Cape0": 97,
+    "Cape1": 178,
+    "RightCapeArm0": 758,
+    "RightCapeArm1": 301,
+    "RightCapeArm2": 375
    }
   },
   {
@@ -1861,10 +1980,10 @@
   "cap_faces": 6640,
   "core_faces": 1205,
   "triangles_unmerged": 47392,
-  "triangles": 44506,
-  "soft_quads": 9642,
-  "rectangles": 18524,
-  "vertices": 89012,
+  "triangles": 45440,
+  "soft_quads": 10706,
+  "rectangles": 18531,
+  "vertices": 90880,
   "atlas": [
    1024,
    256
@@ -1873,7 +1992,7 @@
    "base colour",
    "metal/roughness"
   ],
-  "bytes": 7621356
+  "bytes": 7770464
  },
  "material": {
   "sampling": "nearest (point), clamp to edge, no mipmaps; one texel per voxel face with a 1-texel gutter",
@@ -1888,19 +2007,19 @@
     "lod": 0,
     "voxel_cm": 1.5,
     "screen_height_min": 0.25,
-    "triangles": 44506
+    "triangles": 45440
    },
    {
     "lod": 1,
     "voxel_cm": 3.0,
     "screen_height_min": 0.08,
-    "triangles": 12762
+    "triangles": 12972
    },
    {
     "lod": 2,
     "voxel_cm": 6.0,
     "screen_height_min": 0.0,
-    "triangles": 3830
+    "triangles": 3886
    }
   ],
   "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells); baked at rest, so it does not follow the bends",

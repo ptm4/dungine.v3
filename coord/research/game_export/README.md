@@ -54,3 +54,24 @@
 - `DevCaptures/s_*`: the dials, front-lit (`DevCapture.KeyEuler = (48,205,0)`, top view).
 - `DevCaptures/l_*`: the LODs, with `LibraryFigures.ForceLod`.
 - `DevCaptures/e_cape*`: the cape in the casts.
+
+## Round 2 (2026-10-03)
+
+- **N's cape-arm chains:** the fighter, Ireena, Ismark and the ranger are recopied. Their chains are
+  `RightCapeArm`/`LeftCapeArm`, on the shoulder, with the `arms` collider group. No code change was needed.
+  - Checked with the real springs:
+    - Cast A, side, game and front views (`DevCaptures/n_fA_*`): the arm comes out from under the cape, with no red
+      sleeve. At the tuck the cape stays at the right side and doesn't slide across the chest (front view, f009 and
+      f012).
+    - Cast B (`n_fB_*`): the cape stays on the shoulder, its hem lifted a little by the arm.
+    - The stab (`n_fS_*`): the cape drapes over the top of the horizontal upper arm, not along the forearm.
+    - Ireena's cast A, with her left-arm cape over the steadying arm (`n_iA_*`): it hangs beside the arm.
+    - Ismark's stab, with both sides (`n_mS_*`).
+  - Before and after: `cape_fixed.gif` and `cape_fixed_push.gif`; stills in `cape_tuck_front.png`.
+- **Static figures:** the export's 15 static models (8 figures and 7 props) are copied into
+  `Assets/LookTest/Resources/LookTest/Export` (`<id>.glb` and `<id>.json`).
+  - `LookTest.Place` uses them first (`UseExport`, on by default), falling back to the old bake. The road view's 5 come
+    from the export.
+  - `LibraryFigures.PrepareStatic` gives them the Dungine/VoxelAtlas material and a LODGroup sized to the model.
+  - The bake stays for the weapons and held things (cup, jug, sack), which the export doesn't carry.
+  - Capture: `road_figures.png` (`Assets/Captures/road_bake.png` and `road_export2.png`).

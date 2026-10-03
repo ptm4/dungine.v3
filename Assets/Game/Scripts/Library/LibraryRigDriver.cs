@@ -15,7 +15,7 @@ namespace Dungine.Library
     ///      colliders on the body.
     /// </summary>
     [DefaultExecutionOrder(150)]
-    public class LibraryRigDriver : MonoBehaviour
+    public partial class LibraryRigDriver : MonoBehaviour
     {
         public HumanoidRig rig;
         public Transform upperChest;
@@ -35,7 +35,11 @@ namespace Dungine.Library
         float holdW, speedS; Vector3 lastHoldPos; bool holdStarted;
         HumanoidAnimator ha; Actor actor;
 
-        class Collider { public Transform node; public Vector3 a, b; public float r; public bool capsule; }
+        class Collider
+        {
+            public Transform node; public Vector3 a, b; public float r; public bool capsule;
+            public Vector3 wa, wb; public float wr;   // this frame, in the world (worked out once per frame, not per joint)
+        }
         class Joint
         {
             public Transform t; public Quaternion restLocal; public Vector3 axis; public float length;
@@ -46,7 +50,30 @@ namespace Dungine.Library
             public float followHips; public Transform hips;
             /// <summary>Rest position, under the parent bone and under the hips (a skirt joint is placed between the two).</summary>
             public Vector3 restLocalPos, restHipsPos;
+            /// <summary>The joint's parent when that is a spring joint updated earlier in the same pass (-1: a body bone).</summary>
+            public int parentJoint = -1;
+            public Quaternion worldRot; public Vector3 head;   // this frame's result, for the joints hanging below it
         }
+        readonly List<Collider> allColliders = new List<Collider>();
+
+        /// <summary>Cost control (2026-10-03): springs run every frame while the figure's full-detail LOD shows, every 2nd
+        /// frame at the middle LOD, every 4th at the far LOD, and not at all while no LOD is drawn (off screen and casting
+        /// no visible shadow). The cloth keeps its last shape meanwhile. Captures (manual) always run every frame.</summary>
+        public static bool ThrottleOn = true;
+        /// <summary>Dev counters: spring passes run and skipped since the last reset (all library figures).</summary>
+        public static int PassesRun, PassesSkipped;
+        /// <summary>Dev: main-thread time spent on springs (scheduling or the managed pass, and LibrarySprings' wait and
+        /// writes) since ResetCost, in Stopwatch ticks, and the frame it started.</summary>
+        public static long SpringTicks, WaitTicks; public static int CostFrom;
+        public static void ResetCost() { SpringTicks = WaitTicks = 0; PassesRun = PassesSkipped = 0; CostFrom = Time.frameCount; }
+        public static string Cost()
+        {
+            int frames = Mathf.Max(1, Time.frameCount - CostFrom);
+            double ms = SpringTicks * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+            double wait = WaitTicks * 1000.0 / System.Diagnostics.Stopwatch.Frequency;
+            return $"springs: {ms / frames:F3} ms a frame on the main thread ({wait / frames:F3} of it waiting for and writing the jobs) over {frames} frames; passes run {PassesRun}, skipped {PassesSkipped}";
+        }
+        Renderer[] lodRenderers; float springDt; int springFrame;
         /// <summary>Skirt panels hang between the thigh and the hips, so cloth spanning both legs doesn't split at each step.</summary>
         public static float SkirtFrontBackFollow = 0.7f, SkirtSideFollow = 0.4f;
         readonly List<Joint> joints = new List<Joint>();
@@ -114,6 +141,7 @@ namespace Dungine.Library
                     Vector3 tail = k + 1 < names.Count && T(names[k + 1] as string) ? T(names[k + 1] as string).localPosition : tipLocal;
                     if (tail.sqrMagnitude < 1e-8f) tail = new Vector3(0, -0.1f, 0);
                     var gd = MiniJson.Floats(jd, "gravityDir");
+                    int parentJoint = joints.FindIndex(o => o.t == t.parent);
                     joints.Add(new Joint
                     {
                         t = t, restLocal = t.localRotation, TailLocal = tail, axis = tail.normalized, length = tail.magnitude,
@@ -122,9 +150,11 @@ namespace Dungine.Library
                         gravityDir = gd != null ? LibraryFigures.FromGltf(gd).normalized : Vector3.down, cols = chainCols,
                         followHips = k == 0 ? follow : 0f, hips = T("Hips"), restLocalPos = t.localPosition,
                         restHipsPos = T("Hips") ? T("Hips").InverseTransformPoint(t.position) : Vector3.zero,
+                        parentJoint = parentJoint,
                     });
                 }
             }
+            foreach (var c in cols.Values) allColliders.Add(c);
         }
 
         public int ChainJoints => joints.Count;
@@ -157,66 +187,122 @@ namespace Dungine.Library
                 holdW = Mathf.MoveTowards(holdW, target, dt * 3f);
                 if (holdW > 0.001f) foreach (var (t, q) in armHold) t.localRotation = Quaternion.Slerp(t.localRotation, q, holdW);
             }
-            // 3. springs
-            if (springs && SpringsOn && joints.Count > 0) Springs(dt);
+            // 3. springs, as often as the figure's size on screen needs
+            if (springs && SpringsOn && joints.Count > 0)
+            {
+                int every = manual || !ThrottleOn ? 1 : SpringEvery();
+                springDt += dt; springFrame++;
+                if (every == 0) { springDt = 0; PassesSkipped++; }
+                else if (springFrame % every != 0) PassesSkipped++;
+                else
+                {
+                    long t0 = System.Diagnostics.Stopwatch.GetTimestamp();
+                    if (!ScheduleSprings(springDt)) Springs(springDt);
+                    SpringTicks += System.Diagnostics.Stopwatch.GetTimestamp() - t0;
+                    springDt = 0; PassesRun++;
+                }
+            }
             // 4. the arms may have moved since the animator placed a weapon for a cast
             if (!ha) ha = GetComponent<HumanoidAnimator>();
             if (ha) ha.HoldForCast();
         }
 
+        /// <summary>1 every frame, 2 or 4 for the middle and far LODs, 0 while nothing of the figure is drawn.</summary>
+        int SpringEvery()
+        {
+            if (lodRenderers == null)
+            {
+                var list = new List<Renderer>();
+                foreach (var r in rig.renderers) if (r && r.name.StartsWith("Body_LOD")) list.Add(r);
+                list.Sort((x, y) => string.CompareOrdinal(x.name, y.name));
+                if (list.Count == 0 && rig.body) list.Add(rig.body);
+                lodRenderers = list.ToArray();
+            }
+            int[] rates = { 1, 2, 4 };
+            for (int i = 0; i < lodRenderers.Length; i++)
+                if (lodRenderers[i] && lodRenderers[i].isVisible) return rates[Mathf.Min(i, rates.Length - 1)];
+            return lodRenderers.Length == 0 ? 1 : 0;
+        }
+
         void Springs(float dt)
         {
-            dt = Mathf.Clamp(dt, 1e-4f, 1f / 30f);
+            dt = Mathf.Clamp(dt, 1e-4f, 1f / 20f);
             // The tails are simulated in the figure's own space (VRM's "center"), so walking across the world doesn't drag
             // the cloth behind like a flag; turning, bobbing and the legs' swing still move it.
             var space = transform;
-            bool reset = !started || (transform.position - lastPos).sqrMagnitude > 1f;   // first frame or a teleport
-            started = true; lastPos = transform.position;
-            foreach (var j in joints)
+            Matrix4x4 toWorld = space.localToWorldMatrix, toLocal = space.worldToLocalMatrix;
+            bool reset = !started || (space.position - lastPos).sqrMagnitude > 1f;   // first frame or a teleport
+            started = true; lastPos = space.position;
+            if (!ha) ha = GetComponent<HumanoidAnimator>();
+            bool seated = ha && ha.seated;
+            float scale = space.lossyScale.y;   // the bones themselves are never scaled
+            // the colliders where they are this frame, once
+            foreach (var c in allColliders)
             {
-                // the joint's rest orientation under wherever its parent is now (a skirt's top joint: part way to the hips)
-                var parentRot = j.t.parent ? j.t.parent.rotation : Quaternion.identity;
-                if (!ha) ha = GetComponent<HumanoidAnimator>();
-                float follow = ha && ha.seated ? 0f : j.followHips;   // seated, the cloth lies on the thighs
-                if (follow > 0 && j.hips && j.t.parent != j.hips)
+                var m = c.node.localToWorldMatrix;
+                c.wa = m.MultiplyPoint3x4(c.a);
+                c.wb = c.capsule ? m.MultiplyPoint3x4(c.b) : c.wa;
+                c.wr = c.r * scale;
+            }
+            // Joints come chain by chain, top first. A joint below another spring joint takes its parent's new pose from
+            // that joint's result instead of reading it back from the transform, so each joint costs one write.
+            for (int i = 0; i < joints.Count; i++)
+            {
+                var j = joints[i];
+                Quaternion parentRot, actualParentRot; Vector3 head;
+                if (j.parentJoint >= 0)
                 {
-                    var hipsRot = j.hips.rotation;   // every bone rests unrotated, so the hips' turn is the rest frame
-                    parentRot = Quaternion.Slerp(parentRot, hipsRot, follow);
+                    var pj = joints[j.parentJoint];
+                    actualParentRot = parentRot = pj.worldRot;
+                    head = pj.head + parentRot * (j.restLocalPos * scale);
+                }
+                else
+                {
+                    var p = j.t.parent;
+                    if (!p) continue;
+                    p.GetPositionAndRotation(out var pp, out actualParentRot);
+                    parentRot = actualParentRot;
+                    head = pp + actualParentRot * (j.restLocalPos * scale);
+                    // the joint's rest under wherever its parent is now (a skirt's top joint: part way to the hips)
+                    float follow = seated ? 0f : j.followHips;   // seated, the cloth lies on the thighs
+                    if (follow > 0 && j.hips && p != j.hips)
+                    {
+                        parentRot = Quaternion.Slerp(parentRot, j.hips.rotation, follow);
+                        head = Vector3.Lerp(head, j.hips.TransformPoint(j.restHipsPos), follow);
+                        j.t.position = head;
+                    }
                 }
                 var restRot = parentRot * j.restLocal;
-                if (j.t.parent)
-                    j.t.position = follow > 0 && j.hips ? Vector3.Lerp(j.t.parent.TransformPoint(j.restLocalPos), j.hips.TransformPoint(j.restHipsPos), follow)
-                                                       : j.t.parent.TransformPoint(j.restLocalPos);
-                j.t.rotation = restRot;
-                var head = j.t.position;
                 var restDir = restRot * j.axis;
-                float len = j.length * j.t.lossyScale.y;
-                if (reset) { j.cur = j.prev = space.InverseTransformPoint(head + restDir * len); }
-                Vector3 cur = space.TransformPoint(j.cur), prev = space.TransformPoint(j.prev);
+                float len = j.length * scale;
+                if (reset) j.cur = j.prev = toLocal.MultiplyPoint3x4(head + restDir * len);
+                Vector3 cur = toWorld.MultiplyPoint3x4(j.cur), prev = toWorld.MultiplyPoint3x4(j.prev);
                 var next = cur + (cur - prev) * (1f - j.drag)
                            + restDir * (j.stiffness * dt)
                            + j.gravityDir * (j.gravity * dt);
                 next = head + (next - head).normalized * len;
-                foreach (var c in j.cols) next = PushOut(c, next, j.hit, head, len);
-                j.prev = j.cur; j.cur = space.InverseTransformPoint(next);
-                j.t.rotation = Quaternion.FromToRotation(restDir, next - head) * restRot;
+                for (int k = 0; k < j.cols.Count; k++) next = PushOut(j.cols[k], next, j.hit, head, len);
+                j.prev = j.cur; j.cur = toLocal.MultiplyPoint3x4(next);
+                var rot = Quaternion.FromToRotation(restDir, next - head) * restRot;
+                j.worldRot = rot; j.head = head;
+                j.t.localRotation = Quaternion.Inverse(actualParentRot) * rot;
             }
         }
 
         static Vector3 PushOut(Collider c, Vector3 p, float hit, Vector3 head, float len)
         {
-            Vector3 a = c.node.TransformPoint(c.a);
-            Vector3 centre = a;
+            Vector3 centre = c.wa;
             if (c.capsule)
             {
-                Vector3 b = c.node.TransformPoint(c.b), ab = b - a;
-                float s = Mathf.Clamp01(Vector3.Dot(p - a, ab) / Mathf.Max(1e-6f, ab.sqrMagnitude));
-                centre = a + ab * s;
+                Vector3 ab = c.wb - c.wa;
+                float s = Mathf.Clamp01(Vector3.Dot(p - c.wa, ab) / Mathf.Max(1e-6f, ab.sqrMagnitude));
+                centre = c.wa + ab * s;
             }
-            float r = c.r * c.node.lossyScale.y + hit;
+            float r = c.wr + hit;
             Vector3 d = p - centre;
-            if (d.sqrMagnitude >= r * r || d.sqrMagnitude < 1e-10f) return p;
-            p = centre + d.normalized * r;
+            float d2 = d.sqrMagnitude;
+            if (d2 >= r * r || d2 < 1e-10f) return p;
+            p = centre + d * (r / Mathf.Sqrt(d2));
             return head + (p - head).normalized * len;
         }
 

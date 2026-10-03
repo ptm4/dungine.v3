@@ -64,12 +64,20 @@ namespace Dungine.LookTest
         void OnDisable() => Native();
 
         // ------------------------------------------------------------------ placing
+        /// <summary>The library's game export (2026-10-03): the static figures and props as glTFast imports them, with their
+        /// atlas, AO and LODs. Used in place of the look test's own bake when present; false goes back to the bake.</summary>
+        public static bool UseExport = true;
+        const string ExportFolder = "LookTest/Export/";
+
         public static GameObject Place(AreaContext ctx, string id, Vector3 p, float yaw, Transform parent = null)
         {
-            var prefab = Resources.Load<GameObject>(Folder + id);
+            var prefab = UseExport ? Resources.Load<GameObject>(ExportFolder + id) : null;
+            bool fromExport = prefab;
+            if (!prefab) prefab = Resources.Load<GameObject>(Folder + id);
             if (!prefab) { Debug.LogWarning("[LookTest] no baked model " + id); return null; }
             var go = Instantiate(prefab, parent ? parent : ctx.root);
             go.name = "Library_" + id;
+            if (fromExport) Library.LibraryFigures.PrepareStatic(go, Resources.Load<TextAsset>(ExportFolder + id)?.text);
             go.transform.position = new Vector3(p.x, ctx.GroundY(p.x, p.z, p.y), p.z);
             go.transform.rotation = Quaternion.Euler(0, yaw, 0);
             return go;

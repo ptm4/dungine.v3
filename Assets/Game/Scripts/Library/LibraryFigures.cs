@@ -149,7 +149,10 @@ namespace Dungine.Library
         /// <summary>Below this share of the screen's height a figure isn't drawn at all.</summary>
         public const float CullHeight = 0.002f;
 
-        static void SetUpLods(GameObject inst, SkinnedMeshRenderer[] meshes, object game, float height)
+        static void SetUpLods(GameObject inst, Renderer[] meshes, object game, float height) =>
+            SetUpLods(inst, meshes, game, height, new Vector3(0, height * 0.5f, 0));
+
+        static void SetUpLods(GameObject inst, Renderer[] meshes, object game, float size, Vector3 centre)
         {
             // the export suggests switching when the figure fills less than 25% and then 8% of the screen's height
             var heights = new List<float>();
@@ -168,9 +171,33 @@ namespace Dungine.Library
             lg.fadeMode = LODFadeMode.None;
             lg.SetLODs(lods);
             // measured against the figure's height, not its renderers' bounds (those are padded for swinging cloth)
-            lg.localReferencePoint = new Vector3(0, height * 0.5f, 0);
-            lg.size = height;
+            lg.localReferencePoint = centre;
+            lg.size = size;
             if (ForceLod >= 0) lg.ForceLOD(Mathf.Min(ForceLod, meshes.Length - 1));
+        }
+
+        /// <summary>A static model from the game export (a standing figure or a prop, imported by glTFast): every renderer
+        /// gets the Dungine/VoxelAtlas material, and Body_LOD0..2 go into a LODGroup sized to the model. 'json' is the
+        /// export's &lt;id&gt;.json (its "lods" give the switch heights). The export has no review base, so nothing is cut away.</summary>
+        public static void PrepareStatic(GameObject go, string json)
+        {
+            var data = string.IsNullOrEmpty(json) ? null : MiniJson.Parse(json);
+            var rends = go.GetComponentsInChildren<MeshRenderer>(true);
+            foreach (var r in rends)
+            {
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                var mats = r.sharedMaterials;
+                for (int i = 0; i < mats.Length; i++) mats[i] = VoxelMaterial(mats[i]);
+                r.sharedMaterials = mats;
+            }
+            var lodRs = rends.Where(r => r.name.StartsWith("Body_LOD")).OrderBy(r => r.name).ToArray();
+            if (lodRs.Length < 2) return;
+            // the model's size and centre at rest, in its own space
+            var b = new Bounds(go.transform.InverseTransformPoint(lodRs[0].bounds.center), Vector3.zero);
+            var wb = lodRs[0].bounds;
+            foreach (var corner in new[] { wb.min, wb.max }) b.Encapsulate(go.transform.InverseTransformPoint(corner));
+            float size = Mathf.Max(b.size.x, Mathf.Max(b.size.y, b.size.z));
+            SetUpLods(go, lodRs, data, Mathf.Max(0.05f, size), b.center);
         }
 
         /// <summary>The dials' starting values (2026-10-03): a wrap of 0.6, 25% more ambient and the AO at 0.7 soften the dark

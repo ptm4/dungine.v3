@@ -61,17 +61,18 @@ sacks. They stay upright as the figure moves.</p>
 <figure><img src="held_walk.gif" alt="Walking with the jug and the sacks"><figcaption>Real speed.</figcaption></figure>
 
 <h2>A crowd</h2>
-<p>Thirty library figures, all moving with their cloth and hair swinging, against thirty of v2's figures, in the
-village square on this PC:</p>
+<p>Thirty library figures in the village square, with their cloth and hair swinging. The swinging cloth and hair were
+the costly part, so they now work out in parallel on the computer's spare cores. They also update less often for
+figures small on screen, and not at all for figures off screen. The time the game's scripts take each frame:</p>
 <table>
-  <tr><th></th><th>Average frame</th><th>Typical frame</th></tr>
-  <tr><td>The square, nothing added</td><td>7.3 ms</td><td>7.0 ms</td></tr>
-  <tr><td>+ 30 v2 figures</td><td>8.1 ms</td><td>7.2 ms</td></tr>
-  <tr><td>+ 30 library figures</td><td>9.2 to 10.4 ms</td><td>7.9 to 9.7 ms</td></tr>
-  <tr><td>+ 30 library figures, cloth and hair held still</td><td>7.9 ms</td><td>7.5 ms</td></tr>
+  <tr><th></th><th>Scripts' time each frame</th></tr>
+  <tr><td>Cloth and hair held still</td><td>0.8 ms</td></tr>
+  <tr><td>Cloth and hair swinging, before</td><td>3.1 ms</td></tr>
+  <tr><td>Cloth and hair swinging, now</td><td>1.1 to 1.3 ms</td></tr>
 </table>
-<p>The swinging cloth and hair cost the most. Thirty figures still run at about 100 frames a second, and the cloth can
-be made cheaper for figures far from the camera when crowds get bigger.</p>
+<p>The cloth and hair's share drops from about 2.3 ms to about 0.4 ms. Near the camera they move just as before.</p>
+<figure><img src="springs_same_result.gif" alt="The same walk two ways"><figcaption>The same walk with the old way (left) and the
+new (right).</figcaption></figure>
 <figure><img src="crowds.png" alt="The two crowds"><figcaption>Left: thirty library figures. Right: thirty of v2's figures.</figcaption></figure>
 </main>
 </body>

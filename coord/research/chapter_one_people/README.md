@@ -12,7 +12,7 @@
   - vistani0/1/2 (Alenka, Mirabel, Sorvia);
   - bildrath, parriwimple;
   - rose, thorn.
-- The house's ghosts and "strahd" stay v2's. Nothing from `pixel3d\sealed` is used.
+- A few of v2's figures keep their v2 models for now. Nothing from the library's sealed folder is used.
 - `ActorFactory` builds the library rig whenever the NPC id is mapped. `Area.NPC` gives the NPC id as `m.id`.
 - Positions, seating (`Actor.Sit`) and facing are v2's.
 - Checked in place, with captures in `Assets/Captures/people_*.png`:
@@ -60,3 +60,40 @@ Village square, default camera, `tools/lookmeasure.sh` with 600 frames. The libr
 - The cheap next steps:
   - run the springs at a lower rate, or not at all, for far or off-screen figures;
   - a Burst job.
+
+## Spring cost, round 2 (2026-10-03)
+
+- **Before:** `LibraryRigDriver.Springs` read and wrote every joint's transform, with 2 to 4 hierarchy reads and 2 or 3
+  writes a joint, and every collider transformed again for every joint.
+- **The managed pass, rewritten:**
+  - Colliders are put in world space once a frame.
+  - A joint under another spring joint takes its parent's new pose from that joint's result, not from its transform.
+  - Each joint gets one `localRotation` write.
+- **The Burst pass (`LibraryRigDriver.Burst.cs`):**
+  - The main thread reads each chain's parent bone and the colliders, then schedules a Burst `IJob` over all the
+    figure's joints. That is done per figure, in Tick, so the figures run in parallel.
+  - `LibrarySprings` (order 160) then schedules `IJobParallelForTransform` writes after every figure's job and
+    completes them.
+  - The writes can't be scheduled from Tick: every NPC hangs under the area root, so the next figure's bone reads
+    would wait on them.
+  - Rigs with hips-follow skirt panels (round-2 rigs) keep the managed pass.
+  - Switch: `BurstOn`.
+- **Throttle (`ThrottleOn`):** the springs run every frame at LOD0, every 2nd frame at LOD1, every 4th at LOD2, and not at
+  all while no LOD renderer is visible. Manual (capture) figures always run every frame.
+- **Measured:** `LateBehaviourUpdate` (all scripts' LateUpdate, ProfilerRecorder over about 250 frames), village square,
+  `RigCrowd(30)`:
+
+| | scripts' LateUpdate |
+|---|---|
+| springs off | 0.76 to 0.97 ms |
+| old managed springs (HEAD before this round) | 3.0 to 3.2 ms |
+| rewritten managed, every frame | 1.95 to 2.19 ms |
+| Burst, every frame | 1.20 to 1.23 ms |
+| Burst + LOD throttle (default) | 1.10 to 1.36 ms |
+
+- Main-thread Stopwatch share of the springs: managed 0.81 to 0.90 ms; Burst 0.62 ms (0.10 of it waiting and
+  writing); Burst + throttle 0.37 ms. In this crowd about 30% of the passes are skipped (the back rows show LOD1).
+- Frame-time means (`lookmeasure.sh`) swing by about 1 ms between runs on this shared machine, so they can't resolve
+  this.
+- **Same result:** Ireena's walk, captured with the managed pass and with the Burst pass, differs only by float noise
+  (`springs_same_result.gif`; DevCaptures `b_managed`, `b_burst`).
