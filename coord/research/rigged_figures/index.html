@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Library figures moving</title>
+<style>
+  :root { --bg: #141418; --panel: #1d1d23; --text: #e6dfd2; --dim: #a8a194; --gold: #d8b26a; --line: #34343c; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 "Palatino Linotype", Georgia, serif; }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { color: var(--gold); font-weight: normal; letter-spacing: 1px; margin: 0 0 4px; }
+  h2 { color: var(--gold); font-weight: normal; border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-top: 40px; }
+  p, li { max-width: 860px; }
+  .dim { color: var(--dim); }
+  figure { margin: 16px 0 24px; }
+  figure img { max-width: 100%; height: auto; display: block; border: 1px solid var(--line); }
+  figcaption { color: var(--dim); font-size: 14px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Library figures moving</h1>
+<p class="dim">Dungine.v3, 3 October 2026. The library's rigged figures, moved by v2's own animation.</p>
+
+<p>The library's figures now walk, run, cast, strike and fall in the game. v2 animates everyone with code (no
+animation files), and that code now drives the library's voxel figures without any changes. Hair, skirts, aprons and
+capes swing as they walk.</p>
+
+<h2>In the village</h2>
+<p>One of v2's village folk, the villager standing by the square, is now a library figure (Bildrath's model, for the
+test). v2's villagers only ever stood still, so he was given a short walk round the square, with a pause at each
+corner. He walks on the same paths the party uses.</p>
+<figure><img src="village_villager_walks.gif" alt="A library villager walking across the square"><figcaption>He crosses the square
+at the game's usual camera angle, with the party watching from the bottom of the screen (12 frames a second, real speed).</figcaption></figure>
+<figure><img src="village_villager_still.png" alt="A still of the same"><figcaption>A still from the same moment.</figcaption></figure>
+
+<h2>v2's motions on a library figure</h2>
+<figure><img src="motions_v2_on_library_figure.gif" alt="Walk, cast, strike and fall"><figcaption>The fighter hero: walking,
+casting, a strike (empty-handed, as weapons aren't attached yet), and falling.</figcaption></figure>
+<figure><img src="motions_stills.png" alt="Stills of the same"><figcaption>Stills of the same.</figcaption></figure>
+
+<h2>Hair and cloth</h2>
+<figure><img src="cloth_and_hair.gif" alt="Dress, hair, cape and apron in motion"><figcaption>Ireena's dress and long hair from the
+side and from behind (her cape too), and Bildrath's apron from the side and three-quarters.</figcaption></figure>
+<figure><img src="cloth_stills.png" alt="Stills"><figcaption>Stills. Right: Arik standing; his bowed head is the pose from his
+review, laid over the idle.</figcaption></figure>
+<p>What's still rough:</p>
+<ul>
+  <li><strong>Long cloth in front of both legs</strong>, like an apron or a dress front, wanted to split down the middle
+    with each step. In the picture below the middle frame shows it stretching into a sheet between the legs; on the
+    right it now hangs from the hips. The bottom edge still flicks a little; the library export will fix the cause.</li>
+  <li><strong>A half-cape lying over one arm</strong> lifts with that arm, like a sleeve, when the arm goes up (in the
+    cast).</li>
+</ul>
+<figure><img src="apron_before_after.png" alt="The apron before and after"><figcaption>Left: the apron at rest. Middle: walking,
+before the fix. Right: walking now.</figcaption></figure>
+
+<h2>Next</h2>
+<ul>
+  <li>The rest of Chapter One's people, each in their own place.</li>
+  <li>Weapons and held things in the hands.</li>
+  <li>The party as library figures, once their looks are chosen.</li>
+  <li>Your choice of look and outlines from the look test, when you're ready.</li>
+</ul>
+</main>
+</body>
+</html>

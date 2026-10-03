@@ -61,8 +61,18 @@ namespace Dungine
             GameObject body = null; HumanoidAnimator ha = null; BeastAnimator qa = null; IAnimDriver drv = null;
             float height = 1.8f, length = 0.6f;
             bool quad = false;
-            var sheet = UI.CreationScreen.Premade().FirstOrDefault(s => s.name.ToLowerInvariant() == subject);
-            if (sheet != null)
+            Library.LibraryRigDriver ld = null;
+            var sheet = subject.StartsWith("lib:") ? null : UI.CreationScreen.Premade().FirstOrDefault(s => s.name.ToLowerInvariant() == subject);
+            if (subject.StartsWith("lib:"))
+            {
+                // v3: a rigged library figure (Library/LibraryFigures.cs), driven by v2's own animator
+                var rig = Library.LibraryFigures.Build(subject.Substring(4), new GearLook(), subject.Substring(4));
+                if (rig == null) { File.WriteAllText(Path.Combine(dir, "done.txt"), "unknown library figure " + subject); Destroy(studio.gameObject); Destroy(gameObject); yield break; }
+                body = rig.gameObject; height = rig.height;
+                ha = body.AddComponent<HumanoidAnimator>(); ha.Init(rig, MotionStyle.Normal); ha.manual = true; drv = ha;
+                ld = body.GetComponent<Library.LibraryRigDriver>(); ld.manual = true;
+            }
+            else if (sheet != null)
             {
                 var c = Creature.FromSheet(sheet);
                 foreach (var id in sheet.StartingItems) Game.I.AutoEquip(c, new ItemStack(id));
@@ -92,7 +102,7 @@ namespace Dungine
             root.position = Origin;
             root.rotation = Quaternion.identity;
             foreach (var t in body.GetComponentsInChildren<Transform>(true)) t.gameObject.layer = Layers.Default;
-            Action<float> tick = dt => { if (ha) ha.Tick(dt); if (qa) qa.Tick(dt); };
+            Action<float> tick = dt => { if (ha) ha.Tick(dt); if (ld) ld.Tick(dt); if (qa) qa.Tick(dt); };
 
             // ---------- action ----------
             float speed = 0; float spin = 0; AnimAct act = AnimAct.None; LifeState life = LifeState.Alive;

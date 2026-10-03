@@ -23,6 +23,8 @@ namespace Dungine.LookTest
         public static LookTest I;
         /// <summary>Turn the library models off (v2's look only).</summary>
         public static bool Enabled = true;
+        /// <summary>The static figure row in the village square (the first look test). Off now that a rigged villager walks there.</summary>
+        public static bool VillageLineup = false;
         public static string Report = "";
 
         static readonly string[] Figures = { "fighter", "arik", "bildrath_cantemir", "parriwimple", "barovian_commoner_m", "barovian_commoner_f", "barovian_noble_m", "guard" };
@@ -39,6 +41,8 @@ namespace Dungine.LookTest
             var go = new GameObject("LookTest");
             DontDestroyOnLoad(go);
             I = go.AddComponent<LookTest>();
+            // phase 3 (G2): one of v2's village folk becomes a rigged library figure, driven by v2's animator
+            Library.LibraryFigures.ByNpcId["villager0"] = "bildrath_cantemir";
         }
 
         void Update()
@@ -48,7 +52,11 @@ namespace Dungine.LookTest
             if (g.area.root == lastRoot) return;
             lastRoot = g.area.root;
             crowd.Clear();
-            if (g.areaId == "village") PlaceVillage(g.area);
+            if (g.areaId == "village")
+            {
+                if (VillageLineup) PlaceVillage(g.area);
+                Library.Stroll.Start(g.area, "villager0", new[] { new Vector2(-5.5f, -4f), new Vector2(5.5f, -4f), new Vector2(5.5f, 1.5f), new Vector2(-5f, 5f) });
+            }
             else if (g.areaId == "svalich_road") PlaceRoad(g.area);
         }
 
@@ -203,6 +211,42 @@ namespace Dungine.LookTest
             CameraRig.I.follow = true;
             CameraRig.I.SetView(yaw, zoom);
             return $"view yaw {yaw} zoom {zoom}";
+        }
+
+        // ------------------------------------------------------------------ game-view clips
+        /// <summary>Saves the game view (with the HUD) every 'every' frames to DevCaptures/&lt;name&gt;/f###.png, at 'scale'
+        /// of its size (scaling is left to tools/gif.py or a script), for tools/gif.py. Optionally keeps the camera on an actor (by area id). Watch Report for "clip done".</summary>
+        public static string Clip(string name, int frames = 48, int every = 2, float scale = 0.5f, string followId = null, float zoom = 0)
+        {
+            I.StartCoroutine(I.ClipRoutine(name, frames, every, scale, followId, zoom));
+            return "clip started";
+        }
+
+        IEnumerator ClipRoutine(string name, int frames, int every, float scale, string followId, float zoom)
+        {
+            Report = "clipping";
+            var dir = DevCapture.OutDir(name);
+            if (System.IO.Directory.Exists(dir)) foreach (var f in System.IO.Directory.GetFiles(dir)) System.IO.File.Delete(f);
+            System.IO.Directory.CreateDirectory(dir);
+            var cam = CameraRig.I;
+            Transform prevFollow = cam.followT;
+            if (followId != null && Game.I.area != null && Game.I.area.byId.TryGetValue(followId, out var a) && a) { cam.followT = a.transform; cam.follow = true; }
+            if (zoom > 0) cam.SetView(cam.yaw, zoom);
+            for (int i = 0; i < 30; i++) yield return null;   // let the camera settle
+            // game time steps exactly 1/24 s per rendered frame while recording, however slow the PNG saving is
+            Time.captureDeltaTime = 1f / 24f;
+            for (int f = 0; f < frames; f++)
+            {
+                for (int k = 0; k < every; k++) yield return null;
+                yield return new WaitForEndOfFrame();
+                var shot = ScreenCapture.CaptureScreenshotAsTexture();   // the composited game view, colours as shown
+                System.IO.File.WriteAllBytes(System.IO.Path.Combine(dir, $"f{f:000}.png"), shot.EncodeToPNG());
+                Destroy(shot);
+            }
+            Time.captureDeltaTime = 0;
+            cam.followT = prevFollow;
+            System.IO.File.WriteAllText(System.IO.Path.Combine(dir, "done.txt"), $"frames={frames} every={every}");
+            Report = "clip done";
         }
 
         // ------------------------------------------------------------------ measuring

@@ -52,7 +52,8 @@ namespace Dungine
                         Appearance look; GearLook gear; MotionStyle style = MotionStyle.Normal;
                         if (c.isPC) { look = c.sheet.look; gear = GearFor(c); }
                         else { look = m.look ?? new Appearance(); gear = m.gear ?? new GearLook(); style = m.motion; }
-                        rig = HumanoidBuilder.Build(look, gear, c.name, faceRes);
+                        // v3: a rigged library figure when one is assigned to this v2 figure (Library/LibraryFigures.cs)
+                        rig = (m != null ? Library.LibraryFigures.TryBuild(m.id, gear, c.name) : null) ?? HumanoidBuilder.Build(look, gear, c.name, faceRes);
                         go = rig.gameObject;
                         var a = go.AddComponent<HumanoidAnimator>(); a.Init(rig, style); anim = a; rends = rig.renderers;
                         radius = Mathf.Clamp(rig.height * 0.2f, 0.25f, 0.45f); height = rig.height;

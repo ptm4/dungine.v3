@@ -131,6 +131,7 @@ namespace Dungine
                 if (!r) continue;
                 r.GetPropertyBlock(mpb);
                 mpb.SetColor("_EmissionColor", highlight * amt);
+                mpb.SetColor("emissiveFactor", highlight * amt);   // v3: library figures use glTFast's material
                 r.SetPropertyBlock(mpb);
             }
             if (amt <= 0.001f) foreach (var r in renderers) if (r) r.SetPropertyBlock(null);

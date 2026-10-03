@@ -7,3 +7,5 @@
 # Look test: baked voxel meshes (big YAML) and its screenshots
 Assets/LookTest/Resources/LookTest/Baked/*_mesh.asset filter=lfs diff=lfs merge=lfs -text
 coord/research/look_test/*.png filter=lfs diff=lfs merge=lfs -text
+coord/research/rigged_figures/*.png filter=lfs diff=lfs merge=lfs -text
+coord/research/rigged_figures/*.gif filter=lfs diff=lfs merge=lfs -text
