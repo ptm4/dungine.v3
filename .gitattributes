@@ -9,3 +9,5 @@ Assets/LookTest/Resources/LookTest/Baked/*_mesh.asset filter=lfs diff=lfs merge=
 coord/research/look_test/*.png filter=lfs diff=lfs merge=lfs -text
 coord/research/rigged_figures/*.png filter=lfs diff=lfs merge=lfs -text
 coord/research/rigged_figures/*.gif filter=lfs diff=lfs merge=lfs -text
+coord/research/cast_and_strike/*.gif filter=lfs diff=lfs merge=lfs -text
+coord/research/cast_and_strike/*.png filter=lfs diff=lfs merge=lfs -text

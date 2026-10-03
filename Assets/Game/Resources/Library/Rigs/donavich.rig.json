@@ -1,0 +1,2510 @@
+{
+ "format": "dnd5e_rig 2",
+ "id": "donavich",
+ "name": "Donavich",
+ "recipe": "pipeline/recipes/characters/npcs/donavich.json",
+ "generator": "pixel3d/pipeline/rig_export.py (kit/rig.py, kit/rig_soft.py)",
+ "units": {
+  "metres_per_voxel": 0.015,
+  "axes": "glTF: +Y up, the figure faces +Z, its left is +X. Kit voxel (x, y, z) -> glTF (x, z, -y) * 0.015."
+ },
+ "rest_stance": "the kit's hang stance (the arms about 11 degrees out, as v2's rig): the bind pose; no bone is rotated at rest",
+ "skinning": "four weights per vertex. Rigid bones (the head, hands and gear such as sheathed weapons, pouches and packs) carry their voxels whole; wrists and ankles are cut by a plane through the joint, and a hidden core (a ball of voxels in the colour of the garment, one voxel inside the surface) shows as a rounded knuckle when the joint bends. Elbows and knees bend soft: each arm and each leg blends across the joint over a band as wide as the limb, so the voxels there stretch and lean as the joint bends, and the limbs are rigid elsewhere. Soft groups blend: the arms and legs at the elbows and knees, the trunk in bands a few voxels wide at the Spine, Chest and UpperChest joints, the neck from UpperChest to Head, the collarbones, the balls of the feet, and the chains (skirts, capes, long hair, tails). Faces are merged into rectangles where all their corners share one weight set; soft faces are drawn one voxel face at a time so neighbours share the weights at their corners and never crack. Caps close each group where it meets another (hidden at rest).",
+ "groups": {
+  "rigid": 3137,
+  "axial": 9288,
+  "feet_left": 398,
+  "feet_right": 371,
+  "skirt": 6964,
+  "hair": 1138,
+  "arm_left": 4159,
+  "arm_right": 4158,
+  "leg_left": 2058,
+  "leg_right": 2057
+ },
+ "joints_l4": {
+  "cuts": "elbows and knees: soft bends, the limb blending across the plane that halves the joint over a band as wide as the limb (no cut, no core); wrists: a plane halving the angle; ankles: a plane across the shin (the heel goes with the foot); shoulders and hips: the ball of the upper arm and thigh turns in its socket",
+  "cores": [
+   {
+    "joint": "LeftShoulder",
+    "voxels": 171,
+    "on": "axial"
+   },
+   {
+    "joint": "LeftHip",
+    "voxels": 242,
+    "on": "axial"
+   },
+   {
+    "joint": "LeftWrist",
+    "voxels": 23,
+    "on": "arm_left"
+   },
+   {
+    "joint": "LeftAnkle",
+    "voxels": 99,
+    "on": "leg_left"
+   },
+   {
+    "joint": "RightShoulder",
+    "voxels": 171,
+    "on": "axial"
+   },
+   {
+    "joint": "RightHip",
+    "voxels": 238,
+    "on": "axial"
+   },
+   {
+    "joint": "RightWrist",
+    "voxels": 23,
+    "on": "arm_right"
+   },
+   {
+    "joint": "RightAnkle",
+    "voxels": 100,
+    "on": "leg_right"
+   }
+  ],
+  "limits": "keep elbows and knees under about 140 degrees and head turns within about 70 degrees (animation plan 1.4)",
+  "dressing": "interior voxels take their group's surface colour; 3278 bare leg voxels and 431 voxels of boots, hose or trousers out of sight inside the skirt are painted in its colour"
+ },
+ "chains": [
+  {
+   "name": "RightSkirtBack",
+   "kind": "skirt",
+   "parent": "RightUpperLeg",
+   "bones": [
+    "RightSkirtBack0",
+    "RightSkirtBack1"
+   ],
+   "tip": [
+    -0.065193,
+    0.482061,
+    -0.127917
+   ],
+   "tip_local": [
+    -0.00965,
+    -0.206584,
+    -0.016715
+   ],
+   "joints": [
+    {
+     "node": "RightSkirtBack0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "RightSkirtBack1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "RightSkirtBackLow",
+   "kind": "skirt",
+   "parent": "RightLowerLeg",
+   "bones": [
+    "RightSkirtBackLow0",
+    "RightSkirtBackLow1"
+   ],
+   "tip": [
+    -0.078579,
+    0.0675,
+    -0.151103
+   ],
+   "tip_local": [
+    -0.006398,
+    -0.20728,
+    -0.011081
+   ],
+   "joints": [
+    {
+     "node": "RightSkirtBackLow0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "RightSkirtBackLow1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "RightSkirtSide",
+   "kind": "skirt",
+   "parent": "RightUpperLeg",
+   "bones": [
+    "RightSkirtSide0",
+    "RightSkirtSide1"
+   ],
+   "tip": [
+    -0.151599,
+    0.482061,
+    -0.015
+   ],
+   "tip_local": [
+    -0.014834,
+    -0.206584,
+    0.0
+   ],
+   "joints": [
+    {
+     "node": "RightSkirtSide0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "RightSkirtSide1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "RightSkirtSideLow",
+   "kind": "skirt",
+   "parent": "RightLowerLeg",
+   "bones": [
+    "RightSkirtSideLow0",
+    "RightSkirtSideLow1"
+   ],
+   "tip": [
+    -0.18015,
+    0.0675,
+    -0.015
+   ],
+   "tip_local": [
+    -0.013689,
+    -0.20728,
+    0.0
+   ],
+   "joints": [
+    {
+     "node": "RightSkirtSideLow0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "RightSkirtSideLow1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "RightSkirtFront",
+   "kind": "skirt",
+   "parent": "RightUpperLeg",
+   "bones": [
+    "RightSkirtFront0",
+    "RightSkirtFront1"
+   ],
+   "tip": [
+    -0.075089,
+    0.482061,
+    0.115058
+   ],
+   "tip_local": [
+    -0.009085,
+    -0.206584,
+    0.015736
+   ],
+   "joints": [
+    {
+     "node": "RightSkirtFront0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "RightSkirtFront1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "RightSkirtFrontLow",
+   "kind": "skirt",
+   "parent": "RightLowerLeg",
+   "bones": [
+    "RightSkirtFrontLow0",
+    "RightSkirtFrontLow1"
+   ],
+   "tip": [
+    -0.078579,
+    0.0675,
+    0.121103
+   ],
+   "tip_local": [
+    -0.006398,
+    -0.20728,
+    0.011081
+   ],
+   "joints": [
+    {
+     "node": "RightSkirtFrontLow0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "RightSkirtFrontLow1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "LeftSkirtFront",
+   "kind": "skirt",
+   "parent": "LeftUpperLeg",
+   "bones": [
+    "LeftSkirtFront0",
+    "LeftSkirtFront1"
+   ],
+   "tip": [
+    0.075089,
+    0.482061,
+    0.115058
+   ],
+   "tip_local": [
+    0.009085,
+    -0.206584,
+    0.015736
+   ],
+   "joints": [
+    {
+     "node": "LeftSkirtFront0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "LeftSkirtFront1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "LeftSkirtFrontLow",
+   "kind": "skirt",
+   "parent": "LeftLowerLeg",
+   "bones": [
+    "LeftSkirtFrontLow0",
+    "LeftSkirtFrontLow1"
+   ],
+   "tip": [
+    0.078579,
+    0.0675,
+    0.121103
+   ],
+   "tip_local": [
+    0.006398,
+    -0.20728,
+    0.011081
+   ],
+   "joints": [
+    {
+     "node": "LeftSkirtFrontLow0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "LeftSkirtFrontLow1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "LeftSkirtSide",
+   "kind": "skirt",
+   "parent": "LeftUpperLeg",
+   "bones": [
+    "LeftSkirtSide0",
+    "LeftSkirtSide1"
+   ],
+   "tip": [
+    0.151599,
+    0.482061,
+    -0.015
+   ],
+   "tip_local": [
+    0.014834,
+    -0.206584,
+    0.0
+   ],
+   "joints": [
+    {
+     "node": "LeftSkirtSide0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "LeftSkirtSide1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "LeftSkirtSideLow",
+   "kind": "skirt",
+   "parent": "LeftLowerLeg",
+   "bones": [
+    "LeftSkirtSideLow0",
+    "LeftSkirtSideLow1"
+   ],
+   "tip": [
+    0.18015,
+    0.0675,
+    -0.015
+   ],
+   "tip_local": [
+    0.013689,
+    -0.20728,
+    0.0
+   ],
+   "joints": [
+    {
+     "node": "LeftSkirtSideLow0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "LeftSkirtSideLow1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "LeftSkirtBack",
+   "kind": "skirt",
+   "parent": "LeftUpperLeg",
+   "bones": [
+    "LeftSkirtBack0",
+    "LeftSkirtBack1"
+   ],
+   "tip": [
+    0.065193,
+    0.482061,
+    -0.127917
+   ],
+   "tip_local": [
+    0.00965,
+    -0.206584,
+    -0.016715
+   ],
+   "joints": [
+    {
+     "node": "LeftSkirtBack0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "LeftSkirtBack1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "LeftSkirtBackLow",
+   "kind": "skirt",
+   "parent": "LeftLowerLeg",
+   "bones": [
+    "LeftSkirtBackLow0",
+    "LeftSkirtBackLow1"
+   ],
+   "tip": [
+    0.078579,
+    0.0675,
+    -0.151103
+   ],
+   "tip_local": [
+    0.006398,
+    -0.20728,
+    -0.011081
+   ],
+   "joints": [
+    {
+     "node": "LeftSkirtBackLow0",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "LeftSkirtBackLow1",
+     "stiffness": 1.2,
+     "dragForce": 0.45,
+     "gravityPower": 0.35,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "legs"
+   ]
+  },
+  {
+   "name": "Hair",
+   "kind": "hair",
+   "parent": "Head",
+   "bones": [
+    "Hair0",
+    "Hair1"
+   ],
+   "tip": [
+    0.0,
+    1.2675,
+    -0.0975
+   ],
+   "tip_local": [
+    0.0,
+    -0.132514,
+    0.0
+   ],
+   "joints": [
+    {
+     "node": "Hair0",
+     "stiffness": 0.9,
+     "dragForce": 0.4,
+     "gravityPower": 0.15,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    },
+    {
+     "node": "Hair1",
+     "stiffness": 0.9,
+     "dragForce": 0.4,
+     "gravityPower": 0.15,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "body",
+    "head"
+   ]
+  },
+  {
+   "name": "LeftHair",
+   "kind": "hair",
+   "parent": "Head",
+   "bones": [
+    "LeftHair0"
+   ],
+   "tip": [
+    0.015,
+    1.3875,
+    -0.0375
+   ],
+   "tip_local": [
+    -0.0225,
+    -0.145027,
+    -0.045
+   ],
+   "joints": [
+    {
+     "node": "LeftHair0",
+     "stiffness": 0.9,
+     "dragForce": 0.4,
+     "gravityPower": 0.15,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "body",
+    "head"
+   ]
+  },
+  {
+   "name": "RightHair",
+   "kind": "hair",
+   "parent": "Head",
+   "bones": [
+    "RightHair0"
+   ],
+   "tip": [
+    -0.015,
+    1.3875,
+    -0.0375
+   ],
+   "tip_local": [
+    0.0225,
+    -0.145027,
+    -0.045
+   ],
+   "joints": [
+    {
+     "node": "RightHair0",
+     "stiffness": 0.9,
+     "dragForce": 0.4,
+     "gravityPower": 0.15,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "body",
+    "head"
+   ]
+  }
+ ],
+ "chain_follow": {
+  "hair": "hair chains hang from Head; the lowest hair keeps 50% on UpperChest, so a turned head twists the hair at the neck rather than swinging it off the back; hair lying on a cape takes the cape's weights and moves with it.",
+  "skirt": "skirt panels hang from the thighs, so a step lifts the cloth by itself (no runtime needed); where the cloth reaches below the knees, each panel goes on down the shin as a second chain (<panel>Low0..), so the cloth drapes down bent knees; it turns from the thigh chain to the shin chain level with the knee behind and beside it and a little below the knee in front, so it tents over a bent knee. Cloth in front of the thighs rides on them fully; the back and the sides keep a share on Hips above the knee (all of it at the hinge, 30% further down, none by the knee of a long skirt and none where the cloth touches a thigh). Across the front and the back the cloth goes with the leg it hangs over, blending from one leg to the other only in the gap between them. The springs in the game add sway on the chains."
+ },
+ "colliders": [
+  {
+   "name": "LeftThigh",
+   "node": "LeftUpperLeg",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      0.0073,
+      -0.39699,
+      0.01418
+     ],
+     "radius": 0.0694
+    }
+   }
+  },
+  {
+   "name": "LeftShin",
+   "node": "LeftLowerLeg",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      0.00626,
+      -0.39699,
+      -0.02127
+     ],
+     "radius": 0.05047
+    }
+   }
+  },
+  {
+   "name": "LeftUpperArmCollider",
+   "node": "LeftUpperArm",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      0.05388,
+      -0.27648,
+      -0.01418
+     ],
+     "radius": 0.05426
+    }
+   }
+  },
+  {
+   "name": "RightThigh",
+   "node": "RightUpperLeg",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      -0.00939,
+      -0.39699,
+      0.02127
+     ],
+     "radius": 0.0694
+    }
+   }
+  },
+  {
+   "name": "RightShin",
+   "node": "RightLowerLeg",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      -0.0073,
+      -0.39699,
+      -0.02127
+     ],
+     "radius": 0.05047
+    }
+   }
+  },
+  {
+   "name": "RightUpperArmCollider",
+   "node": "RightUpperArm",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      -0.05388,
+      -0.27648,
+      -0.01418
+     ],
+     "radius": 0.05426
+    }
+   }
+  },
+  {
+   "name": "HipsCollider",
+   "node": "Hips",
+   "shape": {
+    "sphere": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "radius": 0.09392
+    }
+   }
+  },
+  {
+   "name": "ChestCollider",
+   "node": "UpperChest",
+   "shape": {
+    "capsule": {
+     "offset": [
+      -0.07797,
+      0.03063,
+      0.0451
+     ],
+     "tail": [
+      0.07797,
+      0.03063,
+      0.0451
+     ],
+     "radius": 0.07539
+    }
+   }
+  },
+  {
+   "name": "HeadCollider",
+   "node": "Head",
+   "shape": {
+    "sphere": {
+     "offset": [
+      0.0,
+      0.09925,
+      0.02542
+     ],
+     "radius": 0.1243
+    }
+   }
+  }
+ ],
+ "colliderGroups": [
+  {
+   "name": "legs",
+   "colliders": [
+    "LeftThigh",
+    "LeftShin",
+    "RightThigh",
+    "RightShin"
+   ]
+  },
+  {
+   "name": "arms",
+   "colliders": [
+    "LeftUpperArmCollider",
+    "RightUpperArmCollider"
+   ]
+  },
+  {
+   "name": "body",
+   "colliders": [
+    "HipsCollider",
+    "ChestCollider"
+   ]
+  },
+  {
+   "name": "head",
+   "colliders": [
+    "HeadCollider"
+   ]
+  }
+ ],
+ "springs_note": "springs use the parameter names of VRM spring bones (VRMC_springBone 1.0): stiffness, dragForce (damping), gravityPower and gravityDir, hitRadius in metres; colliders are spheres and capsules on the bones (offsets in the bone's frame, metres). The library only describes them; the game runs them (Godot SpringBoneSimulator3D, or a short Unity script).",
+ "bones": [
+  {
+   "name": "Root",
+   "joint": [
+    0.0,
+    0.0,
+    -0.015
+   ],
+   "joint_kit": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "role": "rigid",
+   "voxels": 0,
+   "godot": "Root",
+   "rigify": "root",
+   "v2": "Root",
+   "unity_required": false
+  },
+  {
+   "name": "Hips",
+   "parent": "Root",
+   "joint": [
+    0.0,
+    0.907408,
+    -0.015
+   ],
+   "joint_kit": [
+    0.0,
+    1.0,
+    60.494
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 1061,
+   "unity": "Hips",
+   "godot": "Hips",
+   "mixamo": "mixamorig:Hips",
+   "rigify": "spine",
+   "v2": "Hips",
+   "unity_required": true
+  },
+  {
+   "name": "Spine",
+   "parent": "Hips",
+   "joint": [
+    0.0,
+    0.938175,
+    -0.052601
+   ],
+   "joint_kit": [
+    0.0,
+    3.507,
+    62.545
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 2162,
+   "unity": "Spine",
+   "godot": "Spine",
+   "mixamo": "mixamorig:Spine",
+   "rigify": "spine.001",
+   "v2": "Spine",
+   "unity_required": true
+  },
+  {
+   "name": "Chest",
+   "parent": "Spine",
+   "joint": [
+    0.0,
+    1.081162,
+    -0.052601
+   ],
+   "joint_kit": [
+    0.0,
+    3.507,
+    72.077
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 2604,
+   "unity": "Chest",
+   "godot": "Chest",
+   "mixamo": "mixamorig:Spine1",
+   "rigify": "spine.002",
+   "v2": "Chest",
+   "unity_required": false
+  },
+  {
+   "name": "UpperChest",
+   "parent": "Chest",
+   "joint": [
+    0.0,
+    1.22415,
+    -0.052601
+   ],
+   "joint_kit": [
+    0.0,
+    3.507,
+    81.61
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 3049,
+   "unity": "UpperChest",
+   "godot": "UpperChest",
+   "mixamo": "mixamorig:Spine2",
+   "rigify": "spine.003",
+   "unity_required": false
+  },
+  {
+   "name": "Neck",
+   "parent": "UpperChest",
+   "joint": [
+    0.0,
+    1.382379,
+    -0.0075
+   ],
+   "joint_kit": [
+    0.0,
+    0.5,
+    92.159
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 264,
+   "unity": "Neck",
+   "godot": "Neck",
+   "mixamo": "mixamorig:Neck",
+   "rigify": "spine.004",
+   "v2": "Neck",
+   "unity_required": false
+  },
+  {
+   "name": "Head",
+   "parent": "Neck",
+   "joint": [
+    0.0,
+    1.495805,
+    0.019353
+   ],
+   "joint_kit": [
+    0.0,
+    -1.29,
+    99.72
+   ],
+   "role": "rigid; the neck blends into it",
+   "voxels": 3136,
+   "unity": "Head",
+   "godot": "Head",
+   "mixamo": "mixamorig:Head",
+   "rigify": "spine.006",
+   "v2": "Head",
+   "unity_required": true
+  },
+  {
+   "name": "LeftShoulder",
+   "parent": "UpperChest",
+   "joint": [
+    0.028357,
+    1.346934,
+    -0.015
+   ],
+   "joint_kit": [
+    1.89,
+    1.0,
+    89.796
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 250,
+   "unity": "LeftShoulder",
+   "godot": "LeftShoulder",
+   "mixamo": "mixamorig:LeftShoulder",
+   "rigify": "shoulder.L",
+   "v2": "ClavL",
+   "unity_required": false
+  },
+  {
+   "name": "LeftUpperArm",
+   "parent": "LeftShoulder",
+   "joint": [
+    0.215509,
+    1.361112,
+    -0.015
+   ],
+   "joint_kit": [
+    14.367,
+    1.0,
+    90.741
+   ],
+   "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
+   "voxels": 1979,
+   "unity": "LeftUpperArm",
+   "godot": "LeftUpperArm",
+   "mixamo": "mixamorig:LeftArm",
+   "rigify": "upper_arm.L",
+   "v2": "UpperArmL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftLowerArm",
+   "parent": "LeftUpperArm",
+   "joint": [
+    0.269387,
+    1.084636,
+    -0.029178
+   ],
+   "joint_kit": [
+    17.959,
+    1.945,
+    72.309
+   ],
+   "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
+   "voxels": 2180,
+   "unity": "LeftLowerArm",
+   "godot": "LeftLowerArm",
+   "mixamo": "mixamorig:LeftForeArm",
+   "rigify": "forearm.L",
+   "v2": "LowerArmL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftHand",
+   "parent": "LeftLowerArm",
+   "joint": [
+    0.283565,
+    0.829428,
+    -0.000822
+   ],
+   "joint_kit": [
+    18.904,
+    0.055,
+    55.295
+   ],
+   "role": "rigid",
+   "voxels": 119,
+   "unity": "LeftHand",
+   "godot": "LeftHand",
+   "mixamo": "mixamorig:LeftHand",
+   "rigify": "hand.L",
+   "v2": "HandL",
+   "unity_required": true
+  },
+  {
+   "name": "RightShoulder",
+   "parent": "UpperChest",
+   "joint": [
+    -0.028357,
+    1.346934,
+    -0.015
+   ],
+   "joint_kit": [
+    -1.89,
+    1.0,
+    89.796
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 354,
+   "unity": "RightShoulder",
+   "godot": "RightShoulder",
+   "mixamo": "mixamorig:RightShoulder",
+   "rigify": "shoulder.R",
+   "v2": "ClavR",
+   "unity_required": false
+  },
+  {
+   "name": "RightUpperArm",
+   "parent": "RightShoulder",
+   "joint": [
+    -0.215509,
+    1.361112,
+    -0.015
+   ],
+   "joint_kit": [
+    -14.367,
+    1.0,
+    90.741
+   ],
+   "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
+   "voxels": 1970,
+   "unity": "RightUpperArm",
+   "godot": "RightUpperArm",
+   "mixamo": "mixamorig:RightArm",
+   "rigify": "upper_arm.R",
+   "v2": "UpperArmR",
+   "unity_required": true
+  },
+  {
+   "name": "RightLowerArm",
+   "parent": "RightUpperArm",
+   "joint": [
+    -0.269387,
+    1.084636,
+    -0.029178
+   ],
+   "joint_kit": [
+    -17.959,
+    1.945,
+    72.309
+   ],
+   "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
+   "voxels": 2188,
+   "unity": "RightLowerArm",
+   "godot": "RightLowerArm",
+   "mixamo": "mixamorig:RightForeArm",
+   "rigify": "forearm.R",
+   "v2": "LowerArmR",
+   "unity_required": true
+  },
+  {
+   "name": "RightHand",
+   "parent": "RightLowerArm",
+   "joint": [
+    -0.283565,
+    0.829428,
+    -0.000822
+   ],
+   "joint_kit": [
+    -18.904,
+    0.055,
+    55.295
+   ],
+   "role": "rigid",
+   "voxels": 119,
+   "unity": "RightHand",
+   "godot": "RightHand",
+   "mixamo": "mixamorig:RightHand",
+   "rigify": "hand.R",
+   "v2": "HandR",
+   "unity_required": true
+  },
+  {
+   "name": "LeftUpperLeg",
+   "parent": "Hips",
+   "joint": [
+    0.055307,
+    0.879052,
+    -0.015
+   ],
+   "joint_kit": [
+    3.687,
+    1.0,
+    58.603
+   ],
+   "role": "rigid, blending into its neighbour across the knee (a soft bend as wide as the leg)",
+   "voxels": 1132,
+   "unity": "LeftUpperLeg",
+   "godot": "LeftUpperLeg",
+   "mixamo": "mixamorig:LeftUpLeg",
+   "rigify": "thigh.L",
+   "v2": "ThighL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftLowerLeg",
+   "parent": "LeftUpperLeg",
+   "joint": [
+    0.062611,
+    0.482061,
+    -0.000822
+   ],
+   "joint_kit": [
+    4.174,
+    0.055,
+    32.137
+   ],
+   "role": "rigid, blending into its neighbour across the knee (a soft bend as wide as the leg)",
+   "voxels": 926,
+   "unity": "LeftLowerLeg",
+   "godot": "LeftLowerLeg",
+   "mixamo": "mixamorig:LeftLeg",
+   "rigify": "shin.L",
+   "v2": "ShinL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftFoot",
+   "parent": "LeftLowerLeg",
+   "joint": [
+    0.068872,
+    0.08507,
+    -0.022089
+   ],
+   "joint_kit": [
+    4.591,
+    1.473,
+    5.671
+   ],
+   "role": "soft band across the ball of the foot",
+   "voxels": 266,
+   "unity": "LeftFoot",
+   "godot": "LeftFoot",
+   "mixamo": "mixamorig:LeftFoot",
+   "rigify": "foot.L",
+   "v2": "FootL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftToes",
+   "parent": "LeftFoot",
+   "joint": [
+    0.071377,
+    0.052743,
+    0.048519
+   ],
+   "joint_kit": [
+    4.758,
+    -3.235,
+    3.516
+   ],
+   "role": "soft band across the ball of the foot",
+   "voxels": 132,
+   "unity": "LeftToes",
+   "godot": "LeftToes",
+   "mixamo": "mixamorig:LeftToeBase",
+   "rigify": "toe.L",
+   "v2": "ToeL",
+   "unity_required": false
+  },
+  {
+   "name": "RightUpperLeg",
+   "parent": "Hips",
+   "joint": [
+    -0.055307,
+    0.879052,
+    -0.015
+   ],
+   "joint_kit": [
+    -3.687,
+    1.0,
+    58.603
+   ],
+   "role": "rigid, blending into its neighbour across the knee (a soft bend as wide as the leg)",
+   "voxels": 1150,
+   "unity": "RightUpperLeg",
+   "godot": "RightUpperLeg",
+   "mixamo": "mixamorig:RightUpLeg",
+   "rigify": "thigh.R",
+   "v2": "ThighR",
+   "unity_required": true
+  },
+  {
+   "name": "RightLowerLeg",
+   "parent": "RightUpperLeg",
+   "joint": [
+    -0.064698,
+    0.482061,
+    0.006267
+   ],
+   "joint_kit": [
+    -4.313,
+    -0.418,
+    32.137
+   ],
+   "role": "rigid, blending into its neighbour across the knee (a soft bend as wide as the leg)",
+   "voxels": 907,
+   "unity": "RightLowerLeg",
+   "godot": "RightLowerLeg",
+   "mixamo": "mixamorig:RightLeg",
+   "rigify": "shin.R",
+   "v2": "ShinR",
+   "unity_required": true
+  },
+  {
+   "name": "RightFoot",
+   "parent": "RightLowerLeg",
+   "joint": [
+    -0.072003,
+    0.08507,
+    -0.015
+   ],
+   "joint_kit": [
+    -4.8,
+    1.0,
+    5.671
+   ],
+   "role": "soft band across the ball of the foot",
+   "voxels": 248,
+   "unity": "RightFoot",
+   "godot": "RightFoot",
+   "mixamo": "mixamorig:RightFoot",
+   "rigify": "foot.R",
+   "v2": "FootR",
+   "unity_required": true
+  },
+  {
+   "name": "RightToes",
+   "parent": "RightFoot",
+   "joint": [
+    -0.07889,
+    0.052743,
+    0.048802
+   ],
+   "joint_kit": [
+    -5.259,
+    -3.253,
+    3.516
+   ],
+   "role": "soft band across the ball of the foot",
+   "voxels": 123,
+   "unity": "RightToes",
+   "godot": "RightToes",
+   "mixamo": "mixamorig:RightToeBase",
+   "rigify": "toe.R",
+   "v2": "ToeR",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtBack0",
+   "parent": "RightUpperLeg",
+   "joint": [
+    -0.045826,
+    0.895229,
+    -0.094374
+   ],
+   "joint_kit": [
+    -3.055,
+    6.292,
+    59.682
+   ],
+   "role": "chain (skirt)",
+   "voxels": 168,
+   "godot": "RightSkirtBack0",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtBack1",
+   "parent": "RightSkirtBack0",
+   "joint": [
+    -0.055543,
+    0.688645,
+    -0.111203
+   ],
+   "joint_kit": [
+    -3.703,
+    7.414,
+    45.91
+   ],
+   "role": "chain (skirt)",
+   "voxels": 165,
+   "godot": "RightSkirtBack1",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtBackLow0",
+   "parent": "RightLowerLeg",
+   "joint": [
+    -0.065193,
+    0.482061,
+    -0.127917
+   ],
+   "joint_kit": [
+    -4.346,
+    8.528,
+    32.137
+   ],
+   "role": "chain (skirt)",
+   "voxels": 222,
+   "godot": "RightSkirtBackLow0",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtBackLow1",
+   "parent": "RightSkirtBackLow0",
+   "joint": [
+    -0.072182,
+    0.27478,
+    -0.140022
+   ],
+   "joint_kit": [
+    -4.812,
+    9.335,
+    18.319
+   ],
+   "role": "chain (skirt)",
+   "voxels": 322,
+   "godot": "RightSkirtBackLow1",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtSide0",
+   "parent": "RightUpperLeg",
+   "joint": [
+    -0.12022,
+    0.895229,
+    -0.015
+   ],
+   "joint_kit": [
+    -8.015,
+    1.0,
+    59.682
+   ],
+   "role": "chain (skirt)",
+   "voxels": 292,
+   "godot": "RightSkirtSide0",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtSide1",
+   "parent": "RightSkirtSide0",
+   "joint": [
+    -0.136765,
+    0.688645,
+    -0.015
+   ],
+   "joint_kit": [
+    -9.118,
+    1.0,
+    45.91
+   ],
+   "role": "chain (skirt)",
+   "voxels": 273,
+   "godot": "RightSkirtSide1",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtSideLow0",
+   "parent": "RightLowerLeg",
+   "joint": [
+    -0.151599,
+    0.482061,
+    -0.015
+   ],
+   "joint_kit": [
+    -10.107,
+    1.0,
+    32.137
+   ],
+   "role": "chain (skirt)",
+   "voxels": 266,
+   "godot": "RightSkirtSideLow0",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtSideLow1",
+   "parent": "RightSkirtSideLow0",
+   "joint": [
+    -0.166461,
+    0.27478,
+    -0.015
+   ],
+   "joint_kit": [
+    -11.097,
+    1.0,
+    18.319
+   ],
+   "role": "chain (skirt)",
+   "voxels": 388,
+   "godot": "RightSkirtSideLow1",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtFront0",
+   "parent": "RightUpperLeg",
+   "joint": [
+    -0.056099,
+    0.895229,
+    0.082166
+   ],
+   "joint_kit": [
+    -3.74,
+    -5.478,
+    59.682
+   ],
+   "role": "chain (skirt)",
+   "voxels": 341,
+   "godot": "RightSkirtFront0",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtFront1",
+   "parent": "RightSkirtFront0",
+   "joint": [
+    -0.066004,
+    0.688645,
+    0.099322
+   ],
+   "joint_kit": [
+    -4.4,
+    -6.621,
+    45.91
+   ],
+   "role": "chain (skirt)",
+   "voxels": 462,
+   "godot": "RightSkirtFront1",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtFrontLow0",
+   "parent": "RightLowerLeg",
+   "joint": [
+    -0.075089,
+    0.482061,
+    0.115058
+   ],
+   "joint_kit": [
+    -5.006,
+    -7.671,
+    32.137
+   ],
+   "role": "chain (skirt)",
+   "voxels": 144,
+   "godot": "RightSkirtFrontLow0",
+   "unity_required": false
+  },
+  {
+   "name": "RightSkirtFrontLow1",
+   "parent": "RightSkirtFrontLow0",
+   "joint": [
+    -0.072182,
+    0.27478,
+    0.110022
+   ],
+   "joint_kit": [
+    -4.812,
+    -7.335,
+    18.319
+   ],
+   "role": "chain (skirt)",
+   "voxels": 355,
+   "godot": "RightSkirtFrontLow1",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtFront0",
+   "parent": "LeftUpperLeg",
+   "joint": [
+    0.058324,
+    0.895229,
+    0.086019
+   ],
+   "joint_kit": [
+    3.888,
+    -5.735,
+    59.682
+   ],
+   "role": "chain (skirt)",
+   "voxels": 306,
+   "godot": "LeftSkirtFront0",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtFront1",
+   "parent": "LeftSkirtFront0",
+   "joint": [
+    0.066004,
+    0.688645,
+    0.099322
+   ],
+   "joint_kit": [
+    4.4,
+    -6.621,
+    45.91
+   ],
+   "role": "chain (skirt)",
+   "voxels": 422,
+   "godot": "LeftSkirtFront1",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtFrontLow0",
+   "parent": "LeftLowerLeg",
+   "joint": [
+    0.075089,
+    0.482061,
+    0.115058
+   ],
+   "joint_kit": [
+    5.006,
+    -7.671,
+    32.137
+   ],
+   "role": "chain (skirt)",
+   "voxels": 121,
+   "godot": "LeftSkirtFrontLow0",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtFrontLow1",
+   "parent": "LeftSkirtFrontLow0",
+   "joint": [
+    0.072182,
+    0.27478,
+    0.110022
+   ],
+   "joint_kit": [
+    4.812,
+    -7.335,
+    18.319
+   ],
+   "role": "chain (skirt)",
+   "voxels": 310,
+   "godot": "LeftSkirtFrontLow1",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtSide0",
+   "parent": "LeftUpperLeg",
+   "joint": [
+    0.12022,
+    0.895229,
+    -0.015
+   ],
+   "joint_kit": [
+    8.015,
+    1.0,
+    59.682
+   ],
+   "role": "chain (skirt)",
+   "voxels": 252,
+   "godot": "LeftSkirtSide0",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtSide1",
+   "parent": "LeftSkirtSide0",
+   "joint": [
+    0.136765,
+    0.688645,
+    -0.015
+   ],
+   "joint_kit": [
+    9.118,
+    1.0,
+    45.91
+   ],
+   "role": "chain (skirt)",
+   "voxels": 255,
+   "godot": "LeftSkirtSide1",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtSideLow0",
+   "parent": "LeftLowerLeg",
+   "joint": [
+    0.151599,
+    0.482061,
+    -0.015
+   ],
+   "joint_kit": [
+    10.107,
+    1.0,
+    32.137
+   ],
+   "role": "chain (skirt)",
+   "voxels": 241,
+   "godot": "LeftSkirtSideLow0",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtSideLow1",
+   "parent": "LeftSkirtSideLow0",
+   "joint": [
+    0.166461,
+    0.27478,
+    -0.015
+   ],
+   "joint_kit": [
+    11.097,
+    1.0,
+    18.319
+   ],
+   "role": "chain (skirt)",
+   "voxels": 360,
+   "godot": "LeftSkirtSideLow1",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtBack0",
+   "parent": "LeftUpperLeg",
+   "joint": [
+    0.045826,
+    0.895229,
+    -0.094374
+   ],
+   "joint_kit": [
+    3.055,
+    6.292,
+    59.682
+   ],
+   "role": "chain (skirt)",
+   "voxels": 155,
+   "godot": "LeftSkirtBack0",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtBack1",
+   "parent": "LeftSkirtBack0",
+   "joint": [
+    0.055543,
+    0.688645,
+    -0.111203
+   ],
+   "joint_kit": [
+    3.703,
+    7.414,
+    45.91
+   ],
+   "role": "chain (skirt)",
+   "voxels": 147,
+   "godot": "LeftSkirtBack1",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtBackLow0",
+   "parent": "LeftLowerLeg",
+   "joint": [
+    0.065193,
+    0.482061,
+    -0.127917
+   ],
+   "joint_kit": [
+    4.346,
+    8.528,
+    32.137
+   ],
+   "role": "chain (skirt)",
+   "voxels": 192,
+   "godot": "LeftSkirtBackLow0",
+   "unity_required": false
+  },
+  {
+   "name": "LeftSkirtBackLow1",
+   "parent": "LeftSkirtBackLow0",
+   "joint": [
+    0.072182,
+    0.27478,
+    -0.140022
+   ],
+   "joint_kit": [
+    4.812,
+    9.335,
+    18.319
+   ],
+   "role": "chain (skirt)",
+   "voxels": 271,
+   "godot": "LeftSkirtBackLow1",
+   "unity_required": false
+  },
+  {
+   "name": "Hair0",
+   "parent": "Head",
+   "joint": [
+    0.0,
+    1.532527,
+    -0.0825
+   ],
+   "joint_kit": [
+    0.0,
+    5.5,
+    102.168
+   ],
+   "role": "chain (hair)",
+   "voxels": 418,
+   "godot": "Hair0",
+   "unity_required": false
+  },
+  {
+   "name": "Hair1",
+   "parent": "Hair0",
+   "joint": [
+    0.0,
+    1.400014,
+    -0.0975
+   ],
+   "joint_kit": [
+    0.0,
+    6.5,
+    93.334
+   ],
+   "role": "chain (hair)",
+   "voxels": 378,
+   "godot": "Hair1",
+   "unity_required": false
+  },
+  {
+   "name": "LeftHair0",
+   "parent": "Head",
+   "joint": [
+    0.0375,
+    1.532527,
+    0.0075
+   ],
+   "joint_kit": [
+    2.5,
+    -0.5,
+    102.168
+   ],
+   "role": "chain (hair)",
+   "voxels": 69,
+   "godot": "LeftHair0",
+   "unity_required": false
+  },
+  {
+   "name": "RightHair0",
+   "parent": "Head",
+   "joint": [
+    -0.0375,
+    1.532527,
+    0.0075
+   ],
+   "joint_kit": [
+    -2.5,
+    -0.5,
+    102.168
+   ],
+   "role": "chain (hair)",
+   "voxels": 114,
+   "godot": "RightHair0",
+   "unity_required": false
+  }
+ ],
+ "sockets": [
+  {
+   "name": "SocketHandL",
+   "bone": "LeftHand",
+   "translation": [
+    0.002836,
+    -0.063802,
+    0.011343
+   ],
+   "rotation": [
+    0.7036135,
+    0.0701996,
+    0.7069708,
+    0.0138662
+   ],
+   "origin": [
+    0.286401,
+    0.765626,
+    0.010521
+   ],
+   "use": "weapons, staves, tools, torches, cups, pipes, books: the kit's hang grip, business end down"
+  },
+  {
+   "name": "SocketHandR",
+   "bone": "RightHand",
+   "translation": [
+    -0.002836,
+    -0.063802,
+    0.011343
+   ],
+   "rotation": [
+    0.7069708,
+    0.0138662,
+    0.7036135,
+    0.0701996
+   ],
+   "origin": [
+    -0.286401,
+    0.765626,
+    0.010521
+   ],
+   "use": "weapons, staves, tools, torches, cups, pipes, books: the kit's hang grip, business end down"
+  },
+  {
+   "name": "SocketShield",
+   "bone": "LeftLowerArm",
+   "translation": [
+    0.072092,
+    -0.449838,
+    0.112783
+   ],
+   "rotation": [
+    -0.0611423,
+    0.3162644,
+    0.0086924,
+    0.9466588
+   ],
+   "origin": [
+    0.341479,
+    0.634798,
+    0.083605
+   ],
+   "use": "a shield strapped to the forearm: origin at the shield's foot, +Y up the forearm, +Z its face"
+  },
+  {
+   "name": "SocketBack",
+   "bone": "UpperChest",
+   "translation": [
+    0.138363,
+    0.352985,
+    -0.107899
+   ],
+   "rotation": [
+    0.9816272,
+    -0.190809,
+    0.0,
+    0.0
+   ],
+   "origin": [
+    0.138363,
+    1.577135,
+    -0.1605
+   ],
+   "use": "two-handers, bows and shields when stowed: a greatsword's hilt over the left shoulder"
+  },
+  {
+   "name": "SocketHipL",
+   "bone": "Hips",
+   "translation": [
+    0.423071,
+    -0.027351,
+    0.030707
+   ],
+   "rotation": [
+    -0.6983718,
+    -0.2065587,
+    0.6762644,
+    0.1108011
+   ],
+   "origin": [
+    0.423071,
+    0.880057,
+    0.015707
+   ],
+   "use": "one-handed weapons when sheathed: a longsword in a frog, hilt forward and up"
+  },
+  {
+   "name": "SocketHipR",
+   "bone": "Hips",
+   "translation": [
+    -0.423071,
+    -0.027351,
+    0.030707
+   ],
+   "rotation": [
+    -0.6983718,
+    0.2065587,
+    -0.6762644,
+    0.1108011
+   ],
+   "origin": [
+    -0.423071,
+    0.880057,
+    0.015707
+   ],
+   "use": "one-handed weapons when sheathed: a longsword in a frog, hilt forward and up"
+  },
+  {
+   "name": "HeadTop",
+   "bone": "Head",
+   "translation": [
+    0.0,
+    0.238195,
+    0.025421
+   ],
+   "rotation": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "origin": [
+    0.0,
+    1.734,
+    0.044774
+   ],
+   "use": "hats and helmets (the show-helmet option is one attach)"
+  },
+  {
+   "name": "LookFrom",
+   "bone": "Head",
+   "translation": [
+    0.0,
+    0.113142,
+    0.124102
+   ],
+   "rotation": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "origin": [
+    0.0,
+    1.608948,
+    0.143455
+   ],
+   "use": "only the point look-at aims from; the figures stay faceless"
+  }
+ ],
+ "socket_frames": "a prop's origin in the fist (grip), its +Y along the business end and +X along the edge, as the kit's weapon Frame (o, ax, sd): parent it to the socket with no offset",
+ "owner_rules": {
+  "out": "held things and world props: left out of the rig (held props become their own files, on the hand sockets)",
+  "head": "worn on or part of the head (beards, ears, horns, hats, helmets, face parts): Head",
+  "head_drape": "hair, hoods, headscarves and veils: Head above the middle of the neck, UpperChest below it (long hair lies on the back)",
+  "drape": "capes, cloaks, mantles, shawls, fur collars and stoles: UpperChest (they hang from the shoulders)",
+  "back": "gear on the back (sheathed two-handers, quivers, shields, packs, bedrolls, baldrics): UpperChest",
+  "hip": "gear hanging at the belt (sheathed blades, pouches, keys, books, satchels): Hips, never a leg or an arm; straps higher up follow the trunk",
+  "trunk": "sleeveless garments, belts and jewellery on the body: the trunk bones only, never a limb or the head",
+  "neck": "collars and neck cloths: the trunk or the Neck, never a limb",
+  "skirt": "skirts, aprons, tabards and tassets: the trunk and the thighs; below the knee they stay on the thigh, unless they hug the shin or foot (within 2 voxels)",
+  "robe": "robes and long coats: any bone but the head; below the knee their hem stays on the thigh, but what hugs the shin or foot (a robe's own boots) stays there",
+  "leg": "trousers, boots and leggings: the trunk and the legs, never an arm",
+  "sleeve": "sleeves, gloves, bracers, pauldrons and bangles: the arms only",
+  "skin": "the bare body: its nearest body segment",
+  "body": "everything else: its nearest body segment, but never the head or the neck (a collar stays on the body)",
+  "limb_core": "over all of these (but held things and the head): whatever lies inside an arm's or a leg's own volume (half a voxel in, past the shoulder and hip balls) follows that limb, so a moving limb stays whole",
+  "outfits": "a part that paints a whole outfit (robes, vestments, the clothes sets) is sorted by material first: its boots follow the leg rule, its rope or cord belt the trunk rule, the hands it repaints the skin rule",
+  "joint_cuts": "elbows, wrists and knees are cut by a plane halving the angle between the limb's two segments, ankles by a plane across the shin; past the wrist only the hand itself (and a glove) goes with the hand, a sleeve's mouth stays on the forearm",
+  "shin_plates": "knee cops ride whole on the shin",
+  "belts_through_limbs": "belts, sashes and jewellery (the trunk rule) that pass through a limb hanging against the body stay with the trunk (the limb-core rule gives way: the limb gets a small dent instead)",
+  "cloth_by_the_hands": "robe or garment cloth by a hanging forearm or hand that the figure built with its arms out also has is cloth, not sleeve: it goes to the trunk, or below the hips to the skirt",
+  "skirt_chains": "cloth below the hips (skirts, robes, coats, aprons, and belts, stoles and sashes hanging over them) goes on the skirt panels (on the thighs, and below the knee on down the shins); an outfit's own trousers stay on the legs",
+  "cape_chains": "capes and cloaks go on the cape chains (blending into the chest at the shoulders, and where they lie over an arm riding on that arm)",
+  "hair_chains": "hair, hoods and veils hanging more than 0.45 head radii below the head's centre go on the hair chains when they hang 10 voxels or more (hair lying on a cape moves with the cape); shorter hangs follow the neck band"
+ },
+ "parts": [
+  {
+   "part": "skin",
+   "rule": "skin",
+   "groups": [
+    "axial",
+    "leg_left",
+    "leg_right",
+    "rigid"
+   ],
+   "voxels": {
+    "UpperChest": 82,
+    "Neck": 166,
+    "Head": 1592,
+    "LeftHand": 12,
+    "RightHand": 12,
+    "LeftUpperLeg": 1052,
+    "LeftLowerLeg": 589,
+    "RightUpperLeg": 1070,
+    "RightLowerLeg": 567
+   }
+  },
+  {
+   "part": "robes",
+   "rule": "robe",
+   "groups": [
+    "arm_left",
+    "arm_right",
+    "axial",
+    "feet_left",
+    "feet_right",
+    "leg_left",
+    "leg_right",
+    "rigid",
+    "skirt"
+   ],
+   "voxels": {
+    "Hips": 926,
+    "Spine": 1923,
+    "Chest": 2408,
+    "UpperChest": 2845,
+    "Neck": 82,
+    "Head": 36,
+    "LeftShoulder": 250,
+    "LeftUpperArm": 1979,
+    "LeftLowerArm": 2180,
+    "LeftHand": 107,
+    "RightShoulder": 354,
+    "RightUpperArm": 1970,
+    "RightLowerArm": 2188,
+    "RightHand": 107,
+    "LeftUpperLeg": 80,
+    "LeftLowerLeg": 337,
+    "LeftFoot": 266,
+    "LeftToes": 132,
+    "RightUpperLeg": 80,
+    "RightLowerLeg": 340,
+    "RightFoot": 248,
+    "RightToes": 123,
+    "RightSkirtBack0": 168,
+    "RightSkirtBack1": 165,
+    "RightSkirtBackLow0": 222,
+    "RightSkirtBackLow1": 322,
+    "RightSkirtSide0": 292,
+    "RightSkirtSide1": 273,
+    "RightSkirtSideLow0": 266,
+    "RightSkirtSideLow1": 388,
+    "RightSkirtFront0": 176,
+    "RightSkirtFront1": 234,
+    "RightSkirtFrontLow0": 144,
+    "RightSkirtFrontLow1": 355,
+    "LeftSkirtFront0": 141,
+    "LeftSkirtFront1": 194,
+    "LeftSkirtFrontLow0": 121,
+    "LeftSkirtFrontLow1": 310,
+    "LeftSkirtSide0": 252,
+    "LeftSkirtSide1": 255,
+    "LeftSkirtSideLow0": 241,
+    "LeftSkirtSideLow1": 360,
+    "LeftSkirtBack0": 155,
+    "LeftSkirtBack1": 147,
+    "LeftSkirtBackLow0": 192,
+    "LeftSkirtBackLow1": 271
+   }
+  },
+  {
+   "part": "stole",
+   "rule": "drape",
+   "groups": [
+    "axial",
+    "skirt"
+   ],
+   "voxels": {
+    "Hips": 135,
+    "Spine": 239,
+    "Chest": 186,
+    "UpperChest": 88,
+    "Neck": 16,
+    "RightSkirtFront0": 165,
+    "RightSkirtFront1": 228,
+    "LeftSkirtFront0": 165,
+    "LeftSkirtFront1": 228
+   }
+  },
+  {
+   "part": "pendant",
+   "rule": "trunk",
+   "groups": [
+    "axial"
+   ],
+   "voxels": {
+    "Chest": 10,
+    "UpperChest": 14
+   }
+  },
+  {
+   "part": "hair_horseshoe",
+   "rule": "head_drape",
+   "groups": [
+    "hair",
+    "rigid"
+   ],
+   "voxels": {
+    "UpperChest": 20,
+    "Head": 1222,
+    "Hair0": 418,
+    "Hair1": 378,
+    "LeftHair0": 69,
+    "RightHair0": 114
+   }
+  },
+  {
+   "part": "beard_chinstrap",
+   "rule": "head",
+   "groups": [
+    "rigid"
+   ],
+   "voxels": {
+    "Head": 243
+   }
+  },
+  {
+   "part": "ears_round",
+   "rule": "head",
+   "groups": [
+    "rigid"
+   ],
+   "voxels": {
+    "Head": 43
+   }
+  }
+ ],
+ "left_out": [
+  {
+   "part": "ground",
+   "why": "a world prop (the ground disc, a cart, a mannequin, a helmet on the ground): not part of the figure"
+  }
+ ],
+ "t_pose": {
+  "note": "local rotations over the rest pose that make a T-pose (arms out, palms down, legs straight)",
+  "rotations": {
+   "LeftUpperArm": [
+    0.0,
+    -0.0325721,
+    0.6351559,
+    0.7716968
+   ],
+   "LeftLowerArm": [
+    0.0704619,
+    0.0822331,
+    0.0658352,
+    0.9919368
+   ],
+   "LeftHand": [
+    -0.0,
+    0.0006082,
+    0.0054742,
+    0.9999848
+   ],
+   "LeftUpperLeg": [
+    0.0178463,
+    0.0,
+    -0.0091944,
+    0.9997985
+   ],
+   "LeftLowerLeg": [
+    -0.0445885,
+    -0.0003866,
+    0.0013159,
+    0.9990045
+   ],
+   "LeftFoot": [
+    0.0267545,
+    0.0,
+    0.0078765,
+    0.999611
+   ],
+   "RightUpperArm": [
+    0.0,
+    0.0325721,
+    -0.6351559,
+    0.7716968
+   ],
+   "RightLowerArm": [
+    0.0704619,
+    -0.0822331,
+    -0.0658352,
+    0.9919368
+   ],
+   "RightHand": [
+    -0.0,
+    -0.0006082,
+    -0.0054742,
+    0.9999848
+   ],
+   "RightUpperLeg": [
+    0.0267513,
+    0.0,
+    0.0118134,
+    0.9995723
+   ],
+   "RightLowerLeg": [
+    -0.0534827,
+    0.0005619,
+    -0.0026236,
+    0.9985652
+   ],
+   "RightFoot": [
+    0.0267536,
+    0.0,
+    -0.009189,
+    0.9995998
+   ]
+  }
+ },
+ "base_pose": {
+  "note": "the pose of the approved library figure, as local rotations over the rest pose; apply it as a layer (arm holds from its brief, and kit/pose.py's angles in degrees)",
+  "pose_degrees": {
+   "bow": 22.0,
+   "stoop": 10.0
+  },
+  "rotations": {
+   "LeftUpperArm": [
+    -0.0280662,
+    -0.0055719,
+    0.0020002,
+    0.9995885
+   ],
+   "LeftLowerArm": [
+    -0.5318392,
+    -0.0854733,
+    -0.7114042,
+    0.4513817
+   ],
+   "LeftHand": [
+    0.3678527,
+    0.0715614,
+    0.492437,
+    0.7855375
+   ],
+   "RightUpperArm": [
+    -0.0280662,
+    0.0055719,
+    -0.0020002,
+    0.9995885
+   ],
+   "RightLowerArm": [
+    -0.5318392,
+    0.0854733,
+    0.7114042,
+    0.4513817
+   ],
+   "RightHand": [
+    0.3678527,
+    -0.0715614,
+    -0.492437,
+    0.7855375
+   ],
+   "Spine": [
+    0.0290847,
+    0.0,
+    0.0,
+    0.999577
+   ],
+   "Chest": [
+    0.0290847,
+    0.0,
+    0.0,
+    0.999577
+   ],
+   "UpperChest": [
+    0.0290847,
+    0.0,
+    0.0,
+    0.999577
+   ],
+   "Neck": [
+    0.190809,
+    0.0,
+    0.0,
+    0.9816272
+   ]
+  }
+ },
+ "mesh": {
+  "voxels": 33728,
+  "faces_exposed": 21274,
+  "cap_faces": 4824,
+  "core_faces": 1355,
+  "triangles_unmerged": 42548,
+  "triangles": 35164,
+  "soft_quads": 13094,
+  "rectangles": 7410,
+  "vertices": 70328,
+  "atlas": [
+   512,
+   256
+  ],
+  "textures": [
+   "base colour",
+   "metal/roughness",
+   "emission"
+  ],
+  "bytes": 4187160
+ },
+ "material": {
+  "sampling": "nearest (point), clamp to edge, no mipmaps; one texel per voxel face with a 1-texel gutter",
+  "metallic": "0.6 x the voxel's metal",
+  "roughness": "0.82 - 0.5 x the voxel's metal (render_vox.py)",
+  "emission": "the voxel's colour x its glow, strength 1.5 (KHR_materials_emissive_strength)"
+ },
+ "files": {
+  "glb": "donavich.glb",
+  "rig_json": "donavich.rig.json",
+  "rest_voxels": "donavich.rest.npz"
+ }
+}

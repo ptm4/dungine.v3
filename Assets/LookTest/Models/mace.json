@@ -1,0 +1,19 @@
+{
+ "voxels": 410,
+ "shape": [
+  18,
+  18,
+  58
+ ],
+ "origin": [
+  -9,
+  -9,
+  0
+ ],
+ "name": "Mace",
+ "recipe": "kit/weapons.py:mace",
+ "damage": "1d6 bludgeoning",
+ "weight_lb": 4,
+ "properties": "-",
+ "display": "upright"
+}

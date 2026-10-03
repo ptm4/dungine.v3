@@ -1,0 +1,19 @@
+{
+ "voxels": 288,
+ "shape": [
+  28,
+  12,
+  106
+ ],
+ "origin": [
+  -14,
+  -6,
+  0
+ ],
+ "name": "Greatsword",
+ "recipe": "kit/weapons.py:greatsword",
+ "damage": "2d6 slashing",
+ "weight_lb": 6,
+ "properties": "Heavy, two-handed",
+ "display": "upright"
+}

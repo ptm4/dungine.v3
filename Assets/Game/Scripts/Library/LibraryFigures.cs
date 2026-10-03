@@ -34,6 +34,19 @@ namespace Dungine.Library
             [B.ThighR] = "RightUpperLeg", [B.ShinR] = "RightLowerLeg", [B.FootR] = "RightFoot", [B.ToeR] = "RightToes",
         };
 
+        /// <summary>Chapter One's named people, as v2 places them, become their library figures (review 9). Only the
+        /// people as the party first meets them: v2's other forms of anyone stay as they are.</summary>
+        public static void UseChapterOne()
+        {
+            foreach (var k in new[] { "arik" }) ByNpcId[k] = "arik";
+            foreach (var k in new[] { "ismark", "ismark_home", "ismark_g" }) ByNpcId[k] = "ismark_kolyanovich";
+            foreach (var k in new[] { "ireena", "ireena_g", "ireena_f" }) ByNpcId[k] = "ireena_kolyana";
+            foreach (var k in new[] { "donavich", "donavich_g" }) ByNpcId[k] = "donavich";
+            ByNpcId["vistani0"] = "alenka"; ByNpcId["vistani1"] = "mirabel"; ByNpcId["vistani2"] = "sorvia";
+            ByNpcId["bildrath"] = "bildrath_cantemir"; ByNpcId["parriwimple"] = "parriwimple";
+            ByNpcId["rose"] = "rose_durst"; ByNpcId["thorn"] = "thorn_durst";
+        }
+
         public static bool Exists(string id) => Resources.Load<TextAsset>(Folder + id + ".rig") != null;
 
         /// <summary>The library figure assigned to this v2 figure, built and ready for HumanoidAnimator; null if none.</summary>
@@ -70,9 +83,25 @@ namespace Dungine.Library
                 rig.bones[(int)kv.Key] = t;
                 if (t) { rig.bindPos[(int)kv.Key] = t.localPosition; t.localRotation = Quaternion.identity; }
             }
-            // sockets: the library's names, which match v2's (LookFrom is v2's Eyes)
-            rig.socketHandR = T("SocketHandR"); rig.socketHandL = T("SocketHandL"); rig.socketShield = T("SocketShield");
-            rig.socketBack = T("SocketBack"); rig.socketHipL = T("SocketHipL"); rig.socketHipR = T("SocketHipR");
+            // sockets: where the library puts them on this body, turned the way v2's weapons and clips expect. (The
+            // library's hand sockets hang a weapon down along the arm, its 'hang' grip; v2's point it forward from the fist,
+            // and v2's stances and strikes are keyed for that.) The library's own sockets stay for held things.
+            Transform V2Socket(string lib, B bone, string parentName, Quaternion rot)
+            {
+                var src = T(lib); var parent = T(parentName) ?? rig[bone];
+                if (!parent) return src;
+                var s = new GameObject("v2" + lib).transform;
+                s.SetParent(parent, false);
+                s.position = src ? src.position : parent.position;
+                s.localRotation = rot;
+                return s;
+            }
+            rig.socketHandR = V2Socket("SocketHandR", B.HandR, null, Quaternion.Euler(90, 0, 0));
+            rig.socketHandL = V2Socket("SocketHandL", B.HandL, null, Quaternion.Euler(90, 0, 0));
+            rig.socketShield = V2Socket("SocketShield", B.LowerArmL, null, Quaternion.Euler(0, 0, 90) * Quaternion.Euler(0, 90, 0));
+            rig.socketBack = V2Socket("SocketBack", B.Chest, "UpperChest", Quaternion.Euler(0, 0, 35) * Quaternion.Euler(0, 180, 0));
+            rig.socketHipL = V2Socket("SocketHipL", B.Hips, null, Quaternion.Euler(-160, 0, 8));
+            rig.socketHipR = V2Socket("SocketHipR", B.Hips, null, Quaternion.Euler(-160, 0, -8));
             rig.headTop = T("HeadTop"); rig.eyes = T("LookFrom");
 
             // size, from the rest pose
@@ -99,6 +128,8 @@ namespace Dungine.Library
             var drv = go.AddComponent<LibraryRigDriver>();
             drv.Init(rig, T("UpperChest"), data, byName);
             HumanoidBuilder.ApplyGear(rig, rig.gear);
+            LibraryProps.Weaponise(rig);
+            LibraryProps.Hold(rig, id, byName);
             return rig;
         }
 

@@ -1,0 +1,19 @@
+{
+ "voxels": 605,
+ "shape": [
+  12,
+  12,
+  127
+ ],
+ "origin": [
+  -6,
+  -6,
+  0
+ ],
+ "name": "Quarterstaff",
+ "recipe": "kit/weapons.py:quarterstaff",
+ "damage": "1d6 bludgeoning",
+ "weight_lb": 4,
+ "properties": "Versatile (1d8)",
+ "display": "upright"
+}

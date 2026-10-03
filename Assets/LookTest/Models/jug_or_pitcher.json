@@ -1,0 +1,30 @@
+{
+ "voxels": 1454,
+ "shape": [
+  17,
+  17,
+  22
+ ],
+ "origin": [
+  -8,
+  -8,
+  0
+ ],
+ "name": "Jug or pitcher",
+ "recipe": "kit/adventuring_gear.py:jug",
+ "args": {},
+ "stats": {
+  "cost": "2 cp",
+  "weight": "4 lb",
+  "note": "holds 1 gallon of liquid",
+  "source": "SRD 5.1 (CC-BY-4.0)"
+ },
+ "display": "standing, its front to the viewer",
+ "batch": "G01",
+ "review": "reviews/12_adventuring_gear",
+ "size_cm": {
+  "width": 19.5,
+  "depth": 19.5,
+  "height": 30.0
+ }
+}

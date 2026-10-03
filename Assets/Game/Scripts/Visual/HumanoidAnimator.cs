@@ -69,6 +69,11 @@ namespace Dungine.Visual
             }
         }
 
+        /// <summary>v3: the one-handed and unarmed Slash is a three-part combo (swing left, swing right, stab), so it runs longer.</summary>
+        public static bool Combo(AnimAct a, Grip g) => a == AnimAct.Slash && (g == Grip.Unarmed || g == Grip.OneHand || g == Grip.Shield);
+        public static float Duration(AnimAct a, Grip g) => Combo(a, g) ? 1.9f : a == AnimAct.Punch ? 0.75f : Duration(a);
+        public static float Impact(AnimAct a, Grip g) => Combo(a, g) ? 0.74f : a == AnimAct.CastPoint ? 0.52f : Impact(a);
+
         public static float Impact(AnimAct a)
         {
             switch (a)
@@ -203,6 +208,8 @@ namespace Dungine.Visual
         public Grip grip;
 
         public bool Busy => act != AnimAct.None;
+        /// <summary>v3: in (or going into) the combat stance.</summary>
+        public bool InStance => targetStance > 0.5f;
         public LifeState Life => life;
         public float Height => rig ? rig.height : 1.8f;
         public float Speed => speed;
@@ -268,7 +275,7 @@ namespace Dungine.Visual
             if (life != LifeState.Alive && a != AnimAct.Hit) { impact?.Invoke(); return; }
             if (onImpact != null && !impactFired) { var old = onImpact; onImpact = null; old(); }
             variant = UnityEngine.Random.Range(0, 2);
-            act = a; actT = 0; actSpeed = speedMul; actDur = Anim.Duration(a); impactAt = Anim.Impact(a) * actDur;
+            act = a; actT = 0; actSpeed = speedMul; actDur = Anim.Duration(a, grip); impactAt = Anim.Impact(a, grip) * actDur;
             clip = HumanoidClips.Get(a, grip, variant);
             onImpact = impact; impactFired = false;
         }
@@ -338,6 +345,30 @@ namespace Dungine.Visual
             Apply();
             SolveLegs(dt);
             DriveTwoHanded();
+            HoldForCast();
+        }
+
+        static bool IsCasting(AnimAct a) => a == AnimAct.CastPoint || a == AnimAct.CastRaise || a == AnimAct.CastTouch || a == AnimAct.Heal || a == AnimAct.Bless;
+
+        /// <summary>v3: a caster with a staff (or any two-handed weapon) lets go with the casting hand: the weapon passes to
+        /// the steadying hand, which was already on the haft, and stands upright in it for the cast, then goes back.
+        /// The weapon stays parented to the right hand; only its world pose is moved, and put back every frame. Call again
+        /// after anything that moves the arms later in the frame (LibraryRigDriver does).</summary>
+        public void HoldForCast()
+        {
+            if (!rig || rig.gear == null || !rig.gear.drawn || rig.socketHandL == null) return;
+            if (grip != Grip.TwoHand && grip != Grip.Polearm) return;
+            var w = rig.mainWeapon ? rig.mainWeapon.transform : null;
+            if (!w || w.parent != rig.socketHandR) return;
+            w.localPosition = Vector3.zero; w.localRotation = Quaternion.identity;   // as HumanoidBuilder.Attach leaves it
+            if (!IsCasting(act) || actDur <= 0 || life != LifeState.Alive) return;
+            float u = actT / actDur;
+            float k = Mathf.Clamp01(Mathf.Min(u / 0.14f, (1f - u) / 0.12f));
+            k = k * k * (3f - 2f * k);
+            if (k <= 0.001f) return;
+            // upright, the blade's flat facing sideways (edge toward the foe)
+            var upright = Quaternion.LookRotation(transform.right, Vector3.up);
+            w.SetPositionAndRotation(Vector3.Lerp(w.position, rig.socketHandL.position, k), Quaternion.Slerp(w.rotation, upright, k));
         }
 
         void Clear()
@@ -431,46 +462,9 @@ namespace Dungine.Visual
             if (w > 0.001f && style != MotionStyle.Zombie && style != MotionStyle.Ghost)
             {
                 float bounce = S(t * 2.4f + seed);
-                switch (grip)
-                {
-                    case Grip.Bow:
-                        Set(B.UpperArmL, new Vector3(-26, 0, -6) * w); Set(B.LowerArmL, new Vector3(-38, -10, 0) * w);
-                        Set(B.UpperArmR, new Vector3(-12, 0, 6) * w); Set(B.LowerArmR, new Vector3(-40, 0, 0) * w);
-                        Set(B.Chest, 0, 10 * w, 0);
-                        break;
-                    case Grip.Crossbow:
-                        Set(B.UpperArmR, new Vector3(-20, 0, 8) * w); Set(B.LowerArmR, new Vector3(-70, 0, 0) * w);
-                        Set(B.UpperArmL, new Vector3(-30, 0, -10) * w); Set(B.LowerArmL, new Vector3(-60, 20, 0) * w);
-                        break;
-                    case Grip.TwoHand:
-                        // blade held up and across, point toward the foe; the off hand is placed by IK
-                        Set(B.UpperArmR, new Vector3(-28, -24, 18) * w); Set(B.LowerArmR, new Vector3(-78, 0, 0) * w);
-                        Set(B.HandR, new Vector3(-10, 0, 28) * w);
-                        Set(B.UpperArmL, new Vector3(-40, 30, 4) * w); Set(B.LowerArmL, new Vector3(-60, 0, 0) * w);
-                        Set(B.Chest, new Vector3(0, 20, 0) * w); Set(B.Spine, 0, 6 * w, 0);
-                        break;
-                    case Grip.Polearm:
-                        // rear hand low by the hip, haft slanting forward and up, head leading
-                        Set(B.UpperArmR, new Vector3(8, -10, 16) * w); Set(B.LowerArmR, new Vector3(-62, 18, 0) * w);
-                        Set(B.HandR, new Vector3(-38, 0, 12) * w);
-                        Set(B.UpperArmL, new Vector3(-45, 20, -6) * w); Set(B.LowerArmL, new Vector3(-50, 0, 0) * w);
-                        Set(B.Chest, new Vector3(0, 26, 0) * w); Set(B.Spine, 0, 8 * w, 0); Set(B.Head, 0, -22 * w, 0);
-                        break;
-                    case Grip.Unarmed:
-                        Sym(B.UpperArmR, B.UpperArmL, new Vector3(-38, 0, 14) * w); Sym(B.LowerArmR, B.LowerArmL, new Vector3(-105, 18, 0) * w);
-                        Set(B.Chest, 0, 12 * w, 0);
-                        break;
-                    case Grip.Shield:
-                        Set(B.UpperArmR, new Vector3(-26, 0, 14) * w); Set(B.LowerArmR, new Vector3(-72, 0, 0) * w); Set(B.HandR, new Vector3(-8, 0, 0) * w);
-                        Set(B.UpperArmL, new Vector3(-34, 20, -14) * w); Set(B.LowerArmL, new Vector3(-80, 55, 0) * w);
-                        Set(B.Chest, new Vector3(0, 12, 0) * w);
-                        break;
-                    default:
-                        Set(B.UpperArmR, new Vector3(-26, 0, 14) * w); Set(B.LowerArmR, new Vector3(-72, 0, 0) * w); Set(B.HandR, new Vector3(-8, 0, 0) * w);
-                        Set(B.UpperArmL, new Vector3(-18, 0, -10) * w); Set(B.LowerArmL, new Vector3(-58, 0, 0) * w);
-                        Set(B.Chest, new Vector3(0, 12, 0) * w);
-                        break;
-                }
+                // v3: the stances live in HumanoidClips.StancePose, so the clips can be keyed as absolute arm poses
+                var sp = HumanoidClips.StancePose(grip);
+                for (int i = 0; i < N; i++) rot[i] += sp.r[i] * w;
                 Set(B.Spine, new Vector3(7 + bounce * 1.2f, 0, 0) * w);
                 Set(B.Head, new Vector3(-6, 0, 0) * w);
                 hipOffset.y -= (0.045f + bounce * 0.006f) * H * w * (1f - moveW * 0.6f);    // knees soft: the leg IK does the bending
@@ -825,6 +819,7 @@ namespace Dungine.Visual
         void DriveTwoHanded()
         {
             if (life != LifeState.Alive || rig.mainWeapon == null || rig.gear == null || !rig.gear.drawn) return;
+            if (act == AnimAct.CastPoint || act == AnimAct.CastRaise || act == AnimAct.CastTouch || act == AnimAct.Heal || act == AnimAct.Bless) return;   // v3: casting hands are free
             if (grip != Grip.TwoHand && grip != Grip.Polearm) return;
             if (rig.mainWeapon.transform.parent != rig.socketHandR) return;
             float w = Anim.Smooth(0.25f, 1f, stanceW);

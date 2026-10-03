@@ -1,0 +1,19 @@
+{
+ "voxels": 484,
+ "shape": [
+  12,
+  28,
+  137
+ ],
+ "origin": [
+  -6,
+  -14,
+  0
+ ],
+ "name": "Longbow",
+ "recipe": "kit/weapons.py:longbow",
+ "damage": "1d8 piercing",
+ "weight_lb": 2,
+ "properties": "Ammunition (150/600), heavy, two-handed",
+ "display": "upright"
+}

@@ -1,0 +1,30 @@
+{
+ "voxels": 8554,
+ "shape": [
+  27,
+  23,
+  40
+ ],
+ "origin": [
+  -13,
+  -11,
+  0
+ ],
+ "name": "Sack",
+ "recipe": "kit/adventuring_gear.py:sack",
+ "args": {},
+ "stats": {
+  "cost": "1 cp",
+  "weight": "\u00bd lb",
+  "note": "holds 1 cubic foot or 30 lb of gear",
+  "source": "SRD 5.1 (CC-BY-4.0)"
+ },
+ "display": "standing, its front to the viewer",
+ "batch": "G01",
+ "review": "reviews/12_adventuring_gear",
+ "size_cm": {
+  "width": 34.5,
+  "depth": 28.5,
+  "height": 57.0
+ }
+}

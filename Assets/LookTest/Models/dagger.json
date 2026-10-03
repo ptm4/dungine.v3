@@ -1,0 +1,19 @@
+{
+ "voxels": 49,
+ "shape": [
+  16,
+  12,
+  29
+ ],
+ "origin": [
+  -8,
+  -6,
+  0
+ ],
+ "name": "Dagger",
+ "recipe": "kit/weapons.py:dagger",
+ "damage": "1d4 piercing",
+ "weight_lb": 1,
+ "properties": "Finesse, light, thrown (20/60)",
+ "display": "upright"
+}

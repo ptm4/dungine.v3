@@ -1,0 +1,19 @@
+{
+ "voxels": 158,
+ "shape": [
+  30,
+  12,
+  67
+ ],
+ "origin": [
+  -15,
+  -6,
+  0
+ ],
+ "name": "Scimitar",
+ "recipe": "kit/weapons.py:scimitar",
+ "damage": "1d6 slashing",
+ "weight_lb": 3,
+ "properties": "Finesse, light",
+ "display": "upright"
+}

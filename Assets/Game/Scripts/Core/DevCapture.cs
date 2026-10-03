@@ -62,11 +62,19 @@ namespace Dungine
             float height = 1.8f, length = 0.6f;
             bool quad = false;
             Library.LibraryRigDriver ld = null;
+            // v3: "<subject>+<weapon>" puts that weapon (a WeaponVisual name, or "none") in the right hand
+            WeaponVisual? wpn = null;
+            int plus = subject.IndexOf('+');
+            if (plus > 0)
+            {
+                var wn = subject.Substring(plus + 1); subject = subject.Substring(0, plus);
+                if (System.Enum.TryParse<WeaponVisual>(wn, true, out var wv)) wpn = wv; else if (wn == "none") wpn = WeaponVisual.None;
+            }
             var sheet = subject.StartsWith("lib:") ? null : UI.CreationScreen.Premade().FirstOrDefault(s => s.name.ToLowerInvariant() == subject);
             if (subject.StartsWith("lib:"))
             {
                 // v3: a rigged library figure (Library/LibraryFigures.cs), driven by v2's own animator
-                var rig = Library.LibraryFigures.Build(subject.Substring(4), new GearLook(), subject.Substring(4));
+                var rig = Library.LibraryFigures.Build(subject.Substring(4), new GearLook { main = wpn ?? WeaponVisual.None }, subject.Substring(4));
                 if (rig == null) { File.WriteAllText(Path.Combine(dir, "done.txt"), "unknown library figure " + subject); Destroy(studio.gameObject); Destroy(gameObject); yield break; }
                 body = rig.gameObject; height = rig.height;
                 ha = body.AddComponent<HumanoidAnimator>(); ha.Init(rig, MotionStyle.Normal); ha.manual = true; drv = ha;
@@ -76,7 +84,9 @@ namespace Dungine
             {
                 var c = Creature.FromSheet(sheet);
                 foreach (var id in sheet.StartingItems) Game.I.AutoEquip(c, new ItemStack(id));
-                var rig = HumanoidBuilder.Build(sheet.look, ActorFactory.GearFor(c), sheet.name, 512);
+                var gl = ActorFactory.GearFor(c);
+                if (wpn.HasValue) { gl.main = wpn.Value; gl.off = WeaponVisual.None; }
+                var rig = HumanoidBuilder.Build(sheet.look, gl, sheet.name, 512);
                 body = rig.gameObject; height = rig.height;
                 ha = body.AddComponent<HumanoidAnimator>(); ha.Init(rig, MotionStyle.Normal); ha.manual = true; drv = ha;
             }
@@ -131,7 +141,7 @@ namespace Dungine
                 root.position += root.forward * speed * dt0;
                 tick(dt0);
             }
-            if (act != AnimAct.None) { drv.Play(act); frames = Mathf.CeilToInt((Anim.Duration(act) + 0.35f) * fps); }
+            if (act != AnimAct.None) { drv.Play(act); frames = Mathf.CeilToInt((Anim.Duration(act, ha ? ha.grip : Grip.Unarmed) + 0.35f) * fps); }
             if (life != LifeState.Alive) { drv.SetLife(life); frames = Mathf.CeilToInt(2f * fps); }
 
             // ---------- camera ----------
@@ -156,6 +166,7 @@ namespace Dungine
                 case "back": camDir = new Vector3(0, 0.12f, -1); break;
                 case "three": camDir = new Vector3(0.75f, 0.12f, 1); break;
                 case "top": camDir = Quaternion.Euler(55, 215, 0) * Vector3.back; break;
+                case "game": camDir = Quaternion.Euler(55, 250, 0) * Vector3.back; break;   // v3: the game camera's pitch, the figure side-on
                 default: camDir = new Vector3(1, 0.06f, 0.02f); break;
             }
             camDir.Normalize();

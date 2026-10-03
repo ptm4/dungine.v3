@@ -1,0 +1,30 @@
+{
+ "voxels": 357,
+ "shape": [
+  14,
+  11,
+  13
+ ],
+ "origin": [
+  -5,
+  -5,
+  0
+ ],
+ "name": "Ale (mug)",
+ "recipe": "kit/treasure.py:ale_mug",
+ "args": {},
+ "stats": {
+  "cost": "4 cp",
+  "weight": "\u2013",
+  "note": "food and drink: ale by the mug",
+  "source": "SRD 5.1 (CC-BY-4.0)"
+ },
+ "display": "standing or laid out, its front to the viewer",
+ "batch": "I08",
+ "review": "reviews/24_treasure_trade_goods",
+ "size_cm": {
+  "width": 15.0,
+  "depth": 10.5,
+  "height": 16.5
+ }
+}

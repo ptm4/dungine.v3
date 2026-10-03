@@ -27,7 +27,13 @@ namespace Dungine.Library
         public string id;
 
         static readonly string[] PostureBones = { "Spine", "Chest", "UpperChest", "Neck", "Head" };
+        static readonly string[] ArmBones = { "LeftShoulder", "LeftUpperArm", "LeftLowerArm", "LeftHand", "RightShoulder", "RightUpperArm", "RightLowerArm", "RightHand" };
         readonly List<(Transform t, Quaternion q)> posture = new List<(Transform, Quaternion)>();
+        /// <summary>The brief's arm hold (arms folded, a cup raised, hands clasped): taken up whenever the figure stands still,
+        /// out of combat; v2's own arm motion takes over as soon as it walks or fights.</summary>
+        readonly List<(Transform t, Quaternion q)> armHold = new List<(Transform, Quaternion)>();
+        float holdW, speedS; Vector3 lastHoldPos; bool holdStarted;
+        HumanoidAnimator ha; Actor actor;
 
         class Collider { public Transform node; public Vector3 a, b; public float r; public bool capsule; }
         class Joint
@@ -54,8 +60,12 @@ namespace Dungine.Library
             // the figure's own pose, trunk and head only
             var rots = MiniJson.Obj(MiniJson.Obj(data, "base_pose"), "rotations");
             if (rots != null)
+            {
                 foreach (var n in PostureBones)
                     if (rots.ContainsKey(n) && T(n)) posture.Add((T(n), LibraryFigures.FromGltfRot(MiniJson.Floats(rots, n))));
+                foreach (var n in ArmBones)
+                    if (rots.ContainsKey(n) && T(n)) armHold.Add((T(n), LibraryFigures.FromGltfRot(MiniJson.Floats(rots, n))));
+            }
 
             // colliders, by group
             var cols = new Dictionary<string, Collider>();
@@ -126,10 +136,26 @@ namespace Dungine.Library
                 chest.localRotation = half;
                 upperChest.localRotation = half;
             }
-            // 2. the figure's own posture over v2's motion
+            // 2. the figure's own posture over v2's motion, and its arm hold while it stands still
             if (basePose && PoseOn) foreach (var (t, q) in posture) t.localRotation = t.localRotation * q;
+            if (basePose && PoseOn && armHold.Count > 0)
+            {
+                if (!ha) ha = GetComponent<HumanoidAnimator>();
+                if (!actor) actor = GetComponent<Actor>();
+                var p = transform.position;
+                float sp = holdStarted && dt > 0 ? new Vector2(p.x - lastHoldPos.x, p.z - lastHoldPos.z).magnitude / dt : 0;
+                holdStarted = true; lastHoldPos = p;
+                speedS = Mathf.Lerp(speedS, sp, 1 - Mathf.Exp(-dt * 8f));
+                bool busy = (ha && (ha.Busy || ha.InStance)) || (actor && (actor.c == null || !actor.c.Active || (Combat.CombatManager.I && Combat.CombatManager.I.InCombat(actor.c))));
+                float target = busy ? 0 : 1 - Mathf.Clamp01((speedS - 0.1f) / 0.4f);
+                holdW = Mathf.MoveTowards(holdW, target, dt * 3f);
+                if (holdW > 0.001f) foreach (var (t, q) in armHold) t.localRotation = Quaternion.Slerp(t.localRotation, q, holdW);
+            }
             // 3. springs
             if (springs && SpringsOn && joints.Count > 0) Springs(dt);
+            // 4. the arms may have moved since the animator placed a weapon for a cast
+            if (!ha) ha = GetComponent<HumanoidAnimator>();
+            if (ha) ha.HoldForCast();
         }
 
         void Springs(float dt)
@@ -144,14 +170,17 @@ namespace Dungine.Library
             {
                 // the joint's rest orientation under wherever its parent is now (a skirt's top joint: part way to the hips)
                 var parentRot = j.t.parent ? j.t.parent.rotation : Quaternion.identity;
-                if (j.followHips > 0 && j.hips && j.t.parent != j.hips)
+                if (!ha) ha = GetComponent<HumanoidAnimator>();
+                float follow = ha && ha.seated ? 0f : j.followHips;   // seated, the cloth lies on the thighs
+                if (follow > 0 && j.hips && j.t.parent != j.hips)
                 {
                     var hipsRot = j.hips.rotation;   // every bone rests unrotated, so the hips' turn is the rest frame
-                    parentRot = Quaternion.Slerp(parentRot, hipsRot, j.followHips);
+                    parentRot = Quaternion.Slerp(parentRot, hipsRot, follow);
                 }
                 var restRot = parentRot * j.restLocal;
-                if (j.followHips > 0 && j.hips && j.t.parent)
-                    j.t.position = Vector3.Lerp(j.t.parent.TransformPoint(j.restLocalPos), j.hips.TransformPoint(j.restHipsPos), j.followHips);
+                if (j.t.parent)
+                    j.t.position = follow > 0 && j.hips ? Vector3.Lerp(j.t.parent.TransformPoint(j.restLocalPos), j.hips.TransformPoint(j.restHipsPos), follow)
+                                                       : j.t.parent.TransformPoint(j.restLocalPos);
                 j.t.rotation = restRot;
                 var head = j.t.position;
                 var restDir = restRot * j.axis;

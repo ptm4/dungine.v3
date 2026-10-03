@@ -1,0 +1,19 @@
+{
+ "voxels": 201,
+ "shape": [
+  22,
+  12,
+  79
+ ],
+ "origin": [
+  -11,
+  -6,
+  0
+ ],
+ "name": "Longsword",
+ "recipe": "kit/weapons.py:longsword",
+ "damage": "1d8 slashing",
+ "weight_lb": 3,
+ "properties": "Versatile (1d10)",
+ "display": "upright"
+}

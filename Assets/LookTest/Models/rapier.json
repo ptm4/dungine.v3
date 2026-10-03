@@ -1,0 +1,19 @@
+{
+ "voxels": 132,
+ "shape": [
+  24,
+  14,
+  82
+ ],
+ "origin": [
+  -12,
+  -7,
+  0
+ ],
+ "name": "Rapier",
+ "recipe": "kit/weapons.py:rapier",
+ "damage": "1d8 piercing",
+ "weight_lb": 2,
+ "properties": "Finesse",
+ "display": "upright"
+}
