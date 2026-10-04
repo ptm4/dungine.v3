@@ -27,7 +27,12 @@ namespace Dungine.Library
     public class VillageKit
     {
         /// <summary>Dev switches: the kit at all; its site pieces (fences, walls, well...); its cobbles over v2's square.</summary>
-        public static bool On = true, PlaceSite = true, PlaceSquare = false;
+        public static bool On = true, PlaceSite = true, PlaceSquare = true;
+        /// <summary>The cobbles start at their 3 cm level (2.7 k triangles a 1.5 m tile instead of 37 k) and cast no shadow:
+        /// at play zoom a 1.5 cm voxel is under 2 pixels, and the stones still read at 3 cm. False: the full 1.5 cm.</summary>
+        public static bool LightCobbles = false;
+        /// <summary>Without LightCobbles: how near the camera (m) a cobble tile shows its full 1.5 cm stones.</summary>
+        public static float CobbleNear = 16f;
         public const string Folder = "Library/Village/";
         /// <summary>What the last build did (dev tools).</summary>
         public static string Report = "";
@@ -61,6 +66,8 @@ namespace Dungine.Library
         readonly Dictionary<string, FarGroup> farGroups = new Dictionary<string, FarGroup>();
         readonly Dictionary<int, FarGroup> farOf = new Dictionary<int, FarGroup>();
         bool night;
+        readonly List<(GameObject go, float top)> cobbleTiles = new List<(GameObject, float)>();
+        string bedNote = "";
 
         readonly AreaContext ctx;
         readonly Dictionary<string, Building> buildings = new Dictionary<string, Building>();
@@ -138,16 +145,22 @@ namespace Dungine.Library
                 var go = Object.Instantiate(prefab, parent);
                 go.name = module + sfx;
                 go.transform.SetPositionAndRotation(new Vector3(x, y + up, z), Quaternion.Euler(0, 180f - 90f * q, 0));
+                bool ground = kit == "cobbled_square";
+                if (ground && LightCobbles) StartAtLod1(go);
+                if (ground && module.StartsWith("cobbles")) cobbleTiles.Add((go, y + up));
+                // each cobble tile has its own detail levels: the full 1.5 cm only near the camera
+                bool ownLods = ground && !LightCobbles && CobbleNear > 0;
                 foreach (var r in go.GetComponentsInChildren<MeshRenderer>(true))
                 {
-                    r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                    r.shadowCastingMode = ground ? UnityEngine.Rendering.ShadowCastingMode.Off : UnityEngine.Rendering.ShadowCastingMode.On;
                     var mats = r.sharedMaterials;
                     for (int i = 0; i < mats.Length; i++) mats[i] = LibraryFigures.VoxelMaterial(mats[i]);
                     r.sharedMaterials = mats;
                 }
-                if (fg != null) fg.modules.Add(go);
+                if (ownLods) Lods(go, new[] { go }, null, new[] { CobbleNear, LodDistances[1], LodDistances[2] }, true);
+                else if (fg != null) fg.modules.Add(go);
                 if (!isSite) kb.parts.Add((go, module, q, at[2]));
-                else if (fg == null) Lods(go, new[] { go }, null);
+                else if (fg == null && !ownLods) Lods(go, new[] { go }, null);
                 placed++;
             }
             tPlace = clock.ElapsedMilliseconds;
@@ -186,6 +199,60 @@ namespace Dungine.Library
             return r;
         }
 
+        /// <summary>The kit's cobbles sit with their stones' tops at the square's level and their joints below it. v2's ground
+        /// is lowered 15 cm under each tile so it doesn't fill the joints, and a flat floor at the stones' level is laid
+        /// for walking (the navmesh, clicks and the camera use colliders).</summary>
+        void SquareBed()
+        {
+            if (cobbleTiles.Count == 0) return;
+            var floor = new GameObject("Kit_square_floor");
+            floor.transform.SetParent(root, false);
+            floor.layer = Layers.Ground;
+            var rects = new List<Rect>();
+            foreach (var (go, top) in cobbleTiles)
+            {
+                Bounds b = default; bool any = false;
+                foreach (var r in go.GetComponentsInChildren<MeshRenderer>(true))
+                    if (r.name.StartsWith("Body_LOD")) { if (!any) { b = r.bounds; any = true; } else b.Encapsulate(r.bounds); }
+                if (!any) continue;
+                var rect = new Rect(b.min.x, b.min.z, b.size.x, b.size.z);
+                rects.Add(rect);
+                var bc = floor.AddComponent<BoxCollider>();
+                bc.center = new Vector3(rect.center.x, top - 0.05f, rect.center.y);
+                bc.size = new Vector3(rect.width, 0.1f, rect.height);
+            }
+            var t = ctx.terrain;
+            if (!t) return;
+            var td = t.terrainData;
+            int res = td.heightmapResolution;
+            var h = td.GetHeights(0, 0, res, res);
+            Vector3 tp = t.transform.position, size = td.size;
+            float drop = 0.15f / size.y;
+            int lowered = 0;
+            for (int j = 0; j < res; j++)
+                for (int i = 0; i < res; i++)
+                {
+                    float wx = tp.x + i / (float)(res - 1) * size.x, wz = tp.z + j / (float)(res - 1) * size.z;
+                    var pt = new Vector2(wx, wz);
+                    foreach (var r in rects) if (r.Contains(pt)) { h[j, i] -= drop; lowered++; break; }
+                }
+            td.SetHeights(0, 0, h);
+            bedNote = $" Square bed: {rects.Count} cobble tiles, {lowered} ground samples lowered.";
+        }
+
+        /// <summary>Drops a module's 1.5 cm level and moves the others up one, so its 3 cm level shows nearest.</summary>
+        static void StartAtLod1(GameObject go)
+        {
+            var rs = go.GetComponentsInChildren<MeshRenderer>(true);
+            if (!rs.Any(r => r.name == "Body_LOD1")) return;
+            foreach (var r in rs.OrderBy(r => r.name))
+            {
+                if (!r.name.StartsWith("Body_LOD") || !int.TryParse(r.name.Substring(8), out int l)) continue;
+                if (l == 0) Object.DestroyImmediate(r.gameObject);
+                else r.name = "Body_LOD" + (l - 1);
+            }
+        }
+
         GameObject Prefab(string kit, string module)
         {
             string key = kit + "/" + module;
@@ -195,8 +262,9 @@ namespace Dungine.Library
 
         /// <summary>One LODGroup over the given modules: their Body_LOD0 renderers together, then LOD1, then LOD2, then the
         /// far mesh (or, without one, the modules' LOD3), switching at <see cref="LodDistances"/>.</summary>
-        static void Lods(GameObject host, GameObject[] modules, Renderer far)
+        static void Lods(GameObject host, GameObject[] modules, Renderer far, float[] distances = null, bool cullAfterLast = false)
         {
+            distances = distances ?? LodDistances;
             var byLevel = new List<List<Renderer>>();
             var bounds = new Bounds(); bool any = false;
             foreach (var m in modules)
@@ -208,6 +276,11 @@ namespace Dungine.Library
                     if (level == 0) { if (!any) { bounds = r.bounds; any = true; } else bounds.Encapsulate(r.bounds); }
                 }
             if (byLevel.Count < 2 || !any) return;
+            if (cullAfterLast)
+            {
+                // the levels the distances name, then nothing (a group's far mesh stands in further out)
+                while (byLevel.Count > distances.Length) { foreach (var r in byLevel[byLevel.Count - 1]) Object.DestroyImmediate(r.gameObject); byLevel.RemoveAt(byLevel.Count - 1); }
+            }
             // the levels: the modules' 0, 1 and 2, then the far mesh instead of their 3 (whose renderers go)
             if (far && byLevel.Count > 3)
             {
@@ -224,9 +297,9 @@ namespace Dungine.Library
             float prev = 1f;
             for (int i = 0; i < lods.Length; i++)
             {
-                bool last = i == lods.Length - 1;
+                bool last = i == lods.Length - 1 && !cullAfterLast;
                 float h = last ? LibraryFigures.CullHeight
-                        : i < LodDistances.Length ? size * bias / (2f * LodDistances[i] * tan) : prev * 0.5f;
+                        : i < distances.Length ? size * bias / (2f * distances[i] * tan) : prev * 0.5f;
                 if (!last) h = Mathf.Clamp(Mathf.Min(h, prev * 0.99f), LibraryFigures.CullHeight * 1.5f, 0.999f);
                 else h = Mathf.Min(h, prev * 0.99f);
                 prev = h;
@@ -350,6 +423,7 @@ namespace Dungine.Library
         /// stay), and the retired buildings are destroyed. Call before the navmesh is baked.</summary>
         public void Finish(Rect reserved)
         {
+            SquareBed();
             int hidden = 0;
             if (PlaceSite)
             {
@@ -380,7 +454,7 @@ namespace Dungine.Library
             }
             long tOcc = clock.ElapsedMilliseconds - tOcc0;
             Report = $"village kit: {placed} modules placed in {buildings.Count} buildings and the site, {retired.Count} of v2's buildings retired, " +
-                     $"{hidden} of v2's site renderers hidden, {missingModules} placements missing a module ({string.Join(", ", missing.Take(6))}), {clock.ElapsedMilliseconds} ms (placing {tPlace}, LODs and colliders {tLods - tPlace}, the rest of v2's build {tOcc0 - tLods}, see-through set-up {tOcc})";
+                     $"{hidden} of v2's site renderers hidden, {missingModules} placements missing a module ({string.Join(", ", missing.Take(6))}), {clock.ElapsedMilliseconds} ms (placing {tPlace}, LODs and colliders {tLods - tPlace}, the rest of v2's build {tOcc0 - tLods}, see-through set-up {tOcc})" + bedNote;
             Debug.Log("[VillageKit] " + Report);
         }
 

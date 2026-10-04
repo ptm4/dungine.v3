@@ -1,0 +1,25 @@
+{
+ "voxels": 77994,
+ "shape": [
+  161,
+  91,
+  33
+ ],
+ "origin": [
+  -80,
+  -45,
+  0
+ ],
+ "name": "Grave mound",
+ "recipe": "kit/props_religion.py:grave_mound(look=1)",
+ "batch": "P03",
+ "review": "11_graveyard_religion",
+ "display": "flat",
+ "size_cm": {
+  "width": 220.5,
+  "depth": 115.5,
+  "height": 25.5
+ },
+ "note": "An old grave, 1.9 m by 85 cm and 26 cm high, grassed over with bare patches, in a ring of half-sunk fieldstones.",
+ "crumbs_pruned": 0
+}

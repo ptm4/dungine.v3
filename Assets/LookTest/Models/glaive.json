@@ -1,0 +1,19 @@
+{
+ "voxels": 786,
+ "shape": [
+  18,
+  12,
+  174
+ ],
+ "origin": [
+  -9,
+  -6,
+  0
+ ],
+ "name": "Glaive",
+ "recipe": "kit/weapons.py:glaive",
+ "damage": "1d10 slashing",
+ "weight_lb": 6,
+ "properties": "Heavy, reach, two-handed",
+ "display": "upright"
+}

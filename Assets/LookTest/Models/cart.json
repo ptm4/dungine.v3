@@ -1,0 +1,65 @@
+{
+ "voxels": 63548,
+ "shape": [
+  267,
+  106,
+  84
+ ],
+ "origin": [
+  -204,
+  -53,
+  0
+ ],
+ "name": "Cart",
+ "what": "A two-wheeled farm cart: a plank bed with staked sides, wheels 1.3 m high with iron tyres, two shafts reaching 2 m forward for one horse or donkey, propped level on a stick.",
+ "stats": {
+  "cost": "15 gp",
+  "weight": "200 lb."
+ },
+ "stats_source": "SRD 5.1 (CC-BY-4.0)",
+ "scale": "1 voxel = 1.5 cm, true size",
+ "size_m": {
+  "length": 3.94,
+  "width": 1.53,
+  "top": 1.26
+ },
+ "frame": "world voxels: a voxel at ijk + origin spans [v, v + 1); z = 0 is the ground",
+ "facing": "-x",
+ "recipe": "kit/vehicles.py cart(0)",
+ "points": {
+  "wheel_L": {
+   "centre": [
+    0.0,
+    -46.0,
+    43.3
+   ],
+   "radius": 43.3
+  },
+  "wheel_R": {
+   "centre": [
+    0.0,
+    46.0,
+    43.3
+   ],
+   "radius": 43.3
+  },
+  "hitch_L": [
+   -200.0,
+   -25.333333333333332,
+   53.3
+  ],
+  "hitch_R": [
+   -200.0,
+   25.333333333333332,
+   53.3
+  ],
+  "load": [
+   0.0,
+   0.0,
+   53.3
+  ]
+ },
+ "points_note": "world voxels: hitches, seats, the load, lanterns; each wheel's centre and radius (it turns about y)",
+ "note": "propped level on a stick under the shafts; the wheels turn about y",
+ "vox": "no .vox: 263 voxels long, over MagicaVoxel's 255"
+}

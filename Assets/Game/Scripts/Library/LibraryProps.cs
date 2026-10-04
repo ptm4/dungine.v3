@@ -37,6 +37,7 @@ namespace Dungine.Library
             [WeaponVisual.Quarterstaff] = new Wpn("quarterstaff", -93, -38),
             [WeaponVisual.Staff] = new Wpn("quarterstaff", -93, -38),
             [WeaponVisual.Longbow] = new Wpn("longbow", -100, 0),
+            [WeaponVisual.Glaive] = new Wpn("glaive", -136, -80),   // the right hand 56 cm above the butt, as the quarterstaff
         };
 
         /// <summary>The weapon's grip in the baked model's own space (Unity: kit x mirrored, kit z up).</summary>

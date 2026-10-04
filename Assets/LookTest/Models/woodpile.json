@@ -1,0 +1,24 @@
+{
+ "voxels": 135555,
+ "shape": [
+  93,
+  39,
+  73
+ ],
+ "origin": [
+  -46,
+  -19,
+  0
+ ],
+ "name": "Woodpile",
+ "recipe": "kit/props.py:woodpile",
+ "args": {},
+ "batch": "P01",
+ "display": "stand",
+ "size_cm": {
+  "width": 133.5,
+  "depth": 52.5,
+  "height": 106.5
+ },
+ "note": "Split firewood stacked 1.2 m long and 90 cm high between stakes: round logs, halves and quarters, their pale cut ends toward you, rimmed with dark bark."
+}

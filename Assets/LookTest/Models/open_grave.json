@@ -1,0 +1,27 @@
+{
+ "voxels": 1712760,
+ "shape": [
+  197,
+  154,
+  189
+ ],
+ "origin": [
+  -98,
+  -70,
+  0
+ ],
+ "name": "Open grave",
+ "recipe": "kit/props_religion.py:open_grave(look=1)",
+ "batch": "P03",
+ "review": "11_graveyard_religion",
+ "display": "flat",
+ "size_cm": {
+  "width": 282.0,
+  "depth": 222.0,
+  "height": 283.5
+ },
+ "note": "A grave cut 2.16 m by 1.05 m and 1.4 m deep, in a block of ground whose top is the grass line: its sides show turf, dark topsoil, clay and stony clay. The spoil heap behind, a stack of cut turfs, a shovel stuck in the heap.",
+ "crumbs_pruned": 6,
+ "ground_z_cm": 146.0,
+ "use": "a block of ground: sink it until ground_z_cm is level with the terrain"
+}

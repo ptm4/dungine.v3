@@ -71,6 +71,7 @@ namespace Dungine.World
             mr.sharedMaterials = mats;
             mr.shadowCastingMode = shadows ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off;
             AddCollider(go, mesh, col);
+            Library.LibrarySwap.Apply(go, key, scale);   // v3: the library's model, where it has one
             return go;
         }
 

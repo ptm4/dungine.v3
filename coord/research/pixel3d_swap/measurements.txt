@@ -1,0 +1,8 @@
+p4#1 square: mean 8.26 ms, median 7.36 ms, 95th 13.49 ms | 14071k | medians ms: GPU 3.11 main 5.56 render 1.99
+p4#1 highstreet: mean 10.24 ms, median 9.30 ms, 95th 16.76 ms | 10308k | medians ms: GPU 2.46 main 7.45 render 2.56
+p4#1 church: mean 11.56 ms, median 10.59 ms, 95th 18.62 ms | 20898k | medians ms: GPU 3.18 main 7.19 render 2.58
+p4#1 wide: mean 9.71 ms, median 9.01 ms, 95th 15.91 ms | 14853k | medians ms: GPU 4.00 main 7.51 render 2.73
+p4#2 square: mean 10.26 ms, median 9.12 ms, 95th 17.36 ms | 14071k | medians ms: GPU 4.47 main 7.65 render 2.88
+p4#2 highstreet: mean 12.84 ms, median 11.93 ms, 95th 20.59 ms | 10308k | medians ms: GPU 3.44 main 8.09 render 2.84
+p4#2 church: mean 12.57 ms, median 11.18 ms, 95th 20.57 ms | 29867k | medians ms: GPU 3.26 main 8.31 render 2.74
+p4#2 wide: mean 10.97 ms, median 10.08 ms, 95th 16.02 ms | 13007k | medians ms: GPU 2.81 main 6.80 render 2.36

@@ -1,0 +1,24 @@
+{
+ "voxels": 45684,
+ "shape": [
+  65,
+  37,
+  30
+ ],
+ "origin": [
+  -32,
+  -18,
+  0
+ ],
+ "name": "Hay bale",
+ "recipe": "kit/props.py:haybale",
+ "args": {},
+ "batch": "P01",
+ "display": "stand",
+ "size_cm": {
+  "width": 91.5,
+  "depth": 49.5,
+  "height": 42.0
+ },
+ "note": "A bale of hay, 90 by 45 by 38 cm: straw packed along its length, ragged cut ends, two twine bands, loose stalks."
+}

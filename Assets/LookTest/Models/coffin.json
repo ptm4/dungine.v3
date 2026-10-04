@@ -1,0 +1,25 @@
+{
+ "voxels": 83350,
+ "shape": [
+  141,
+  77,
+  37
+ ],
+ "origin": [
+  -70,
+  -38,
+  0
+ ],
+ "name": "Coffin",
+ "recipe": "kit/props_religion.py:coffin(look=1)",
+ "batch": "P03",
+ "review": "11_graveyard_religion",
+ "display": "flat",
+ "size_cm": {
+  "width": 198.0,
+  "depth": 103.5,
+  "height": 48.0
+ },
+ "note": "Closed: the plain dark coffin Kolyan lies in (1.95 m, the same box and wood), under a lid with a raised panel and a small blank brass plate, four brass bar handles.",
+ "crumbs_pruned": 0
+}

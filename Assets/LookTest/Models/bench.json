@@ -1,0 +1,24 @@
+{
+ "voxels": 10493,
+ "shape": [
+  105,
+  25,
+  32
+ ],
+ "origin": [
+  -52,
+  -12,
+  0
+ ],
+ "name": "Bench",
+ "recipe": "kit/props.py:bench",
+ "args": {},
+ "batch": "P01",
+ "display": "stand",
+ "size_cm": {
+  "width": 151.5,
+  "depth": 31.5,
+  "height": 45.0
+ },
+ "note": "A plain oak bench, 150 cm long: a thick seat on board ends with arched feet, a wedged stretcher."
+}

@@ -119,6 +119,16 @@ namespace Dungine.UI
         }
 
         // ---------------------------------------------------------------- portraits
+        /// <summary>v3: the library's portrait (a face render, cropped to fill) where it has one, else v2's live render.</summary>
+        static VisualElement PortraitImg(Creature c, string cls, VisualElement parent)
+        {
+            var lib = Library.LibraryIcons.Portrait(c);
+            if (!lib) return UIB.Img(PortraitRenderer.I != null ? PortraitRenderer.I.Get(c) : null, cls, parent);
+            var img = UIB.Img(lib, cls, parent);
+            img.style.backgroundSize = new BackgroundSize(BackgroundSizeType.Cover);
+            return img;
+        }
+
         void RebuildPortraits()
         {
             var g = Game.I;
@@ -131,7 +141,7 @@ namespace Dungine.UI
                 bool isTurn = CombatManager.I.Active && CombatManager.I.Current == c;
                 if (c == g.SelectedC) p.AddToClassList("portrait-selected");
                 if (isTurn) p.AddToClassList("portrait-turn");
-                var img = UIB.Img(PortraitRenderer.I != null ? PortraitRenderer.I.Get(c) : null, "portrait-img", p);
+                var img = PortraitImg(c, "portrait-img", p);   // v3: the library's portrait where it has one
                 img.pickingMode = PickingMode.Ignore;
                 if (c.hp <= 0) img.style.unityBackgroundImageTintColor = c.dead ? new Color(.3f, .3f, .3f) : new Color(1f, .45f, .45f);
                 var plate = UIB.El("portrait-plate", p); plate.pickingMode = PickingMode.Ignore;
@@ -216,7 +226,17 @@ namespace Dungine.UI
             if (combat && (!CombatManager.I.waitingForPlayer || CombatManager.I.Current != c)) { can = false; why = "Not your turn"; }
             var s = UIB.El("slot", slotsRow);
             Color bg = a.IsSpell ? (a.spellLevel == 0 ? new Color(.35f, .4f, .75f) : a.color) : a.cost == ActionCost.BonusAction ? Theme.BonusOrange : a.color;
-            var ic = UIB.IconCircle(item != null ? item.Def.icon : a.icon, item != null ? item.Def.tint : bg, 56, s);
+            // v3: the library's icon tile (it carries its own frame and colours), else v2's painted icon
+            var lib = item != null ? Library.LibraryIcons.Item(item.id) : Library.LibraryIcons.Action(a.id);
+            VisualElement ic;
+            if (lib)
+            {
+                ic = UIB.Img(lib, null, s);
+                UIB.Size(ic, 56, 56);
+                ic.style.borderTopLeftRadius = ic.style.borderTopRightRadius = ic.style.borderBottomLeftRadius = ic.style.borderBottomRightRadius = 56 * 0.12f;
+                if (item != null) ic.style.backgroundColor = new Color(bg.r * 0.25f, bg.g * 0.25f, bg.b * 0.25f, 1f);
+            }
+            else ic = UIB.IconCircle(item != null ? item.Def.icon : a.icon, item != null ? item.Def.tint : bg, 56, s);
             ic.pickingMode = PickingMode.Ignore; ic.style.position = Position.Absolute; ic.style.left = 0; ic.style.top = 0;
             if (!can) s.AddToClassList("slot-disabled");
             var cost = UIB.El("slot-cost", s);
@@ -298,7 +318,7 @@ namespace Dungine.UI
                 if (c == cm.Current) card.AddToClassList("turn-card-current");
                 Color col = c.isPC ? Theme.Gold : c.faction == Faction.Hostile ? Theme.Hostile : Theme.Friendly;
                 UIB.Border(card, col * (c == cm.Current ? 1f : 0.6f), c == cm.Current ? 3 : 2);
-                var img = UIB.Img(PortraitRenderer.I != null ? PortraitRenderer.I.Get(c) : null, "portrait-img", card);
+                var img = PortraitImg(c, "portrait-img", card);
                 if (c.hp <= 0) img.style.unityBackgroundImageTintColor = new Color(1, .4f, .4f);
                 var hpbar = UIB.El("turn-card-hp", card); hpbar.style.width = Length.Percent(Mathf.Clamp01((float)Mathf.Max(0, c.hp) / c.MaxHPTotal) * 100);
                 var n = UIB.Lbl(c.name, "turn-card-name", card); n.style.color = col;
