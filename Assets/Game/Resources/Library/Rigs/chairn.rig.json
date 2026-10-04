@@ -1,0 +1,1486 @@
+{
+ "format": "dnd5e_rig 2",
+ "id": "chairn",
+ "name": "Chai'rn, wood elf druid",
+ "recipe": "pipeline/recipes/characters/key/chairn.json",
+ "generator": "pixel3d/pipeline/rig_export.py (kit/rig.py, kit/rig_soft.py)",
+ "units": {
+  "metres_per_voxel": 0.015,
+  "axes": "glTF: +Y up, the figure faces +Z, its left is +X. Kit voxel (x, y, z) -> glTF (x, z, -y) * 0.015."
+ },
+ "rest_stance": "the kit's hang stance (the arms about 11 degrees out, as v2's rig): the bind pose; no bone is rotated at rest",
+ "skinning": "four weights per vertex. Rigid bones (the head, hands and gear such as sheathed weapons, pouches and packs) carry their voxels whole; wrists and ankles are cut by a plane through the joint, and a hidden core (a ball of voxels in the colour of the garment, one voxel inside the surface) shows as a rounded knuckle when the joint bends. Elbows and knees bend soft: each arm and each leg blends across the joint over a band as wide as the limb, so the voxels there stretch and lean as the joint bends, and the limbs are rigid elsewhere. Soft groups blend: the arms and legs at the elbows and knees, the trunk in bands a few voxels wide at the Spine, Chest and UpperChest joints, the neck from UpperChest to Head, the collarbones, the balls of the feet, and the chains (skirts, capes, long hair, tails). Faces are merged into rectangles where all their corners share one weight set; soft faces are drawn one voxel face at a time so neighbours share the weights at their corners and never crack. Caps close each group where it meets another (hidden at rest).",
+ "groups": {
+  "rigid": 6944,
+  "axial": 8249,
+  "feet_left": 221,
+  "feet_right": 220,
+  "hair": 2668,
+  "arm_left": 2761,
+  "arm_right": 2788,
+  "leg_left": 6198,
+  "leg_right": 6213
+ },
+ "joints_l4": {
+  "cuts": "elbows and knees: soft bends, the limb blending across the plane that halves the joint over a band as wide as the limb (no cut, no core); wrists: a plane halving the angle; ankles: a plane across the shin (the heel goes with the foot); shoulders and hips: the ball of the upper arm and thigh turns in its socket",
+  "cores": [
+   {
+    "joint": "LeftHip",
+    "voxels": 208,
+    "on": "axial"
+   },
+   {
+    "joint": "LeftWrist",
+    "voxels": 30,
+    "on": "arm_left"
+   },
+   {
+    "joint": "LeftAnkle",
+    "voxels": 55,
+    "on": "leg_left"
+   },
+   {
+    "joint": "RightShoulder",
+    "voxels": 112,
+    "on": "axial"
+   },
+   {
+    "joint": "RightHip",
+    "voxels": 213,
+    "on": "axial"
+   },
+   {
+    "joint": "RightWrist",
+    "voxels": 30,
+    "on": "arm_right"
+   },
+   {
+    "joint": "RightAnkle",
+    "voxels": 53,
+    "on": "leg_right"
+   }
+  ],
+  "limits": "keep elbows and knees under about 140 degrees and head turns within about 70 degrees (animation plan 1.4)",
+  "dressing": "interior voxels take their group's surface colour; 0 bare leg voxels and 0 voxels of boots, hose or trousers out of sight inside the skirt are painted in its colour"
+ },
+ "chains": [
+  {
+   "name": "Hair",
+   "kind": "hair",
+   "parent": "Head",
+   "bones": [
+    "Hair0"
+   ],
+   "tip": [
+    0.0225,
+    1.4175,
+    -0.0975
+   ],
+   "tip_local": [
+    0.015,
+    -0.164105,
+    0.0
+   ],
+   "joints": [
+    {
+     "node": "Hair0",
+     "stiffness": 0.9,
+     "dragForce": 0.4,
+     "gravityPower": 0.15,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "body",
+    "head"
+   ]
+  },
+  {
+   "name": "LeftHair",
+   "kind": "hair",
+   "parent": "Head",
+   "bones": [
+    "LeftHair0"
+   ],
+   "tip": [
+    0.1425,
+    1.3875,
+    -0.0225
+   ],
+   "tip_local": [
+    0.075,
+    -0.194105,
+    -0.015
+   ],
+   "joints": [
+    {
+     "node": "LeftHair0",
+     "stiffness": 0.9,
+     "dragForce": 0.4,
+     "gravityPower": 0.15,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "body",
+    "head"
+   ]
+  },
+  {
+   "name": "RightHair",
+   "kind": "hair",
+   "parent": "Head",
+   "bones": [
+    "RightHair0"
+   ],
+   "tip": [
+    -0.0375,
+    1.4325,
+    -0.0225
+   ],
+   "tip_local": [
+    0.015,
+    -0.149105,
+    -0.03
+   ],
+   "joints": [
+    {
+     "node": "RightHair0",
+     "stiffness": 0.9,
+     "dragForce": 0.4,
+     "gravityPower": 0.15,
+     "gravityDir": [
+      0.0,
+      -1.0,
+      0.0
+     ],
+     "hitRadius": 0.02
+    }
+   ],
+   "colliderGroups": [
+    "body",
+    "head"
+   ]
+  }
+ ],
+ "chain_follow": {
+  "hair": "hair chains hang from Head; the lowest hair keeps 50% on UpperChest, so a turned head twists the hair at the neck rather than swinging it off the back; hair lying on a cape takes the cape's weights and moves with it."
+ },
+ "colliders": [
+  {
+   "name": "LeftThigh",
+   "node": "LeftUpperLeg",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      0.00827,
+      -0.41516,
+      0.0146
+     ],
+     "radius": 0.07112
+    }
+   }
+  },
+  {
+   "name": "LeftShin",
+   "node": "LeftLowerLeg",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      0.00708,
+      -0.41516,
+      -0.02189
+     ],
+     "radius": 0.05173
+    }
+   }
+  },
+  {
+   "name": "LeftUpperArmCollider",
+   "node": "LeftUpperArm",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      0.05456,
+      -0.27996,
+      -0.01436
+     ],
+     "radius": 0.05223
+    }
+   }
+  },
+  {
+   "name": "RightThigh",
+   "node": "RightUpperLeg",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      -0.01063,
+      -0.41516,
+      0.02189
+     ],
+     "radius": 0.07112
+    }
+   }
+  },
+  {
+   "name": "RightShin",
+   "node": "RightLowerLeg",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      -0.00827,
+      -0.41516,
+      -0.02189
+     ],
+     "radius": 0.05173
+    }
+   }
+  },
+  {
+   "name": "RightUpperArmCollider",
+   "node": "RightUpperArm",
+   "shape": {
+    "capsule": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tail": [
+      -0.05456,
+      -0.27996,
+      -0.01436
+     ],
+     "radius": 0.05223
+    }
+   }
+  },
+  {
+   "name": "HipsCollider",
+   "node": "Hips",
+   "shape": {
+    "sphere": {
+     "offset": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "radius": 0.10627
+    }
+   }
+  },
+  {
+   "name": "ChestCollider",
+   "node": "UpperChest",
+   "shape": {
+    "capsule": {
+     "offset": [
+      -0.07575,
+      0.03101,
+      0.04894
+     ],
+     "tail": [
+      0.07575,
+      0.03101,
+      0.04894
+     ],
+     "radius": 0.08138
+    }
+   }
+  },
+  {
+   "name": "HeadCollider",
+   "node": "Head",
+   "shape": {
+    "sphere": {
+     "offset": [
+      0.0,
+      0.10217,
+      0.015
+     ],
+     "radius": 0.12436
+    }
+   }
+  }
+ ],
+ "colliderGroups": [
+  {
+   "name": "legs",
+   "colliders": [
+    "LeftThigh",
+    "LeftShin",
+    "RightThigh",
+    "RightShin"
+   ]
+  },
+  {
+   "name": "arms",
+   "colliders": [
+    "LeftUpperArmCollider",
+    "RightUpperArmCollider"
+   ]
+  },
+  {
+   "name": "body",
+   "colliders": [
+    "HipsCollider",
+    "ChestCollider"
+   ]
+  },
+  {
+   "name": "head",
+   "colliders": [
+    "HeadCollider"
+   ]
+  }
+ ],
+ "springs_note": "springs use the parameter names of VRM spring bones (VRMC_springBone 1.0): stiffness, dragForce (damping), gravityPower and gravityDir, hitRadius in metres; colliders are spheres and capsules on the bones (offsets in the bone's frame, metres). The library only describes them; the game runs them (Godot SpringBoneSimulator3D, or a short Unity script).",
+ "bones": [
+  {
+   "name": "Root",
+   "joint": [
+    0.0,
+    0.0,
+    -0.015
+   ],
+   "joint_kit": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "role": "rigid",
+   "voxels": 0,
+   "godot": "Root",
+   "rigify": "root",
+   "v2": "Root",
+   "unity_required": false
+  },
+  {
+   "name": "Hips",
+   "parent": "Root",
+   "joint": [
+    0.0,
+    0.947989,
+    -0.015
+   ],
+   "joint_kit": [
+    0.0,
+    1.0,
+    63.199
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 1438,
+   "unity": "Hips",
+   "godot": "Hips",
+   "mixamo": "mixamorig:Hips",
+   "rigify": "spine",
+   "v2": "Hips",
+   "unity_required": true
+  },
+  {
+   "name": "Spine",
+   "parent": "Hips",
+   "joint": [
+    0.0,
+    0.979144,
+    -0.056436
+   ],
+   "joint_kit": [
+    0.0,
+    3.762,
+    65.276
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 830,
+   "unity": "Spine",
+   "godot": "Spine",
+   "mixamo": "mixamorig:Spine",
+   "rigify": "spine.001",
+   "v2": "Spine",
+   "unity_required": true
+  },
+  {
+   "name": "Chest",
+   "parent": "Spine",
+   "joint": [
+    0.0,
+    1.123934,
+    -0.056436
+   ],
+   "joint_kit": [
+    0.0,
+    3.762,
+    74.929
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 2812,
+   "unity": "Chest",
+   "godot": "Chest",
+   "mixamo": "mixamorig:Spine1",
+   "rigify": "spine.002",
+   "v2": "Chest",
+   "unity_required": false
+  },
+  {
+   "name": "UpperChest",
+   "parent": "Chest",
+   "joint": [
+    0.0,
+    1.268724,
+    -0.056436
+   ],
+   "joint_kit": [
+    0.0,
+    3.762,
+    84.582
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 3377,
+   "unity": "UpperChest",
+   "godot": "UpperChest",
+   "mixamo": "mixamorig:Spine2",
+   "rigify": "spine.003",
+   "unity_required": false
+  },
+  {
+   "name": "Neck",
+   "parent": "UpperChest",
+   "joint": [
+    0.0,
+    1.428947,
+    -0.0075
+   ],
+   "joint_kit": [
+    0.0,
+    0.5,
+    95.263
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 117,
+   "unity": "Neck",
+   "godot": "Neck",
+   "mixamo": "mixamorig:Neck",
+   "rigify": "spine.004",
+   "v2": "Neck",
+   "unity_required": false
+  },
+  {
+   "name": "Head",
+   "parent": "Neck",
+   "joint": [
+    0.0,
+    1.543803,
+    -0.0
+   ],
+   "joint_kit": [
+    0.0,
+    0.0,
+    102.92
+   ],
+   "role": "rigid; the neck blends into it",
+   "voxels": 6317,
+   "unity": "Head",
+   "godot": "Head",
+   "mixamo": "mixamorig:Head",
+   "rigify": "spine.006",
+   "v2": "Head",
+   "unity_required": true
+  },
+  {
+   "name": "LeftShoulder",
+   "parent": "UpperChest",
+   "joint": [
+    0.029256,
+    1.392784,
+    -0.015
+   ],
+   "joint_kit": [
+    1.95,
+    1.0,
+    92.852
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 128,
+   "unity": "LeftShoulder",
+   "godot": "LeftShoulder",
+   "mixamo": "mixamorig:LeftShoulder",
+   "rigify": "shoulder.L",
+   "v2": "ClavL",
+   "unity_required": false
+  },
+  {
+   "name": "LeftUpperArm",
+   "parent": "LeftShoulder",
+   "joint": [
+    0.200428,
+    1.407412,
+    -0.015
+   ],
+   "joint_kit": [
+    13.362,
+    1.0,
+    93.827
+   ],
+   "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
+   "voxels": 1148,
+   "unity": "LeftUpperArm",
+   "godot": "LeftUpperArm",
+   "mixamo": "mixamorig:LeftArm",
+   "rigify": "upper_arm.L",
+   "v2": "UpperArmL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftLowerArm",
+   "parent": "LeftUpperArm",
+   "joint": [
+    0.254985,
+    1.127451,
+    -0.029357
+   ],
+   "joint_kit": [
+    16.999,
+    1.957,
+    75.163
+   ],
+   "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
+   "voxels": 1613,
+   "unity": "LeftLowerArm",
+   "godot": "LeftLowerArm",
+   "mixamo": "mixamorig:LeftForeArm",
+   "rigify": "forearm.L",
+   "v2": "LowerArmL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftHand",
+   "parent": "LeftLowerArm",
+   "joint": [
+    0.269342,
+    0.869026,
+    -0.000643
+   ],
+   "joint_kit": [
+    17.956,
+    0.043,
+    57.935
+   ],
+   "role": "rigid",
+   "voxels": 126,
+   "unity": "LeftHand",
+   "godot": "LeftHand",
+   "mixamo": "mixamorig:LeftHand",
+   "rigify": "hand.L",
+   "v2": "HandL",
+   "unity_required": true
+  },
+  {
+   "name": "RightShoulder",
+   "parent": "UpperChest",
+   "joint": [
+    -0.029256,
+    1.392784,
+    -0.015
+   ],
+   "joint_kit": [
+    -1.95,
+    1.0,
+    92.852
+   ],
+   "role": "soft band (trunk, neck and collarbones blend over a few voxels at each joint)",
+   "voxels": 300,
+   "unity": "RightShoulder",
+   "godot": "RightShoulder",
+   "mixamo": "mixamorig:RightShoulder",
+   "rigify": "shoulder.R",
+   "v2": "ClavR",
+   "unity_required": false
+  },
+  {
+   "name": "RightUpperArm",
+   "parent": "RightShoulder",
+   "joint": [
+    -0.200428,
+    1.407412,
+    -0.015
+   ],
+   "joint_kit": [
+    -13.362,
+    1.0,
+    93.827
+   ],
+   "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
+   "voxels": 1169,
+   "unity": "RightUpperArm",
+   "godot": "RightUpperArm",
+   "mixamo": "mixamorig:RightArm",
+   "rigify": "upper_arm.R",
+   "v2": "UpperArmR",
+   "unity_required": true
+  },
+  {
+   "name": "RightLowerArm",
+   "parent": "RightUpperArm",
+   "joint": [
+    -0.254985,
+    1.127451,
+    -0.029357
+   ],
+   "joint_kit": [
+    -16.999,
+    1.957,
+    75.163
+   ],
+   "role": "rigid, blending into its neighbour across the elbow (a soft bend as wide as the arm)",
+   "voxels": 1619,
+   "unity": "RightLowerArm",
+   "godot": "RightLowerArm",
+   "mixamo": "mixamorig:RightForeArm",
+   "rigify": "forearm.R",
+   "v2": "LowerArmR",
+   "unity_required": true
+  },
+  {
+   "name": "RightHand",
+   "parent": "RightLowerArm",
+   "joint": [
+    -0.269342,
+    0.869026,
+    -0.000643
+   ],
+   "joint_kit": [
+    -17.956,
+    0.043,
+    57.935
+   ],
+   "role": "rigid",
+   "voxels": 126,
+   "unity": "RightHand",
+   "godot": "RightHand",
+   "mixamo": "mixamorig:RightHand",
+   "rigify": "hand.R",
+   "v2": "HandR",
+   "unity_required": true
+  },
+  {
+   "name": "LeftUpperLeg",
+   "parent": "Hips",
+   "joint": [
+    0.06258,
+    0.919275,
+    -0.015
+   ],
+   "joint_kit": [
+    4.172,
+    1.0,
+    61.285
+   ],
+   "role": "rigid, blending into its neighbour across the knee (a soft bend as wide as the leg)",
+   "voxels": 3654,
+   "unity": "LeftUpperLeg",
+   "godot": "LeftUpperLeg",
+   "mixamo": "mixamorig:LeftUpLeg",
+   "rigify": "thigh.L",
+   "v2": "ThighL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftLowerLeg",
+   "parent": "LeftUpperLeg",
+   "joint": [
+    0.070845,
+    0.504119,
+    -0.000405
+   ],
+   "joint_kit": [
+    4.723,
+    0.027,
+    33.608
+   ],
+   "role": "rigid, blending into its neighbour across the knee (a soft bend as wide as the leg)",
+   "voxels": 2544,
+   "unity": "LeftLowerLeg",
+   "godot": "LeftLowerLeg",
+   "mixamo": "mixamorig:LeftLeg",
+   "rigify": "shin.L",
+   "v2": "ShinL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftFoot",
+   "parent": "LeftLowerLeg",
+   "joint": [
+    0.07793,
+    0.088962,
+    -0.022298
+   ],
+   "joint_kit": [
+    5.195,
+    1.487,
+    5.931
+   ],
+   "role": "soft band across the ball of the foot",
+   "voxels": 164,
+   "unity": "LeftFoot",
+   "godot": "LeftFoot",
+   "mixamo": "mixamorig:LeftFoot",
+   "rigify": "foot.L",
+   "v2": "FootL",
+   "unity_required": true
+  },
+  {
+   "name": "LeftToes",
+   "parent": "LeftFoot",
+   "joint": [
+    0.080764,
+    0.055157,
+    0.050387
+   ],
+   "joint_kit": [
+    5.384,
+    -3.359,
+    3.677
+   ],
+   "role": "soft band across the ball of the foot",
+   "voxels": 57,
+   "unity": "LeftToes",
+   "godot": "LeftToes",
+   "mixamo": "mixamorig:LeftToeBase",
+   "rigify": "toe.L",
+   "v2": "ToeL",
+   "unity_required": false
+  },
+  {
+   "name": "RightUpperLeg",
+   "parent": "Hips",
+   "joint": [
+    -0.06258,
+    0.919275,
+    -0.015
+   ],
+   "joint_kit": [
+    -4.172,
+    1.0,
+    61.285
+   ],
+   "role": "rigid, blending into its neighbour across the knee (a soft bend as wide as the leg)",
+   "voxels": 3700,
+   "unity": "RightUpperLeg",
+   "godot": "RightUpperLeg",
+   "mixamo": "mixamorig:RightUpLeg",
+   "rigify": "thigh.R",
+   "v2": "ThighR",
+   "unity_required": true
+  },
+  {
+   "name": "RightLowerLeg",
+   "parent": "RightUpperLeg",
+   "joint": [
+    -0.073207,
+    0.504119,
+    0.006893
+   ],
+   "joint_kit": [
+    -4.88,
+    -0.46,
+    33.608
+   ],
+   "role": "rigid, blending into its neighbour across the knee (a soft bend as wide as the leg)",
+   "voxels": 2513,
+   "unity": "RightLowerLeg",
+   "godot": "RightLowerLeg",
+   "mixamo": "mixamorig:RightLeg",
+   "rigify": "shin.R",
+   "v2": "ShinR",
+   "unity_required": true
+  },
+  {
+   "name": "RightFoot",
+   "parent": "RightLowerLeg",
+   "joint": [
+    -0.081472,
+    0.088962,
+    -0.015
+   ],
+   "joint_kit": [
+    -5.431,
+    1.0,
+    5.931
+   ],
+   "role": "soft band across the ball of the foot",
+   "voxels": 156,
+   "unity": "RightFoot",
+   "godot": "RightFoot",
+   "mixamo": "mixamorig:RightFoot",
+   "rigify": "foot.R",
+   "v2": "FootR",
+   "unity_required": true
+  },
+  {
+   "name": "RightToes",
+   "parent": "RightFoot",
+   "joint": [
+    -0.089265,
+    0.055157,
+    0.050679
+   ],
+   "joint_kit": [
+    -5.951,
+    -3.379,
+    3.677
+   ],
+   "role": "soft band across the ball of the foot",
+   "voxels": 64,
+   "unity": "RightToes",
+   "godot": "RightToes",
+   "mixamo": "mixamorig:RightToeBase",
+   "rigify": "toe.R",
+   "v2": "ToeR",
+   "unity_required": false
+  },
+  {
+   "name": "Hair0",
+   "parent": "Head",
+   "joint": [
+    0.0075,
+    1.581605,
+    -0.0975
+   ],
+   "joint_kit": [
+    0.5,
+    6.5,
+    105.44
+   ],
+   "role": "chain (hair)",
+   "voxels": 1407,
+   "godot": "Hair0",
+   "unity_required": false
+  },
+  {
+   "name": "LeftHair0",
+   "parent": "Head",
+   "joint": [
+    0.0675,
+    1.581605,
+    -0.0075
+   ],
+   "joint_kit": [
+    4.5,
+    0.5,
+    105.44
+   ],
+   "role": "chain (hair)",
+   "voxels": 459,
+   "godot": "LeftHair0",
+   "unity_required": false
+  },
+  {
+   "name": "RightHair0",
+   "parent": "Head",
+   "joint": [
+    -0.0525,
+    1.581605,
+    0.0075
+   ],
+   "joint_kit": [
+    -3.5,
+    -0.5,
+    105.44
+   ],
+   "role": "chain (hair)",
+   "voxels": 424,
+   "godot": "RightHair0",
+   "unity_required": false
+  }
+ ],
+ "sockets": [
+  {
+   "name": "SocketHandL",
+   "bone": "LeftHand",
+   "translation": [
+    0.002871,
+    -0.064606,
+    0.011567
+   ],
+   "rotation": [
+    0.7036135,
+    0.0701996,
+    0.7069708,
+    0.0138662
+   ],
+   "origin": [
+    0.272213,
+    0.804419,
+    0.010924
+   ],
+   "use": "weapons, staves, tools, torches, cups, pipes, books: the kit's hang grip, business end down"
+  },
+  {
+   "name": "SocketHandR",
+   "bone": "RightHand",
+   "translation": [
+    -0.002871,
+    -0.064606,
+    0.011567
+   ],
+   "rotation": [
+    0.7069708,
+    0.0138662,
+    0.7036135,
+    0.0701996
+   ],
+   "origin": [
+    -0.272213,
+    0.804419,
+    0.010924
+   ],
+   "use": "weapons, staves, tools, torches, cups, pipes, books: the kit's hang grip, business end down"
+  },
+  {
+   "name": "SocketShield",
+   "bone": "LeftLowerArm",
+   "translation": [
+    0.074647,
+    -0.461339,
+    0.116615
+   ],
+   "rotation": [
+    -0.0611423,
+    0.3162644,
+    0.0086924,
+    0.9466588
+   ],
+   "origin": [
+    0.329632,
+    0.666112,
+    0.087259
+   ],
+   "use": "a shield strapped to the forearm: origin at the shield's foot, +Y up the forearm, +Z its face"
+  },
+  {
+   "name": "SocketBack",
+   "bone": "UpperChest",
+   "translation": [
+    0.135269,
+    0.358842,
+    -0.134064
+   ],
+   "rotation": [
+    0.9816272,
+    -0.190809,
+    0.0,
+    0.0
+   ],
+   "origin": [
+    0.135269,
+    1.627565,
+    -0.1905
+   ],
+   "use": "two-handers, bows and shields when stowed: a greatsword's hilt over the left shoulder"
+  },
+  {
+   "name": "SocketHipL",
+   "bone": "Hips",
+   "translation": [
+    0.168977,
+    -0.026996,
+    0.030967
+   ],
+   "rotation": [
+    -0.6983718,
+    -0.2065587,
+    0.6762644,
+    0.1108011
+   ],
+   "origin": [
+    0.168977,
+    0.920993,
+    0.015967
+   ],
+   "use": "one-handed weapons when sheathed: a longsword in a frog, hilt forward and up"
+  },
+  {
+   "name": "SocketHipR",
+   "bone": "Hips",
+   "translation": [
+    -0.168977,
+    -0.026996,
+    0.030967
+   ],
+   "rotation": [
+    -0.6983718,
+    0.2065587,
+    -0.6762644,
+    0.1108011
+   ],
+   "origin": [
+    -0.168977,
+    0.920993,
+    0.015967
+   ],
+   "use": "one-handed weapons when sheathed: a longsword in a frog, hilt forward and up"
+  },
+  {
+   "name": "HeadTop",
+   "bone": "Head",
+   "translation": [
+    0.0,
+    0.2452,
+    0.015
+   ],
+   "rotation": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "origin": [
+    0.0,
+    1.789003,
+    0.015
+   ],
+   "use": "hats and helmets (the show-helmet option is one attach)"
+  },
+  {
+   "name": "LookFrom",
+   "bone": "Head",
+   "translation": [
+    0.0,
+    0.11647,
+    0.11252
+   ],
+   "rotation": [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ],
+   "origin": [
+    0.0,
+    1.660273,
+    0.11252
+   ],
+   "use": "only the point look-at aims from; the figures stay faceless"
+  }
+ ],
+ "socket_frames": "a prop's origin in the fist (grip), its +Y along the business end and +X along the edge, as the kit's weapon Frame (o, ax, sd): parent it to the socket with no offset",
+ "owner_rules": {
+  "out": "held things and world props: left out of the rig (held props become their own files, on the hand sockets)",
+  "head": "worn on or part of the head (beards, ears, horns, hats, helmets, face parts): Head",
+  "head_drape": "hair, hoods, headscarves and veils: Head above the middle of the neck, UpperChest below it (long hair lies on the back)",
+  "drape": "capes, cloaks, mantles, shawls, fur collars and stoles: UpperChest (they hang from the shoulders)",
+  "back": "gear on the back (sheathed two-handers, quivers, shields, packs, bedrolls, baldrics): UpperChest",
+  "hip": "gear hanging at the belt (sheathed blades, pouches, keys, books, satchels): Hips, never a leg or an arm; straps higher up follow the trunk",
+  "trunk": "sleeveless garments, belts and jewellery on the body: the trunk bones only, never a limb or the head",
+  "neck": "collars and neck cloths: the trunk or the Neck, never a limb",
+  "skirt": "skirts, aprons, tabards and tassets: the trunk and the thighs; below the knee they stay on the thigh, unless they hug the shin or foot (within 2 voxels)",
+  "robe": "robes and long coats: any bone but the head; below the knee their hem stays on the thigh, but what hugs the shin or foot (a robe's own boots) stays there",
+  "leg": "trousers, boots and leggings: the trunk and the legs, never an arm",
+  "sleeve": "sleeves, gloves, bracers, pauldrons and bangles: the arms only",
+  "skin": "the bare body: its nearest body segment",
+  "body": "everything else: its nearest body segment, but never the head or the neck (a collar stays on the body)",
+  "limb_core": "over all of these (but held things and the head): whatever lies inside an arm's or a leg's own volume (half a voxel in, past the shoulder and hip balls) follows that limb, so a moving limb stays whole",
+  "outfits": "a part that paints a whole outfit (robes, vestments, the clothes sets) is sorted by material first: its boots follow the leg rule, its rope or cord belt the trunk rule, the hands it repaints the skin rule",
+  "joint_cuts": "elbows, wrists and knees are cut by a plane halving the angle between the limb's two segments, ankles by a plane across the shin; past the wrist only the hand itself (and a glove) goes with the hand, a sleeve's mouth stays on the forearm",
+  "shin_plates": "knee cops ride whole on the shin",
+  "belts_through_limbs": "belts, sashes and jewellery (the trunk rule) that pass through a limb hanging against the body stay with the trunk (the limb-core rule gives way: the limb gets a small dent instead)",
+  "cloth_by_the_hands": "robe or garment cloth by a hanging forearm or hand that the figure built with its arms out also has is cloth, not sleeve: it goes to the trunk, or below the hips to the skirt",
+  "skirt_chains": "cloth below the hips (skirts, robes, coats, aprons, and belts, stoles and sashes hanging over them) goes on the skirt panels (on the thighs, and below the knee on down the shins); an outfit's own trousers stay on the legs",
+  "cape_chains": "capes and cloaks go on the cape chains (blending into the chest at the shoulders, and where they lie over an arm riding on that arm)",
+  "hair_chains": "hair, hoods and veils hanging more than 0.45 head radii below the head's centre go on the hair chains when they hang 10 voxels or more (hair lying on a cape moves with the cape); shorter hangs follow the neck band"
+ },
+ "parts": [
+  {
+   "part": "skin",
+   "rule": "skin",
+   "groups": [
+    "arm_left",
+    "arm_right",
+    "axial",
+    "feet_left",
+    "feet_right",
+    "leg_left",
+    "leg_right",
+    "rigid"
+   ],
+   "voxels": {
+    "Hips": 434,
+    "Spine": 630,
+    "Chest": 397,
+    "UpperChest": 160,
+    "Neck": 56,
+    "Head": 646,
+    "LeftShoulder": 36,
+    "LeftUpperArm": 775,
+    "LeftLowerArm": 128,
+    "LeftHand": 126,
+    "RightShoulder": 105,
+    "RightUpperArm": 795,
+    "RightLowerArm": 134,
+    "RightHand": 126,
+    "LeftUpperLeg": 1114,
+    "LeftLowerLeg": 226,
+    "LeftFoot": 15,
+    "RightUpperLeg": 1116,
+    "RightLowerLeg": 228,
+    "RightFoot": 13
+   }
+  },
+  {
+   "part": "hakama",
+   "rule": "leg",
+   "groups": [
+    "axial",
+    "leg_left",
+    "leg_right"
+   ],
+   "voxels": {
+    "Hips": 320,
+    "Spine": 200,
+    "LeftUpperLeg": 2540,
+    "LeftLowerLeg": 662,
+    "RightUpperLeg": 2584,
+    "RightLowerLeg": 613
+   }
+  },
+  {
+   "part": "bare_feet_dirty",
+   "rule": "leg",
+   "groups": [
+    "feet_left",
+    "feet_right",
+    "leg_left",
+    "leg_right"
+   ],
+   "voxels": {
+    "LeftLowerLeg": 4,
+    "LeftFoot": 149,
+    "LeftToes": 57,
+    "RightLowerLeg": 3,
+    "RightFoot": 143,
+    "RightToes": 64
+   }
+  },
+  {
+   "part": "bark_carapace",
+   "rule": "body",
+   "groups": [
+    "arm_left",
+    "arm_right",
+    "axial"
+   ],
+   "voxels": {
+    "Chest": 2415,
+    "UpperChest": 3119,
+    "Neck": 61,
+    "Head": 25,
+    "LeftShoulder": 92,
+    "LeftUpperArm": 40,
+    "RightShoulder": 195,
+    "RightUpperArm": 40
+   }
+  },
+  {
+   "part": "midriff_abs",
+   "rule": "trunk",
+   "groups": [],
+   "voxels": {}
+  },
+  {
+   "part": "bark_vambraces",
+   "rule": "sleeve",
+   "groups": [
+    "arm_left",
+    "arm_right"
+   ],
+   "voxels": {
+    "LeftLowerArm": 1485,
+    "RightLowerArm": 1485
+   }
+  },
+  {
+   "part": "bark_shin_guards",
+   "rule": "leg",
+   "groups": [
+    "leg_left",
+    "leg_right"
+   ],
+   "voxels": {
+    "LeftLowerLeg": 1596,
+    "RightLowerLeg": 1613
+   }
+  },
+  {
+   "part": "utility_belt",
+   "rule": "hip",
+   "groups": [
+    "rigid"
+   ],
+   "voxels": {
+    "Hips": 684
+   }
+  },
+  {
+   "part": "shelf_mushroom_pauldrons",
+   "rule": "sleeve",
+   "groups": [
+    "arm_left",
+    "arm_right"
+   ],
+   "voxels": {
+    "LeftUpperArm": 333,
+    "RightUpperArm": 334
+   }
+  },
+  {
+   "part": "vine_anklets",
+   "rule": "leg",
+   "groups": [
+    "leg_left",
+    "leg_right"
+   ],
+   "voxels": {
+    "LeftLowerLeg": 56,
+    "RightLowerLeg": 56
+   }
+  },
+  {
+   "part": "hair_mycelium_curls",
+   "rule": "head_drape",
+   "groups": [
+    "hair",
+    "rigid"
+   ],
+   "voxels": {
+    "UpperChest": 98,
+    "Head": 5145,
+    "Hair0": 1407,
+    "LeftHair0": 459,
+    "RightHair0": 424
+   }
+  },
+  {
+   "part": "ears_elf",
+   "rule": "head",
+   "groups": [
+    "rigid"
+   ],
+   "voxels": {
+    "Head": 74
+   }
+  },
+  {
+   "part": "bark_crown",
+   "rule": "head",
+   "groups": [
+    "rigid"
+   ],
+   "voxels": {
+    "Head": 427
+   }
+  }
+ ],
+ "left_out": [
+  {
+   "part": "ground",
+   "why": "a world prop (the ground disc, a cart, a mannequin, a helmet on the ground): not part of the figure"
+  },
+  {
+   "part": "terrarium_staff",
+   "why": "held: it becomes its own prop file on a hand socket (plan step L5)"
+  }
+ ],
+ "t_pose": {
+  "note": "local rotations over the rest pose that make a T-pose (arms out, palms down, legs straight)",
+  "rotations": {
+   "LeftUpperArm": [
+    0.0,
+    -0.0325721,
+    0.6351559,
+    0.7716968
+   ],
+   "LeftLowerArm": [
+    0.0704619,
+    0.0822331,
+    0.0658352,
+    0.9919368
+   ],
+   "LeftHand": [
+    -0.0,
+    0.0006082,
+    0.0054742,
+    0.9999848
+   ],
+   "LeftUpperLeg": [
+    0.0175673,
+    0.0,
+    -0.0099483,
+    0.9997962
+   ],
+   "LeftLowerLeg": [
+    -0.0438919,
+    -0.0004117,
+    0.0014237,
+    0.9990352
+   ],
+   "LeftFoot": [
+    0.0263367,
+    0.0,
+    0.0085226,
+    0.9996168
+   ],
+   "RightUpperArm": [
+    0.0,
+    0.0325721,
+    -0.6351559,
+    0.7716968
+   ],
+   "RightLowerArm": [
+    0.0704619,
+    -0.0822331,
+    -0.0658352,
+    0.9919368
+   ],
+   "RightHand": [
+    -0.0,
+    -0.0006082,
+    -0.0054742,
+    0.9999848
+   ],
+   "RightUpperLeg": [
+    0.0263331,
+    0.0,
+    0.0127821,
+    0.9995715
+   ],
+   "RightLowerLeg": [
+    -0.0526471,
+    0.0005984,
+    -0.0028387,
+    0.998609
+   ],
+   "RightFoot": [
+    0.0263357,
+    0.0,
+    -0.0099426,
+    0.9996037
+   ]
+  }
+ },
+ "base_pose": {
+  "note": "the pose of the approved library figure, as local rotations over the rest pose; apply it as a layer (arm holds from its brief, and kit/pose.py's angles in degrees)",
+  "pose_degrees": {},
+  "rotations": {
+   "RightUpperArm": [
+    0.0013318,
+    -0.0002664,
+    0.0001332,
+    0.9999991
+   ],
+   "RightLowerArm": [
+    -0.1434617,
+    0.0070457,
+    -0.0101851,
+    0.9895784
+   ],
+   "RightHand": [
+    0.0464481,
+    -0.0024176,
+    -0.0232527,
+    0.9986471
+   ]
+  }
+ },
+ "mesh": {
+  "voxels": 36262,
+  "faces_exposed": 23446,
+  "cap_faces": 4462,
+  "core_faces": 882,
+  "triangles_unmerged": 46892,
+  "triangles": 42228,
+  "soft_quads": 6254,
+  "rectangles": 19435,
+  "vertices": 84456,
+  "atlas": [
+   1024,
+   256
+  ],
+  "textures": [
+   "base colour",
+   "metal/roughness",
+   "emission"
+  ],
+  "bytes": 7090636
+ },
+ "material": {
+  "sampling": "nearest (point), clamp to edge, no mipmaps; one texel per voxel face with a 1-texel gutter",
+  "metallic": "0.6 x the voxel's metal",
+  "roughness": "0.82 - 0.5 x the voxel's metal (render_vox.py)",
+  "emission": "the voxel's colour x its glow, strength 1.5 (KHR_materials_emissive_strength)"
+ },
+ "game": {
+  "format": "dnd5e_game 1",
+  "lods": [
+   {
+    "lod": 0,
+    "voxel_cm": 1.5,
+    "screen_height_min": 0.25,
+    "triangles": 42228
+   },
+   {
+    "lod": 1,
+    "voxel_cm": 3.0,
+    "screen_height_min": 0.08,
+    "triangles": 11176
+   },
+   {
+    "lod": 2,
+    "voxel_cm": 6.0,
+    "screen_height_min": 0.0,
+    "triangles": 3258
+   }
+  ],
+  "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells); baked at rest, so it does not follow the bends",
+  "nodes": "Body_LOD0 (1.5 cm), Body_LOD1 (3 cm), Body_LOD2 (6 cm), all bound to the one skin"
+ },
+ "files": {
+  "glb": "chairn.glb",
+  "rig_json": "chairn.rig.json"
+ }
+}

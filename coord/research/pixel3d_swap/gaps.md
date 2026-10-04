@@ -1,43 +1,33 @@
-# Pixel3d swap: the gaps (agent A, 2026-10-04)
+# Pixel3d swap: the gaps (agent A; updated 2026-10-04, round 2)
 
-These block a wholly pixel3d capture of the village and the default screen. They are listed most visible first. Who
-fills each one is the main session's call; the likely owner is in brackets. The details are in `inventory.md`.
+These block a wholly pixel3d capture, listed most visible first. The details are in `inventory.md`.
 
-1. **The ground and the roads** (agent E's terrain E02, then agent N's export). The valley floor, the verges, the mud
-   high street and lanes cover most of every frame, in the village and on the title screen.
-   - The library has the tiles (review 43: dead grass, dirt, mud road, rock, forest floor) and village example layouts,
-     but no game files yet.
-   - v3 needs the tiles exported (atlas, LODs) and a ground layout for the village, as for the kit.
-   - The square is already the kit's cobbles: v3 lowers v2's ground under them.
-2. **Trees, undergrowth, grass** (agent E's vegetation, review 44, not started). In the village that's 520 pines and
-   73 dead trees, 520 bushes, 1,040 ferns and 1,600 grass tufts; on the title screen, 70 pines, 40 dead trees and grass.
-   **Rocks, stumps and fallen logs** (104, 65, 52) have no library version either.
-3. **The party.**
-   - Arkus and Chai'rn need rigged game exports from their locked library models (agent N, as for the 19 rigs).
-   - Dulandir has no library design; his brief is Peter's.
-   - Until then the party on screen is v2's, which alone rules out any capture.
-   - Arkus's and Chai'rn's HUD portraits are the library's already; Dulandir's portrait waits on his model.
-4. **The villagers** (4 in the square and street): rigged exports of the Barovian commoner looks,
-   `characters\looks\barovian_commoner_m`, `_f` and their second looks (agent N). The library has them, but only as
-   static figures.
-5. **The castle on the skyline**, seen from the village and on the title screen, and **the village gates** on the title
-   screen. Neither is in the library (a library agent).
-6. **Graveyard pieces** (agent N, all exports of what the library has):
-   - the four gravestones as separate models: the library's `gravestone_4_shapes` holds all four in one;
-   - the open grave needs the library terrain (a hole in the ground);
-   - the garlic strings without their door;
-   - claw marks as a door overlay (both go on the kit's manor door).
-7. **The HUD's top-right buttons**: bag, character, journal, camp, settings. There are no UI icons for these in the
-   library yet (the icon agent; the same style as reviews 27 to 29).
-8. **Small things**:
-   - a broken cart look (one, by the manor drive);
-   - the night enemies on the high street (night only, so they stay out of day captures).
+1. **Trees, undergrowth, grass tufts, rocks, stumps and fallen logs** (agent E, review 44). This is now the biggest v2
+   share of every village frame.
+   - The village has 520 pines and 73 dead trees, 520 bushes, 1,040 ferns, 1,600 grass tufts, 104 rocks, 65 stumps and
+     52 logs.
+   - The title screen has 70 pines, 40 dead trees and 260 grass tufts.
+   - The ground's `woods` list marks where the trees go.
+2. **Dulandir** (Peter's decision): his body and his portrait. Until then he is v2's in every frame with the party.
+3. **The title screen's ground.** The village ground replaces v2's terrain in the village only. The title screen has its
+   own hills, which need a ground layout of their own (agent E, then agent N).
+4. **The castle on the skyline** (agent M's castle set, after Peter's review) and **the village gates** on the title
+   screen.
+5. **Graveyard and door pieces** (agent N's next export: built or rendering in reviews 11, 14 and 32):
+   - the four gravestones apart (48 in the graveyard);
+   - the garlic strings and the claw marks for the manor door;
+   - the broken cart.
+6. **The open grave.** The library's is a cut into the ground, and the ground has no hole there yet. It needs either a
+   grave tile in the ground layout or a hole in it (agent E / agent N).
+7. **The heroes' held items.** Arkus's rune blade and Chai'rn's terrarium staff are left out of their rigs and have no
+   prop files yet ("plan step L5"). Their in-game weapons (a glaive, a quarterstaff) are the library's.
+8. **The night enemies** (night only; night stays out of captures).
 
-## Requests to agent N for things already swapped (for cost and look, not for the capture)
-
-- **Game exports (atlas, AO, LODs, no review base) of the props now swapped from the look test's bake.** These are
-  bench, cart, haybale, woodpile, grave mound, coffin and glaive. The bakes are heavy: the cart is 140 k triangles,
-  the coffin 106 k, the woodpile 71 k, and 18 grave mounds come to 0.9 M.
-- **The cobbles.** The kit's square costs about 4.5 M triangles a frame at play zoom, even with 1.5 cm stones only
-  within 16 m of the camera. A `--no-ao` export of `cobbled_square` (about half), or the occlusion baked into the
-  texture, would let them show at full detail everywhere. At 3 cm the stones lose their shape and read as speckle.
+Done in round 2 (no longer gaps):
+- the ground and roads;
+- the manor's hill and the church's rise;
+- Arkus and Chai'rn;
+- the villagers;
+- the seven props as game exports;
+- the cobbles at full detail;
+- the HUD buttons.

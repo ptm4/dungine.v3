@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Dungine.Rules;
 using Dungine.Visual;
 using UnityEngine;
 
@@ -45,9 +46,27 @@ namespace Dungine.Library
             ByNpcId["vistani0"] = "alenka"; ByNpcId["vistani1"] = "mirabel"; ByNpcId["vistani2"] = "sorvia";
             ByNpcId["bildrath"] = "bildrath_cantemir"; ByNpcId["parriwimple"] = "parriwimple";
             ByNpcId["rose"] = "rose_durst"; ByNpcId["thorn"] = "thorn_durst";
+            // v2's four villagers: the Barovian commoners, both looks (review 6 looks, rigged 2026-10-04)
+            ByNpcId["villager0"] = "barovian_commoner_m"; ByNpcId["villager1"] = "barovian_commoner_f";
+            ByNpcId["villager2"] = "barovian_commoner_m_2"; ByNpcId["villager3"] = "barovian_commoner_f_2";
         }
 
         public static bool Exists(string id) => Resources.Load<TextAsset>(Folder + id + ".rig") != null;
+
+        /// <summary>The party's heroes who have a library rig (the key characters, locked designs), by sheet name.</summary>
+        public static readonly Dictionary<string, string> ByHero = new Dictionary<string, string> { ["arkus"] = "arkus", ["chairn"] = "chairn", ["chai'rn"] = "chairn" };
+        /// <summary>The heroes' library rigs (Peter, 2026-10-04: "Yes, both into v3"). Locked designs: the exports as they are.</summary>
+        public static bool HeroesOn = true;
+        /// <summary>Heroes who carry nothing in hand for now: Arkus's new greatsword is being built (agent O); until it lands his
+        /// hand socket stays empty, and no v2 weapon stands in.</summary>
+        public static readonly HashSet<string> EmptyHanded = new HashSet<string> { "arkus" };
+
+        public static HumanoidRig TryBuildPC(string name, GearLook gear)
+        {
+            if (!HeroesOn || string.IsNullOrEmpty(name) || !ByHero.TryGetValue(name.ToLowerInvariant(), out var id) || !Exists(id)) return null;
+            if (EmptyHanded.Contains(id) && gear != null) { gear.main = WeaponVisual.None; gear.off = WeaponVisual.None; }
+            return Build(id, gear, name);
+        }
 
         /// <summary>The library figure assigned to this v2 figure, built and ready for HumanoidAnimator; null if none.</summary>
         public static HumanoidRig TryBuild(string npcId, GearLook gear, string name)
@@ -123,9 +142,7 @@ namespace Dungine.Library
                 smr.updateWhenOffscreen = false;
                 // room for crouches, falls and swinging cloth, so the figure isn't culled early
                 var b = smr.localBounds; b.Expand(new Vector3(1.2f, 1.2f, 1.2f)); smr.localBounds = b;
-                var mats = smr.sharedMaterials;
-                for (int i = 0; i < mats.Length; i++) mats[i] = VoxelMaterial(mats[i]);
-                smr.sharedMaterials = mats;
+                ApplyVoxelMaterials(smr);
                 rig.renderers.Add(smr);
             }
             if (lodMeshes.Length > 1) SetUpLods(inst, lodMeshes, MiniJson.Obj(data, "game"), top);
@@ -186,9 +203,7 @@ namespace Dungine.Library
             foreach (var r in rends)
             {
                 r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-                var mats = r.sharedMaterials;
-                for (int i = 0; i < mats.Length; i++) mats[i] = VoxelMaterial(mats[i]);
-                r.sharedMaterials = mats;
+                ApplyVoxelMaterials(r);
             }
             var lodRs = rends.Where(r => r.name.StartsWith("Body_LOD")).OrderBy(r => r.name).ToArray();
             if (lodRs.Length < 2) return;
@@ -208,10 +223,14 @@ namespace Dungine.Library
         static readonly Dictionary<Material, Material> atlasMats = new Dictionary<Material, Material>();
 
         /// <summary>glTFast's material for an export model, as a Dungine/VoxelAtlas material (one per source material).</summary>
-        public static Material VoxelMaterial(Material src)
+        public static Material VoxelMaterial(Material src) => VoxelMaterial(src, true);
+
+        /// <summary>As above, for a mesh with or without vertex AO in COLOR_0 (the export's texture-AO files have none).</summary>
+        public static Material VoxelMaterial(Material src, bool vertexAO)
         {
             if (!AtlasShaderOn || !src || !src.HasProperty("baseColorTexture")) return src;
-            if (atlasMats.TryGetValue(src, out var m) && m) return m;
+            var cache = vertexAO ? atlasMats : atlasMatsNoVAO;
+            if (cache.TryGetValue(src, out var m) && m) return m;
             if (!atlasShader) atlasShader = Shader.Find("Dungine/VoxelAtlas");
             if (!atlasShader) return src;
             if (!dialsSet) { Dials(DefaultWrap, DefaultFill, DefaultAO); dialsSet = true; }
@@ -227,9 +246,23 @@ namespace Dungine.Library
             m.SetTexture("_EmissionMap", glow ? glow : Texture2D.blackTexture);
             m.SetColor("_SpecColor", glow && src.HasProperty("emissiveFactor") ? src.GetColor("emissiveFactor") : Color.black);
             m.SetColor("_EmissionColor", Color.black);
+            m.SetFloat("_OcclusionStrength", vertexAO ? 1f : 0f);
             m.enableInstancing = true;
-            atlasMats[src] = m;
+            cache[src] = m;
             return m;
+        }
+
+        static readonly Dictionary<Material, Material> atlasMatsNoVAO = new Dictionary<Material, Material>();
+
+        /// <summary>Gives a renderer of an export model the voxel materials, reading whether its mesh has vertex AO.</summary>
+        public static void ApplyVoxelMaterials(Renderer r)
+        {
+            if (!r) return;
+            Mesh mesh = r is SkinnedMeshRenderer smr ? smr.sharedMesh : r.GetComponent<MeshFilter>() ? r.GetComponent<MeshFilter>().sharedMesh : null;
+            bool vao = !mesh || mesh.HasVertexAttribute(UnityEngine.Rendering.VertexAttribute.Color);
+            var mats = r.sharedMaterials;
+            for (int i = 0; i < mats.Length; i++) mats[i] = VoxelMaterial(mats[i], vao);
+            r.sharedMaterials = mats;
         }
 
         /// <summary>The shader's global dials (see DungineVoxelAtlas.shader): wrap diffuse, ambient fill, AO strength.</summary>

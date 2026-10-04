@@ -82,13 +82,31 @@ namespace Dungine.Library
         static void Swap(HumanoidRig rig, GameObject weapon, WeaponVisual kind)
         {
             if (!weapon || !Weapons.TryGetValue(kind, out var w)) return;
-            var prefab = Load(w.id);
+            // agent N's game export where it has the weapon (the glaive), else the look test's bake
+            var exp = Resources.Load<GameObject>("LookTest/Export/" + w.id);
+            var prefab = exp ? exp : Load(w.id);
             if (!prefab) return;
             if (!ShowV2Too) foreach (var r in weapon.GetComponentsInChildren<Renderer>(true)) { r.enabled = false; rig.renderers.Remove(r); }
             var m = Object.Instantiate(prefab, weapon.transform, false);
             m.name = "Library_" + w.id;
-            m.transform.localPosition = -Grip(w);
             m.transform.localRotation = Quaternion.identity;
+            if (exp)
+            {
+                // an export stands on its butt (the glaive 6 cm up, as in the library): the grip is (handA - a0) cm above
+                // the model's bottom, on its middle line
+                LibraryFigures.PrepareStatic(m, null);
+                m.transform.localPosition = Vector3.zero;
+                Bounds b = default; bool any = false;
+                foreach (var r in m.GetComponentsInChildren<Renderer>(true))
+                    if (r.name == "Body_LOD0" || !r.name.StartsWith("Body_LOD")) { if (!any) { b = r.bounds; any = true; } else b.Encapsulate(r.bounds); }
+                if (any)
+                {
+                    var bottom = m.transform.InverseTransformPoint(new Vector3(b.center.x, b.min.y, b.center.z));
+                    var mid = m.transform.InverseTransformPoint(b.center);
+                    m.transform.localPosition = -new Vector3(mid.x, bottom.y + (w.handA - w.a0) / 100f, mid.z);
+                }
+            }
+            else m.transform.localPosition = -Grip(w);
             foreach (var r in m.GetComponentsInChildren<Renderer>()) { rig.renderers.Add(r); r.gameObject.layer = weapon.layer; }
         }
 

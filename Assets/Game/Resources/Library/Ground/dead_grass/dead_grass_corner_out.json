@@ -1,0 +1,63 @@
+{
+ "id": "dead_grass_corner_out",
+ "library": "environment/terrain/dead_grass/dead_grass_corner_out",
+ "name": "Dead grass, corner out",
+ "kit": "dead_grass",
+ "module": "dead_grass_corner_out",
+ "look": 1,
+ "review": "43_terrain",
+ "snap": {
+  "grid_cm": [
+   150,
+   30
+  ],
+  "pivot": "the frame's origin (0, 0, 0), a grid point on voxel corners",
+  "frame": "a 1.5 m tile: x and y 0 to 150 from its corner (its pivot), z = 0 its low corners' ground; turned about its middle by quarter turns and moved back onto its square (env_terrain.TURN_OFFSET)",
+  "place": "on the 1.5 m ground grid",
+  "bounds_cm": [
+   [
+    0.0,
+    0.0,
+    -15.0
+   ],
+   [
+    150.0,
+    150.0,
+    37.5
+   ]
+  ],
+  "turns": "quarter turns about the pivot are exact"
+ },
+ "size_cm": {
+  "width": 150.0,
+  "depth": 150.0,
+  "height": 52.5
+ },
+ "format": "dnd5e_game 1",
+ "units": "glTF metres, +Y up; the module's pivot is the glTF origin, its frame x east, y north turned to glTF (x, z, -y); a quarter turn anticlockwise seen from above is +90 degrees about +Y",
+ "material": "point-sampled atlas: base colour, metallic-roughness (metal in B, roughness in G), emission",
+ "ambient_occlusion": "baked into the base colour texture, one value per voxel face (the mean of its corners), on the module alone; no COLOR_0",
+ "lods": [
+  {
+   "lod": 0,
+   "voxel_cm": 1.5,
+   "triangles": 15894
+  },
+  {
+   "lod": 1,
+   "voxel_cm": 3.0,
+   "triangles": 5474
+  },
+  {
+   "lod": 2,
+   "voxel_cm": 6.0,
+   "triangles": 840
+  },
+  {
+   "lod": 3,
+   "voxel_cm": 15.0,
+   "triangles": 74
+  }
+ ],
+ "bytes": 1650008
+}

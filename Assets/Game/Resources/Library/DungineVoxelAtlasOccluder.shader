@@ -17,6 +17,7 @@ Shader "Dungine/VoxelAtlasOccluder"
         [HideInInspector] _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
         [HideInInspector] _Cull("__cull", Float) = 2.0
         [ToggleUI] _ReceiveShadows("Receive Shadows", Float) = 1.0
+        _OcclusionStrength("Vertex AO (1: COLOR_0 is AO, 0: none)", Range(0, 1)) = 1.0
         _Parallax("Occluder fade", Range(0, 1)) = 0
         _ClearCoatSmoothness("Whole-object fade", Float) = 0.0
     }

@@ -55,7 +55,8 @@ namespace Dungine.UI
         void HudButton(string icon, string tip, System.Action a)
         {
             var b = UIB.Btn("", a, "btn icon-btn", buttons);
-            var ic = UIB.Img(Icons.Get(icon), null, b, Theme.Gold); ic.style.flexGrow = 1;
+            var lib = Library.LibraryIcons.Hud(icon);   // v3: the library's HUD icon (approved by Peter), full colour
+            var ic = lib ? UIB.Img(lib, null, b) : UIB.Img(Icons.Get(icon), null, b, Theme.Gold); ic.style.flexGrow = 1;
             b.tooltip = tip;
             b.RegisterCallback<MouseEnterEvent>(_ => ShowSimpleTip(tip, b));
             b.RegisterCallback<MouseLeaveEvent>(_ => HideTip());

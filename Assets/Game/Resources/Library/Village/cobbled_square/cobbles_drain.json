@@ -36,28 +36,28 @@
  "format": "dnd5e_game 1",
  "units": "glTF metres, +Y up; the module's pivot is the glTF origin, its frame x east, y north turned to glTF (x, z, -y); a quarter turn anticlockwise seen from above is +90 degrees about +Y",
  "material": "point-sampled atlas: base colour, metallic-roughness (metal in B, roughness in G), emission",
- "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells), baked on the module alone",
+ "ambient_occlusion": "baked into the base colour texture, one value per voxel face (the mean of its corners), on the module alone; no COLOR_0",
  "lods": [
   {
    "lod": 0,
    "voxel_cm": 1.5,
-   "triangles": 29588
+   "triangles": 15672
   },
   {
    "lod": 1,
    "voxel_cm": 3.0,
-   "triangles": 2384
+   "triangles": 2048
   },
   {
    "lod": 2,
    "voxel_cm": 6.0,
-   "triangles": 76
+   "triangles": 44
   },
   {
    "lod": 3,
    "voxel_cm": 15.0,
-   "triangles": 46
+   "triangles": 28
   }
  ],
- "bytes": 2582932
+ "bytes": 1327784
 }

@@ -1,0 +1,16 @@
+cobbles_full square: mean 15.41 ms, median 15.41 ms, 95th 22.51 ms | 17213k tris, 33538k | medians ms: GPU 0.00 main 6.96 render 1.84
+cobbles_full highstreet: mean 14.41 ms, median 9.51 ms, 95th 35.74 ms | 13404k tris, 25716k | medians ms: GPU 2.74 main 7.73 render 2.24
+cobbles_full church: mean 8.51 ms, median 7.77 ms, 95th 13.62 ms | 23079k tris, 45033k | medians ms: GPU 3.33 main 5.58 render 1.55
+cobbles_full manor: mean 10.07 ms, median 7.70 ms, 95th 25.84 ms | 9460k tris, 18234k | medians ms: GPU 2.85 main 6.50 render 1.89
+cobbles_full wide: mean 11.43 ms, median 8.70 ms, 95th 29.59 ms | 18889k tris, 37096k | medians ms: GPU 5.20 main 6.21 render 1.81
+cobbles_16m square: mean 11.86 ms, median 9.51 ms, 95th 25.26 ms | 12279k tris, 23670k | medians ms: GPU 3.31 main 5.96 render 1.56
+cobbles_16m highstreet: mean 13.31 ms, median 10.59 ms, 95th 30.28 ms | 11174k tris, 21370k | medians ms: GPU 4.13 main 7.85 render 2.47
+cobbles_16m church: mean 12.90 ms, median 9.94 ms, 95th 30.40 ms | 23079k tris, 45033k | medians ms: GPU 4.73 main 6.57 render 1.94
+cobbles_16m manor: mean 9.48 ms, median 8.81 ms, 95th 14.58 ms | 9460k tris, 18234k | medians ms: GPU 3.10 main 7.44 render 2.04
+cobbles_16m wide: mean 11.24 ms, median 8.82 ms, 95th 27.56 ms | 12290k tris, 23898k | medians ms: GPU 2.89 main 6.63 render 1.97
+v2_ground square: mean 7.16 ms, median 6.70 ms, 95th 10.21 ms | 16740k tris, 32544k | medians ms: GPU 4.43 main 4.88 render 1.67
+v2_ground highstreet: mean 9.65 ms, median 6.35 ms, 95th 31.40 ms | 9212k tris, 17387k | medians ms: GPU 2.34 main 4.80 render 1.67
+v2_ground church: mean 6.62 ms, median 5.94 ms, 95th 10.70 ms | 19346k tris, 37546k | medians ms: GPU 3.18 main 5.37 render 1.92
+v2_ground manor: mean 10.34 ms, median 7.47 ms, 95th 24.71 ms | 5567k tris, 10411k | medians ms: GPU 2.40 main 5.56 render 2.06
+v2_ground wide: mean 10.74 ms, median 7.95 ms, 95th 27.10 ms | 18536k tris, 36271k | medians ms: GPU 3.69 main 5.99 render 2.12
+DONE

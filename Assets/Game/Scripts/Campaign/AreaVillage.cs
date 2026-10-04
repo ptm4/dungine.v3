@@ -69,6 +69,7 @@ namespace Dungine
             o.BuildTerrain();
             // v3: the library's gothic village stands in for v2's buildings (Library/VillageKit.cs); v2's are still built
             // below, then retired, so their doors can move to the kit's
+            Library.VillageGround.Build(ctx);   // v3: the library's ground (heights and tiles) in place of v2's
             var kit = Library.VillageKit.Begin(ctx);
 
             // ---------------------------------------------------------------- buildings

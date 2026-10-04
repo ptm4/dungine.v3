@@ -81,7 +81,9 @@ half4 VoxelFragment(VoxelVaryings input) : SV_Target0
     half4 mr = SAMPLE_TEXTURE2D_LOD(_MetallicGlossMap, sampler_MetallicGlossMap, input.uv, 0);
     half3 glow = SAMPLE_TEXTURE2D_LOD(_EmissionMap, sampler_EmissionMap, input.uv, 0).rgb;
     half aoPow = _VoxAOPower > 0 ? _VoxAOPower : 1.0h;
-    half ao = pow(max(input.ao, 0.001h), aoPow);
+    // _OcclusionStrength (URP Lit's own slot, so the material stays SRP-batcher friendly): 1 when the mesh carries
+    // vertex AO in COLOR_0, 0 when it has none (texture AO: the terrain, the cobbles), so a missing colour reads as white
+    half ao = pow(max(lerp(1.0h, input.ao, _OcclusionStrength), 0.001h), aoPow);
 
     SurfaceData s = (SurfaceData)0;
     s.albedo = base.rgb * ao;

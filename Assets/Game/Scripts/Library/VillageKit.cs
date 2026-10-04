@@ -32,7 +32,7 @@ namespace Dungine.Library
         /// at play zoom a 1.5 cm voxel is under 2 pixels, and the stones still read at 3 cm. False: the full 1.5 cm.</summary>
         public static bool LightCobbles = false;
         /// <summary>Without LightCobbles: how near the camera (m) a cobble tile shows its full 1.5 cm stones.</summary>
-        public static float CobbleNear = 16f;
+        public static float CobbleNear = 55f;
         public const string Folder = "Library/Village/";
         /// <summary>What the last build did (dev tools).</summary>
         public static string Report = "";
@@ -66,6 +66,8 @@ namespace Dungine.Library
         readonly Dictionary<string, FarGroup> farGroups = new Dictionary<string, FarGroup>();
         readonly Dictionary<int, FarGroup> farOf = new Dictionary<int, FarGroup>();
         bool night;
+        /// <summary>The library's ground is down (VillageGround): heights are the layout's own.</summary>
+        bool absolute;
         readonly List<(GameObject go, float top)> cobbleTiles = new List<(GameObject, float)>();
         string bedNote = "";
 
@@ -88,7 +90,7 @@ namespace Dungine.Library
             bool night = Game.I && Game.I.nightfall;
             var ta = Resources.Load<TextAsset>(Folder + (night ? "village_layout_night" : "village_layout"));
             if (!ta) { Report = "no village layout in Resources/" + Folder; return null; }
-            var kit = new VillageKit(ctx) { clock = System.Diagnostics.Stopwatch.StartNew(), night = night };
+            var kit = new VillageKit(ctx) { clock = System.Diagnostics.Stopwatch.StartNew(), night = night, absolute = VillageGround.Active };
             kit.Place(MiniJson.Parse(ta.text));
             return kit;
         }
@@ -108,7 +110,9 @@ namespace Dungine.Library
                     id = MiniJson.Str(b, "id"), faces = MiniJson.Str(b, "faces"), quarter = (int)MiniJson.Num(b, "quarter"),
                     centre = V2(b, "centre_cm"), v2Centre = V2(b, "v2_centre_cm"),
                 };
-                kb.baseY = ctx.GroundY(kb.centre.x, kb.centre.y) - 0.05f;
+                // on the library's ground the layout's heights are absolute (its at_cm includes each building's lift);
+                // on v2's ground each building stands where v2's ground is under its middle
+                kb.baseY = absolute ? MiniJson.Num(b, "lift_cm", 0f) / 100f : ctx.GroundY(kb.centre.x, kb.centre.y) - 0.05f;
                 kb.root = new GameObject("Kit_" + kb.id).transform;
                 kb.root.SetParent(root, false);
                 kb.root.position = new Vector3(kb.centre.x, kb.baseY, kb.centre.y);
@@ -135,7 +139,8 @@ namespace Dungine.Library
                 var prefab = Prefab(kit + sfx, module + sfx);
                 if (!prefab) { missingModules++; missing.Add(kit + sfx + "/" + module + sfx); continue; }
                 float x = at[0] / 100f, z = at[1] / 100f, up = at[2] / 100f;
-                float y = isSite ? ctx.GroundY(x, z) : kb.baseY;
+                float lift = MiniJson.Num(p, "lift_cm", 0f) / 100f;
+                float y = absolute ? 0f : isSite ? ctx.GroundY(x, z) : kb.baseY;
                 Transform parent = kb != null ? kb.root : site;
                 if (isSite && fg != null)
                 {
@@ -153,13 +158,11 @@ namespace Dungine.Library
                 foreach (var r in go.GetComponentsInChildren<MeshRenderer>(true))
                 {
                     r.shadowCastingMode = ground ? UnityEngine.Rendering.ShadowCastingMode.Off : UnityEngine.Rendering.ShadowCastingMode.On;
-                    var mats = r.sharedMaterials;
-                    for (int i = 0; i < mats.Length; i++) mats[i] = LibraryFigures.VoxelMaterial(mats[i]);
-                    r.sharedMaterials = mats;
+                    LibraryFigures.ApplyVoxelMaterials(r);
                 }
                 if (ownLods) Lods(go, new[] { go }, null, new[] { CobbleNear, LodDistances[1], LodDistances[2] }, true);
                 else if (fg != null) fg.modules.Add(go);
-                if (!isSite) kb.parts.Add((go, module, q, at[2]));
+                if (!isSite) kb.parts.Add((go, module, q, at[2] - lift * 100f));
                 else if (fg == null && !ownLods) Lods(go, new[] { go }, null);
                 placed++;
             }
@@ -167,7 +170,7 @@ namespace Dungine.Library
             foreach (var kb in buildings.Values)
             {
                 farGroups.TryGetValue(kb.id, out var fg);
-                Lods(kb.root.gameObject, kb.parts.Select(t => t.go).ToArray(), Far(fg, kb.baseY));
+                Lods(kb.root.gameObject, kb.parts.Select(t => t.go).ToArray(), Far(fg, absolute ? 0f : kb.baseY));
                 Colliders(kb);
             }
             foreach (var fg in farGroups.Values)
@@ -175,7 +178,7 @@ namespace Dungine.Library
                 if (buildings.ContainsKey(fg.name) || !fg.root || fg.modules.Count == 0) continue;
                 var c = fg.sum / Mathf.Max(1, fg.n);
                 // a tile's far mesh stands at its middle's ground height; its pieces follow the ground one by one
-                Lods(fg.root.gameObject, fg.modules.ToArray(), fg.incomplete ? null : Far(fg, ctx.GroundY(c.x, c.y)));
+                Lods(fg.root.gameObject, fg.modules.ToArray(), fg.incomplete ? null : Far(fg, absolute ? 0f : ctx.GroundY(c.x, c.y)));
             }
             tLods = clock.ElapsedMilliseconds;
         }
@@ -192,9 +195,7 @@ namespace Dungine.Library
             go.transform.SetPositionAndRotation(new Vector3(0, y, 0), Quaternion.Euler(0, 180f, 0));
             var r = go.GetComponentInChildren<MeshRenderer>(true);
             if (!r) return null;
-            var mats = r.sharedMaterials;
-            for (int i = 0; i < mats.Length; i++) mats[i] = LibraryFigures.VoxelMaterial(mats[i]);
-            r.sharedMaterials = mats;
+            LibraryFigures.ApplyVoxelMaterials(r);
             r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             return r;
         }
@@ -463,7 +464,7 @@ namespace Dungine.Library
         {
             var root = ctx.root.Find("VillageKit");
             if (!root) return "no kit";
-            var cols = root.GetComponentsInChildren<BoxCollider>();
+            var cols = root.GetComponentsInChildren<BoxCollider>().Where(c => c.gameObject.name != "Kit_square_floor").ToArray();
             var hits = new List<string>();
             bool Inside(Vector3 p) => cols.Any(c => c.bounds.Contains(new Vector3(p.x, c.bounds.center.y, p.z)));
             foreach (var a in ctx.npcs) if (a && Inside(a.transform.position)) hits.Add("NPC " + a.npcId + " at " + a.transform.position.ToString("F1"));

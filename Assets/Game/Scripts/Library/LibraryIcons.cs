@@ -50,6 +50,19 @@ namespace Dungine.Library
             return Load("Library/Icons/actions/" + id) ?? Load("Library/Icons/spells/" + id);
         }
 
+        // the HUD's top-right buttons: v2's icon key -> ui/icons/hud/hud_<name> (approved by Peter, 2026-10-04)
+        static readonly Dictionary<string, string> HudKeys = new Dictionary<string, string>
+        {
+            ["bag"] = "hud_bag", ["person"] = "hud_character", ["book"] = "hud_journal", ["tent"] = "hud_camp", ["gear"] = "hud_settings",
+        };
+
+        /// <summary>The library's HUD button icon for v2's icon key, or null.</summary>
+        public static Texture2D Hud(string icon)
+        {
+            if (!On || string.IsNullOrEmpty(icon) || !HudKeys.TryGetValue(icon, out var n)) return null;
+            return Load("Library/Icons/hud/" + n);
+        }
+
         /// <summary>The library's sprite for a v2 item, or null.</summary>
         public static Texture2D Item(string itemId)
         {

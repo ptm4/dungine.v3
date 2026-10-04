@@ -31,19 +31,20 @@ namespace Dungine.Library
             ["lamppost"] = new Swap(Export + "lamppost", true),
             ["barrel"] = new Swap(Export + "barrel", true),
             ["crate"] = new Swap(Export + "crate", true),
-            ["bench"] = new Swap(Baked + "bench", false),
-            ["cart"] = new Swap(Baked + "cart", false),
-            ["haybale"] = new Swap(Baked + "haybale", false),
-            ["woodpile"] = new Swap(Baked + "woodpile", false),
-            ["gravemound"] = new Swap(Baked + "grave_mound", false),
+            ["bench"] = new Swap(Export + "bench", true),
+            ["cart"] = new Swap(Export + "cart", true),
+            ["haybale"] = new Swap(Export + "haybale", true),
+            ["woodpile"] = new Swap(Export + "woodpile", true),
+            ["gravemound"] = new Swap(Export + "grave_mound", true),
             // (the open grave is a cut into the ground: it waits for the library's terrain, which can have a hole in it)
-            ["coffin_closed"] = new Swap(Baked + "coffin", false),
+            ["coffin_closed"] = new Swap(Export + "coffin", true),
         };
 
         /// <summary>Per-key corrections found by looking (degrees about Y, and a local offset in metres).</summary>
         public static readonly Dictionary<string, (float yaw, Vector3 offset)> Tweak = new Dictionary<string, (float, Vector3)>();
 
         public static int Swapped, Missed;
+        static readonly HashSet<string> DropLod2 = new HashSet<string>();   // (the cart's shafts are whole at 6 cm since the 2026-10-04 re-export)
         static readonly Dictionary<string, GameObject> cache = new Dictionary<string, GameObject>();
 
         static string Base(string key)
@@ -71,6 +72,8 @@ namespace Dungine.Library
             Tweak.TryGetValue(Base(key), out var tw);
             m.transform.localRotation = Quaternion.Euler(0, s.yaw + tw.yaw, 0);
             m.transform.localPosition = (s.offset + tw.offset) * inv;
+            // any prop whose 6 cm level is broken stops at 3 cm (none now)
+            if (DropLod2.Contains(Base(key))) foreach (var r in m.GetComponentsInChildren<Renderer>(true)) if (r.name == "Body_LOD2") Object.DestroyImmediate(r.gameObject);
             if (s.export) LibraryFigures.PrepareStatic(m, Resources.Load<TextAsset>(s.res)?.text);
             if (s.sinkTopToGround)
             {

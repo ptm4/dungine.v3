@@ -1,0 +1,33 @@
+{
+ "id": "cart",
+ "library": "items/vehicles/drawn/cart",
+ "name": "Cart",
+ "base": "none in the library model",
+ "lowest_y_m": 0.0,
+ "lod_rule": "each LOD from the full model, its cells lined up on the pivot; a cell is kept when half filled or half covered seen along an axis (thin shafts and spokes survive)",
+ "format": "dnd5e_game 1",
+ "units": "glTF metres, +Y up, the model facing +Z; 1 voxel = 1.5 cm",
+ "material": "point-sampled atlas: base colour, metallic-roughness (metal in B, roughness in G), emission",
+ "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells)",
+ "lods": [
+  {
+   "lod": 0,
+   "voxel_cm": 1.5,
+   "screen_height_min": 0.25,
+   "triangles": 21056
+  },
+  {
+   "lod": 1,
+   "voxel_cm": 3.0,
+   "screen_height_min": 0.08,
+   "triangles": 8140
+  },
+  {
+   "lod": 2,
+   "voxel_cm": 6.0,
+   "screen_height_min": 0.0,
+   "triangles": 2556
+  }
+ ],
+ "bytes": 2640424
+}

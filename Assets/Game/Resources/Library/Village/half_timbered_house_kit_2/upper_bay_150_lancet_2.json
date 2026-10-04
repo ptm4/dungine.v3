@@ -50,7 +50,7 @@
   {
    "lod": 0,
    "voxel_cm": 1.5,
-   "triangles": 2936
+   "triangles": 3188
   },
   {
    "lod": 1,
@@ -68,5 +68,5 @@
    "triangles": 90
   }
  ],
- "bytes": 455672
+ "bytes": 469600
 }
