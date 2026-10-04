@@ -45,7 +45,8 @@ its library replacement.
 |---|---|---|
 | Arkus | `characters\key\arkus\rig` (export, round 2) | swapped |
 | Chai'rn | `characters\key\chairn\rig` (export, round 2) | swapped |
-| Arkus's rune blade, Chai'rn's terrarium staff (held, in the library's designs) | left out of the rigs; "its own prop file on a hand socket" (plan step L5) | needs export |
+| Arkus's weapon | a new greatsword (agent O, building it); until then his hand is empty, and no v2 weapon stands in | coming |
+| Chai'rn's terrarium staff (held, in his library design) | left out of his rig; "its own prop file on a hand socket" (plan step L5) | needs export (he carries the library quarterstaff meanwhile) |
 | The party's weapons: glaive, quarterstaves | `glaive` (export), `quarterstaff` (look-test bake) | swapped |
 | Dulandir | none; Peter hasn't decided | missing |
 | Villagers ×4 | `characters\looks\barovian_commoner_m`, `_f`, `_m_2`, `_f_2` rigs (export, round 2) | swapped |
@@ -82,9 +83,9 @@ its library replacement.
   - Round 2 adds 11: the ground (tiles, outcrops, far meshes), the roads, the hill and rise, Arkus, Chai'rn, the four
     villagers (one kind), the seven props as game exports (counted once), the cheaper cobbles, the HUD buttons, the
     relaid village, and the party's glaive from the export.
-- **Needs export: 6.**
+- **Needs export: 6** (plus Arkus's greatsword, coming from agent O).
   - The broken cart, the gravestones apart, and the garlic and claw marks are all built and come next from agent N.
-  - The open grave (it needs the ground), the heroes' held items, and the title screen's ground layout have no file
+  - The open grave (it needs the ground), Chai'rn's held staff, and the title screen's ground layout have no file
     yet.
 - **Missing: 8.** Trees, undergrowth and grass, rocks/stumps/logs (review 44), the castle, the gates, Dulandir and his
   portrait, and the night enemies.

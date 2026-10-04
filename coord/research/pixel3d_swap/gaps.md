@@ -19,8 +19,9 @@ These block a wholly pixel3d capture, listed most visible first. The details are
    - the broken cart.
 6. **The open grave.** The library's is a cut into the ground, and the ground has no hole there yet. It needs either a
    grave tile in the ground layout or a hole in it (agent E / agent N).
-7. **The heroes' held items.** Arkus's rune blade and Chai'rn's terrarium staff are left out of their rigs and have no
-   prop files yet ("plan step L5"). Their in-game weapons (a glaive, a quarterstaff) are the library's.
+7. **The heroes' weapons.**
+   - Arkus's new greatsword is being built (agent O). He is empty-handed until it lands, with no v2 weapon.
+   - Chai'rn's terrarium staff has no prop file yet ("plan step L5"); he carries the library quarterstaff meanwhile.
 8. **The night enemies** (night only; night stays out of captures).
 
 Done in round 2 (no longer gaps):
