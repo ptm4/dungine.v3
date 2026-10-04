@@ -1,0 +1,63 @@
+{
+ "id": "roof_660_lower",
+ "library": "environment/architecture/half_timbered_house_kit/roof_660_lower",
+ "name": "Roof slope, jettied 6 m (6.6 m) house, lower piece",
+ "kit": "half_timbered_house_kit",
+ "module": "roof_660_lower",
+ "look": 1,
+ "review": "33_village_houses",
+ "snap": {
+  "grid_cm": [
+   150,
+   30
+  ],
+  "pivot": "the frame's origin (0, 0, 0), a grid point on voxel corners",
+  "frame": "x along the ridge; y = 0 the wall's centre line; z = 0 the head plate's top",
+  "place": "on the eaves wall's head plate",
+  "bounds_cm": [
+   [
+    0.0,
+    -57.0,
+    -64.5
+   ],
+   [
+    150.0,
+    96.0,
+    195.0
+   ]
+  ],
+  "turns": "quarter turns about the pivot are exact"
+ },
+ "size_cm": {
+  "width": 150.0,
+  "depth": 153.0,
+  "height": 259.5
+ },
+ "format": "dnd5e_game 1",
+ "units": "glTF metres, +Y up; the module's pivot is the glTF origin, its frame x east, y north turned to glTF (x, z, -y); a quarter turn anticlockwise seen from above is +90 degrees about +Y",
+ "material": "point-sampled atlas: base colour, metallic-roughness (metal in B, roughness in G), emission",
+ "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells), baked on the module alone",
+ "lods": [
+  {
+   "lod": 0,
+   "voxel_cm": 1.5,
+   "triangles": 10372
+  },
+  {
+   "lod": 1,
+   "voxel_cm": 3.0,
+   "triangles": 5036
+  },
+  {
+   "lod": 2,
+   "voxel_cm": 6.0,
+   "triangles": 2370
+  },
+  {
+   "lod": 3,
+   "voxel_cm": 15.0,
+   "triangles": 618
+  }
+ ],
+ "bytes": 1562256
+}

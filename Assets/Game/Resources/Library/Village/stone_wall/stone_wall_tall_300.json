@@ -1,0 +1,63 @@
+{
+ "id": "stone_wall_tall_300",
+ "library": "environment/architecture/stone_wall/stone_wall_tall_300",
+ "name": "Graveyard wall, 3 m",
+ "kit": "stone_wall",
+ "module": "stone_wall_tall_300",
+ "look": 1,
+ "review": "35_village_manor_and_square",
+ "snap": {
+  "grid_cm": [
+   150,
+   30
+  ],
+  "pivot": "the frame's origin (0, 0, 0), a grid point on voxel corners",
+  "frame": "a run: x along the grid line from a grid point, y = 0 the line (the outside toward -y), z from the ground",
+  "place": "round the graveyard",
+  "bounds_cm": [
+   [
+    0.0,
+    -30.0,
+    0.0
+   ],
+   [
+    300.0,
+    30.0,
+    210.0
+   ]
+  ],
+  "turns": "quarter turns about the pivot are exact"
+ },
+ "size_cm": {
+  "width": 300.0,
+  "depth": 60.0,
+  "height": 210.0
+ },
+ "format": "dnd5e_game 1",
+ "units": "glTF metres, +Y up; the module's pivot is the glTF origin, its frame x east, y north turned to glTF (x, z, -y); a quarter turn anticlockwise seen from above is +90 degrees about +Y",
+ "material": "point-sampled atlas: base colour, metallic-roughness (metal in B, roughness in G), emission",
+ "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells), baked on the module alone",
+ "lods": [
+  {
+   "lod": 0,
+   "voxel_cm": 1.5,
+   "triangles": 38094
+  },
+  {
+   "lod": 1,
+   "voxel_cm": 3.0,
+   "triangles": 10424
+  },
+  {
+   "lod": 2,
+   "voxel_cm": 6.0,
+   "triangles": 1970
+  },
+  {
+   "lod": 3,
+   "voxel_cm": 15.0,
+   "triangles": 186
+  }
+ ],
+ "bytes": 4464256
+}

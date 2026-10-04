@@ -1,0 +1,73 @@
+{
+ "id": "dormer_lower",
+ "library": "environment/architecture/half_timbered_house_kit/dormer_lower",
+ "name": "Wall dormer, lower piece",
+ "kit": "half_timbered_house_kit",
+ "module": "dormer_lower",
+ "look": 1,
+ "review": "33_village_houses",
+ "snap": {
+  "grid_cm": [
+   150,
+   30
+  ],
+  "pivot": "the frame's origin (0, 0, 0), a grid point on voxel corners",
+  "frame": "the roof slope's frame: place it with the slope piece it stands on",
+  "place": "on a slope of a house 6 m deep or more",
+  "bounds_cm": [
+   [
+    -15.0,
+    -39.0,
+    0.0
+   ],
+   [
+    165.0,
+    70.5,
+    204.0
+   ]
+  ],
+  "turns": "quarter turns about the pivot are exact",
+  "sockets": [
+   {
+    "kind": "lancet",
+    "x": 75.0,
+    "z": 36.0,
+    "w": 60.0,
+    "h": 150.0,
+    "y": 0.0
+   }
+  ]
+ },
+ "size_cm": {
+  "width": 180.0,
+  "depth": 109.5,
+  "height": 204.0
+ },
+ "format": "dnd5e_game 1",
+ "units": "glTF metres, +Y up; the module's pivot is the glTF origin, its frame x east, y north turned to glTF (x, z, -y); a quarter turn anticlockwise seen from above is +90 degrees about +Y",
+ "material": "point-sampled atlas: base colour, metallic-roughness (metal in B, roughness in G), emission",
+ "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells), baked on the module alone",
+ "lods": [
+  {
+   "lod": 0,
+   "voxel_cm": 1.5,
+   "triangles": 3668
+  },
+  {
+   "lod": 1,
+   "voxel_cm": 3.0,
+   "triangles": 1908
+  },
+  {
+   "lod": 2,
+   "voxel_cm": 6.0,
+   "triangles": 1014
+  },
+  {
+   "lod": 3,
+   "voxel_cm": 15.0,
+   "triangles": 390
+  }
+ ],
+ "bytes": 622168
+}

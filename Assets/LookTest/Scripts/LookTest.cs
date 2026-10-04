@@ -291,6 +291,51 @@ namespace Dungine.LookTest
             Report = "clip done";
         }
 
+        /// <summary>Walks the party through the area along waypoints (x, z pairs in the area's metres), the game camera
+        /// following the leader, and saves every 'every'-th frame to DevCaptures/&lt;name&gt;/f###.jpg at a fixed 1/24 s a
+        /// frame (for tools: ffmpeg or gif). Watch Report for "walk done".</summary>
+        public static string Walk(string name, float[] xz, int every = 1, int maxFrames = 900, float zoom = 0)
+        {
+            I.StartCoroutine(I.WalkRoutine(name, xz, every, maxFrames, zoom));
+            return "walk started";
+        }
+
+        IEnumerator WalkRoutine(string name, float[] xz, int every, int maxFrames, float zoom)
+        {
+            Report = "walking";
+            var dir = DevCapture.OutDir(name);
+            if (System.IO.Directory.Exists(dir)) foreach (var f in System.IO.Directory.GetFiles(dir)) System.IO.File.Delete(f);
+            System.IO.Directory.CreateDirectory(dir);
+            var g = Game.I; var ctx = g.area; var cam = CameraRig.I;
+            var leader = g.Selected;
+            cam.followT = leader ? leader.transform : null; cam.follow = true;
+            if (zoom > 0) cam.SetView(cam.yaw, zoom);
+            for (int i = 0; i < 30; i++) yield return null;   // let the camera settle
+            Time.captureDeltaTime = 1f / 24f;
+            int wp = 0, frame = 0, tail = -1;
+            Vector3 Target(int k) => ctx.G3(xz[k * 2], xz[k * 2 + 1]);
+            PartyController.I.MoveParty(Target(0), leader);
+            while (frame < maxFrames)
+            {
+                for (int k = 0; k < every; k++) yield return null;
+                yield return new WaitForEndOfFrame();
+                var shot = ScreenCapture.CaptureScreenshotAsTexture();
+                System.IO.File.WriteAllBytes(System.IO.Path.Combine(dir, $"f{frame:000}.jpg"), shot.EncodeToJPG(90));
+                Destroy(shot);
+                frame++;
+                if (tail >= 0) { if (--tail <= 0) break; continue; }
+                var lp = leader.transform.position; var t = Target(wp);
+                if (new Vector2(lp.x - t.x, lp.z - t.z).magnitude < 1.2f)
+                {
+                    if (++wp >= xz.Length / 2) tail = 24;   // a second more at the end
+                    else PartyController.I.MoveParty(Target(wp), leader);
+                }
+            }
+            Time.captureDeltaTime = 0;
+            System.IO.File.WriteAllText(System.IO.Path.Combine(dir, "done.txt"), $"frames={frame} every={every}");
+            Report = "walk done " + frame;
+        }
+
         // ------------------------------------------------------------------ measuring
         /// <summary>Average frame time over a number of frames, with vsync and the frame cap off while measuring.</summary>
         public static string Measure(int frames = 240)

@@ -46,10 +46,13 @@ namespace Dungine
         }
 
         /// <summary>A building: every renderer under root fades together, judged by the building's overall box.</summary>
-        public static void RegisterGroup(Transform root)
+        public static void RegisterGroup(Transform root) => RegisterGroup(root, root.GetComponentsInChildren<Renderer>(), null);
+
+        /// <summary>v3: a building whose renderers come in levels of detail; its roof map is read from 'roofFrom' (the
+        /// coarsest level is plenty for the 20 x 20 grid, and reading every triangle of a kit building is slow).</summary>
+        public static void RegisterGroup(Transform root, Renderer[] rs, Renderer[] roofFrom)
         {
-            var rs = root.GetComponentsInChildren<Renderer>();
-            if (rs.Length == 0) return;
+            if (rs == null || rs.Length == 0) return;
             var b = new Bounds(); bool any = false;
             foreach (var r in rs)
             {
@@ -61,7 +64,7 @@ namespace Dungine
                     if (!any) { b = new Bounds(p, Vector3.zero); any = true; } else b.Encapsulate(p);
                 }
             }
-            all.Add(new Occ { frame = root, bounds = b, rs = rs, roof = RoofMap(root, rs, b) });
+            all.Add(new Occ { frame = root, bounds = b, rs = rs, roof = RoofMap(root, roofFrom ?? rs, b) });
         }
 
         /// <summary>
@@ -134,6 +137,8 @@ namespace Dungine
         }
 
         static Shader OccShader => shader ? shader : (shader = Shader.Find("Dungine/Occluder"));
+        static Shader voxelOccShader;
+        static Shader VoxelOccShader => voxelOccShader ? voxelOccShader : (voxelOccShader = Shader.Find("Dungine/VoxelAtlasOccluder"));
 
         void LateUpdate()
         {
@@ -176,7 +181,7 @@ namespace Dungine
                     if (whole != o.whole)
                     {
                         o.whole = whole;
-                        if (o.faded != null) foreach (var set in o.faded) foreach (var m in set) if (m && m.shader == shader) m.SetFloat(WholeId, whole ? 1f : 0f);
+                        if (o.faded != null) foreach (var set in o.faded) foreach (var m in set) if (m && (m.shader == shader || (voxelOccShader && m.shader == voxelOccShader))) m.SetFloat(WholeId, whole ? 1f : 0f);
                     }
                     float want = block ? (o.tree ? TreeFade : 1f) : 0f;
                     if (want != o.target)
@@ -195,7 +200,7 @@ namespace Dungine
                 if (!o.frame) { active.RemoveAt(i); continue; }
                 if (o.target > 0 && !o.swapped) Swap(o);
                 o.fade = Mathf.MoveTowards(o.fade, o.target, step);
-                if (o.faded != null) foreach (var set in o.faded) foreach (var m in set) if (m && m.shader == shader) m.SetFloat(FadeId, o.fade);
+                if (o.faded != null) foreach (var set in o.faded) foreach (var m in set) if (m && (m.shader == shader || (voxelOccShader && m.shader == voxelOccShader))) m.SetFloat(FadeId, o.fade);
                 if (o.fade <= 0f && o.target <= 0f) { Restore(o, false); active.RemoveAt(i); }
             }
         }
@@ -234,6 +239,7 @@ namespace Dungine
             if (o.original == null) o.original = new Material[o.rs.Length][];
             bool build = o.faded == null;
             if (build) o.faded = new Material[o.rs.Length][];
+            var made = build ? new Dictionary<Material, Material>() : null;   // v3: one twin per source material (a kit building has hundreds of renderers)
             for (int k = 0; k < o.rs.Length; k++)
             {
                 var r = o.rs[k];
@@ -246,14 +252,18 @@ namespace Dungine
                     for (int i = 0; i < src.Length; i++)
                     {
                         var m0 = src[i];
-                        if (!m0 || m0.shader == null || m0.shader.name != "Universal Render Pipeline/Lit") { dst[i] = m0; continue; }
-                        var m = new Material(sh) { name = m0.name + " (occluder)" };
+                        if (m0 && made.TryGetValue(m0, out var done)) { dst[i] = done; continue; }
+                        // v3: the library's voxel material has its own occluder twin (Dungine/VoxelAtlasOccluder)
+                        var twin = m0 && m0.shader && m0.shader.name == "Dungine/VoxelAtlas" ? VoxelOccShader : null;
+                        if (!m0 || m0.shader == null || (m0.shader.name != "Universal Render Pipeline/Lit" && !twin)) { dst[i] = m0; continue; }
+                        var m = new Material(twin ? twin : sh) { name = m0.name + " (occluder)" };
                         m.CopyPropertiesFromMaterial(m0);
                         if (m0.IsKeywordEnabled("_NORMALMAP")) m.EnableKeyword("_NORMALMAP");
                         if (m0.IsKeywordEnabled("_ALPHATEST_ON")) m.EnableKeyword("_ALPHATEST_ON");
                         m.SetFloat(FadeId, 0f);
                         m.SetFloat(WholeId, o.whole ? 1f : 0f);
                         dst[i] = m;
+                        made[m0] = m;
                     }
                     o.faded[k] = dst;
                 }
@@ -270,7 +280,7 @@ namespace Dungine
             o.swapped = false; o.fade = 0; o.target = 0;
             if (destroyTwins && o.faded != null)
             {
-                foreach (var set in o.faded) if (set != null) foreach (var m in set) if (m && m.shader == shader) Destroy(m);
+                foreach (var set in o.faded) if (set != null) foreach (var m in set) if (m && (m.shader == shader || (voxelOccShader && m.shader == voxelOccShader))) Destroy(m);
                 o.faded = null;
             }
         }

@@ -1,0 +1,63 @@
+{
+ "id": "roof_300_end_right_upper",
+ "library": "environment/architecture/half_timbered_house_kit/roof_300_end_right_upper",
+ "name": "Roof end, 3 m house, right, upper piece",
+ "kit": "half_timbered_house_kit",
+ "module": "roof_300_end_right_upper",
+ "look": 1,
+ "review": "33_village_houses",
+ "snap": {
+  "grid_cm": [
+   150,
+   30
+  ],
+  "pivot": "the frame's origin (0, 0, 0), a grid point on voxel corners",
+  "frame": "as the roof slope",
+  "place": "at the right end of a slope",
+  "bounds_cm": [
+   [
+    0.0,
+    25.5,
+    135.0
+   ],
+   [
+    199.5,
+    150.0,
+    420.0
+   ]
+  ],
+  "turns": "quarter turns about the pivot are exact"
+ },
+ "size_cm": {
+  "width": 199.5,
+  "depth": 124.5,
+  "height": 285.0
+ },
+ "format": "dnd5e_game 1",
+ "units": "glTF metres, +Y up; the module's pivot is the glTF origin, its frame x east, y north turned to glTF (x, z, -y); a quarter turn anticlockwise seen from above is +90 degrees about +Y",
+ "material": "point-sampled atlas: base colour, metallic-roughness (metal in B, roughness in G), emission",
+ "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells), baked on the module alone",
+ "lods": [
+  {
+   "lod": 0,
+   "voxel_cm": 1.5,
+   "triangles": 13438
+  },
+  {
+   "lod": 1,
+   "voxel_cm": 3.0,
+   "triangles": 5950
+  },
+  {
+   "lod": 2,
+   "voxel_cm": 6.0,
+   "triangles": 2528
+  },
+  {
+   "lod": 3,
+   "voxel_cm": 15.0,
+   "triangles": 610
+  }
+ ],
+ "bytes": 1907340
+}

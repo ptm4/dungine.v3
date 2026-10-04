@@ -1,0 +1,72 @@
+{
+ "id": "stone_bay_150_door",
+ "library": "environment/architecture/half_timbered_house_kit/stone_bay_150_door",
+ "name": "Stone bay, 1.5 m, pointed door",
+ "kit": "half_timbered_house_kit",
+ "module": "stone_bay_150_door",
+ "look": 1,
+ "review": "33_village_houses",
+ "snap": {
+  "grid_cm": [
+   150,
+   30
+  ],
+  "pivot": "the frame's origin (0, 0, 0), a grid point on voxel corners",
+  "frame": "a wall module: x along the wall from its grid point, left to right seen from outside; y = 0 the wall's centre line, the outside toward -y; z from the ground (ground storey) or the storey's base (upper)",
+  "place": "on the ground; takes the pointed doors",
+  "bounds_cm": [
+   [
+    0.0,
+    -84.0,
+    0.0
+   ],
+   [
+    150.0,
+    15.0,
+    360.0
+   ]
+  ],
+  "turns": "quarter turns about the pivot are exact",
+  "sockets": [
+   {
+    "kind": "door_pointed",
+    "x": 75.0,
+    "z": 78.0,
+    "w": 90.0,
+    "h": 240.0
+   }
+  ]
+ },
+ "size_cm": {
+  "width": 150.0,
+  "depth": 99.0,
+  "height": 360.0
+ },
+ "format": "dnd5e_game 1",
+ "units": "glTF metres, +Y up; the module's pivot is the glTF origin, its frame x east, y north turned to glTF (x, z, -y); a quarter turn anticlockwise seen from above is +90 degrees about +Y",
+ "material": "point-sampled atlas: base colour, metallic-roughness (metal in B, roughness in G), emission",
+ "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells), baked on the module alone",
+ "lods": [
+  {
+   "lod": 0,
+   "voxel_cm": 1.5,
+   "triangles": 8366
+  },
+  {
+   "lod": 1,
+   "voxel_cm": 3.0,
+   "triangles": 1308
+  },
+  {
+   "lod": 2,
+   "voxel_cm": 6.0,
+   "triangles": 464
+  },
+  {
+   "lod": 3,
+   "voxel_cm": 15.0,
+   "triangles": 334
+  }
+ ],
+ "bytes": 949732
+}

@@ -1,0 +1,63 @@
+{
+ "id": "tower_side",
+ "library": "environment/architecture/bell_tower_and_spire/tower_side",
+ "name": "Tower, side bay",
+ "kit": "bell_tower_and_spire",
+ "module": "tower_side",
+ "look": 1,
+ "review": "34_village_church",
+ "snap": {
+  "grid_cm": [
+   150,
+   30
+  ],
+  "pivot": "the frame's origin (0, 0, 0), a grid point on voxel corners",
+  "frame": "a wall module: x along the wall from its grid point, left to right seen from outside; y = 0 the wall's centre line, the outside toward -y; z from the stage's base (stages stack every 3 m)",
+  "place": "stages 2 to 6",
+  "bounds_cm": [
+   [
+    0.0,
+    -36.0,
+    0.0
+   ],
+   [
+    120.0,
+    30.0,
+    300.0
+   ]
+  ],
+  "turns": "quarter turns about the pivot are exact"
+ },
+ "size_cm": {
+  "width": 120.0,
+  "depth": 66.0,
+  "height": 300.0
+ },
+ "format": "dnd5e_game 1",
+ "units": "glTF metres, +Y up; the module's pivot is the glTF origin, its frame x east, y north turned to glTF (x, z, -y); a quarter turn anticlockwise seen from above is +90 degrees about +Y",
+ "material": "point-sampled atlas: base colour, metallic-roughness (metal in B, roughness in G), emission",
+ "ambient_occlusion": "COLOR_0, linear, multiplies the base colour (1.0, 0.8, 0.64, 0.5 for 0..3 cells), baked on the module alone",
+ "lods": [
+  {
+   "lod": 0,
+   "voxel_cm": 1.5,
+   "triangles": 12456
+  },
+  {
+   "lod": 1,
+   "voxel_cm": 3.0,
+   "triangles": 32
+  },
+  {
+   "lod": 2,
+   "voxel_cm": 6.0,
+   "triangles": 30
+  },
+  {
+   "lod": 3,
+   "voxel_cm": 15.0,
+   "triangles": 30
+  }
+ ],
+ "bytes": 1109992
+}

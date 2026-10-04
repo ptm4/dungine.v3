@@ -67,6 +67,9 @@ namespace Dungine
             o.blockers.Add(new Rect(tavernC.x - 8, tavernC.y - 7, 14, 14));
             o.blockers.Add(new Rect(shopC.x - 6, shopC.y - 6, 12, 12));
             o.BuildTerrain();
+            // v3: the library's gothic village stands in for v2's buildings (Library/VillageKit.cs); v2's are still built
+            // below, then retired, so their doors can move to the kit's
+            var kit = Library.VillageKit.Begin(ctx);
 
             // ---------------------------------------------------------------- buildings
             var root = ctx.root;
@@ -74,12 +77,14 @@ namespace Dungine
             {
                 var pos = ctx.G3(p.c.x, p.c.y);
                 var info = Buildings.House(p.spec, root, pos - Vector3.up * 0.1f, p.yaw, p.name ?? "House");
+                kit?.Adopt(info, p.c, 1.2f, p.name ?? "house " + p.spec.seed);
                 if (p.name == "MadMary") MadMaryDoor(ctx, info);
                 else KnockDoor(ctx, info, p.spec.seed);
             }
 
             // Blood of the Vine tavern
             var tav = Buildings.House(new Buildings.HouseSpec { w = 11, d = 9, floors = 2, seed = 201, litChance = .9f, boardedChance = 0, sign = true, signText = "Blood of the Vine", porch = true }, root, ctx.G3(tavernC.x, tavernC.y) - Vector3.up * 0.1f, 90, "Tavern");
+            kit?.Adopt(tav, tavernC, 1.2f, "tavern");
             ctx.Door("tavern_door", "Blood of the Vine Tavern", tav.doorWorld - tav.doorFacing * 0.9f, 90, "tavern", "door", new Vector3(1.6f, 2.4f, 0.6f));
             ctx.Spawn("tavern", tav.doorWorld + tav.doorFacing * 0.6f, 90);
             ctx.Prop("barrel", Props.Barrel, tav.doorWorld + new Vector3(0.3f, 0, 2.2f), 10, 1, Kit.ColliderKind.Capsule);
@@ -88,6 +93,7 @@ namespace Dungine
 
             // Bildrath's Mercantile
             var shop = Buildings.House(new Buildings.HouseSpec { w = 9, d = 8, floors = 2, seed = 202, litChance = .7f, boardedChance = 0, sign = true, signText = "Bildrath's Mercantile", slate = true }, root, ctx.G3(shopC.x, shopC.y) - Vector3.up * 0.1f, -90, "Mercantile");
+            kit?.Adopt(shop, shopC, 1.2f, "shop");
             ctx.Door("shop_door", "Bildrath's Mercantile", shop.doorWorld - shop.doorFacing * 0.9f, -90, "shop", "door", new Vector3(1.6f, 2.4f, 0.6f));
             ctx.Spawn("shop", shop.doorWorld + shop.doorFacing * 0.6f, -90);
             ctx.Prop("crate0.8", () => Props.Crate(0.8f), shop.doorWorld + new Vector3(-0.2f, 0, 2.3f), 15, 1, Kit.ColliderKind.Box);
@@ -95,6 +101,7 @@ namespace Dungine
 
             // the burgomaster's manor
             var manor = Buildings.Mansion(root, ctx.G3(manorC.x, manorC.y) - Vector3.up * 0.2f, 90);
+            kit?.Adopt(manor, manorC, 3.05f, "manor");
             ctx.Door("manor_door", "Burgomaster's Manor", manor.doorWorld - manor.doorFacing * 1.6f, 90, "mansion", "door", new Vector3(2f, 2.6f, 0.8f));
             ctx.Spawn("mansion", manor.doorWorld + manor.doorFacing * 0.4f, 90);
             float fx0 = -64, fx1 = -36.5f, fz0 = 14, fz1 = 46;
@@ -109,6 +116,7 @@ namespace Dungine
 
             // the church on the rise
             var church = Buildings.Church(root, ctx.G3(churchC.x, churchC.y) - Vector3.up * 0.3f, 180);
+            kit?.Adopt(church, churchC, 2.0f, "church");
             ctx.Door("church_door", "Church", church.doorWorld - church.doorFacing * 1.5f, 180, "church", "door", new Vector3(2.2f, 3f, 0.8f));
             ctx.Spawn("church", church.doorWorld + church.doorFacing * 0.4f, 180);
             Graveyard(ctx, churchC);
@@ -196,6 +204,10 @@ namespace Dungine
             Kit.FogBank(root, new Vector3(0, ctx.GroundY(0, -119) + 1f, -119), new Vector3(30, 3, 6), new Color(.8f, .8f, .84f, .5f), 40, 8f, 0.1f);
             Kit.FogBank(root, new Vector3(-118, ctx.GroundY(-118, 72) + 1f, 72), new Vector3(6, 3, 30), new Color(.8f, .8f, .84f, .5f), 40, 8f, 0.1f);
             Kit.FogBank(root, new Vector3(116, ctx.GroundY(116, 38) + 1.5f, 38), new Vector3(8, 6, 34), new Color(.75f, .75f, .8f, .6f), 50, 12f, 0.1f);
+
+            // v3: the kit's fences, walls, well and stalls over v2's (kept invisible for their colliders and uses); the
+            // reserved plot stays exactly as v2 has it
+            kit?.Finish(new Rect(dhC.x - 8, dhC.y - 8, 16, 16));
 
             // ---------------------------------------------------------------- people
             BuildPeople(ctx);
